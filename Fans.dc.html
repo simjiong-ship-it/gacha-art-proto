@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>팬 관리</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;font-family:'IBM Plex Sans KR',sans-serif;background:#ffffff;color:#141414}
+a{color:#141414;text-decoration:none}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #ffffff; display: flex; flex-direction: column; font-family: 'IBM Plex Sans KR', sans-serif; color: #141414; position: relative">
+<dc-import name="Header" title="팬 관리" back="SellerCenter.dc.html" hint-size="390px,56px"></dc-import>
+<div style="padding: 4px 16px 12px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+<div style="padding: 14px; border-radius: 14px; background: #F6F5F8"><div style="font-size: 12px; color: #6B6B73">팔로워</div><div style="font-size: 22px; font-weight: 700">2,410</div></div>
+<div style="padding: 14px; border-radius: 14px; background: #F6F5F8"><div style="font-size: 12px; color: #6B6B73">완성한 팬</div><div style="font-size: 22px; font-weight: 700">86</div></div>
+</div>
+<div style="padding: 6px 16px 8px; font-size: 13px; color: #6B6B73">많이 모은 팬</div>
+<sc-for list="{{fans}}" as="f" hint-placeholder-count="5">
+<div style="display: flex; align-items: center; gap: 12px; padding: 10px 16px">
+<div style="width: 24px; font-size: 14px; font-weight: 700; color: #6B6B73; text-align: center">{{f.rank}}</div>
+<div style="width: 40px; height: 40px; border-radius: 50%; background: {{f.av}}"></div>
+<div style="flex-grow: 1"><div style="font-size: 14px; font-weight: 600">{{f.name}}</div><div style="font-size: 12px; color: #6B6B73">조각 {{f.n}}개 · {{f.done}}</div></div>
+<button onClick="{{f.thank}}" style="height: 34px; padding: 0 12px; border-radius: 10px; border: 1px solid #DDDBE2; background: #ffffff; font-family: inherit; font-size: 12px; font-weight: 600; color: #141414; cursor: pointer">{{f.label}}</button>
+</div>
+</sc-for>
+<sc-if value="{{toast}}" hint-placeholder-val="{{false}}"><div style="position: absolute; left: 50%; bottom: 40px; transform: translateX(-50%); padding: 10px 16px; border-radius: 20px; background: #141414; color: #ffffff; font-size: 13px; white-space: nowrap">{{toast}}</div></sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+constructor(p) { super(p); this.state = { sent: {}, toast: '' }; }
+renderVals() {
+var self = this;
+var list = [['luna_k', 48, '2개 완성', '#F1C6A8'], ['catlover', 41, '2개 완성', '#C6D8A9'], ['roi_collects', 37, '1개 완성', '#D7D3F2'], ['jiwoo', 30, '1개 완성', '#9CCBD3'], ['mint.day', 22, '모으는 중', '#E8C6D8']];
+return {
+toast: this.state.toast,
+fans: list.map(function (x, i) {
+var done = self.state.sent[i];
+return { rank: i + 1, name: x[0], n: x[1], done: x[2], av: x[3], label: done ? '보냄' : '감사 인사',
+thank: function () { var s = Object.assign({}, self.state.sent); s[i] = true; self.setState({ sent: s, toast: x[0] + '님께 감사 인사를 보냈어요' }); clearTimeout(self._t); self._t = setTimeout(function () { self.setState({ toast: '' }); }, 1600); } };
+})
+};
+}
+}
+</script>
+</body>
+</html>

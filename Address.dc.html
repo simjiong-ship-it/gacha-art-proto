@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>배송지 관리</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;font-family:'IBM Plex Sans KR',sans-serif;background:#ffffff;color:#141414}
+a{color:#141414;text-decoration:none}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #ffffff; display: flex; flex-direction: column; font-family: 'IBM Plex Sans KR', sans-serif; color: #141414">
+<dc-import name="Header" title="배송지 관리" back="MyMenu.dc.html" hint-size="390px,56px"></dc-import>
+<div style="padding: 4px 16px; display: flex; flex-direction: column; gap: 10px">
+<sc-for list="{{addrs}}" as="a" hint-placeholder-count="2">
+<button onClick="{{a.pick}}" style="text-align: left; border-radius: 16px; border: {{a.border}}; background: #ffffff; padding: 16px; display: flex; flex-direction: column; gap: 4px; font-family: inherit; color: #141414; cursor: pointer">
+<div style="display: flex; gap: 8px; align-items: center"><span style="font-size: 15px; font-weight: 600">{{a.name}}</span><sc-if value="{{a.on}}" hint-placeholder-val="{{false}}"><span style="height: 20px; padding: 0 8px; border-radius: 10px; background: #141414; color: #ffffff; font-size: 11px; display: inline-flex; align-items: center">기본 배송지</span></sc-if></div>
+<div style="font-size: 13px; color: #45454C">[받는 분] · [연락처]</div>
+<div style="font-size: 13px; color: #45454C">{{a.addr}}</div>
+</button>
+</sc-for>
+<button style="height: 50px; border-radius: 14px; border: 1px dashed #C9C7D0; background: #ffffff; font-family: inherit; font-size: 15px; color: #45454C; cursor: pointer">+ 새 배송지 추가</button>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+constructor(p) { super(p); this.state = { on: 0 }; }
+renderVals() {
+var self = this;
+return { addrs: [['집', '[주소를 입력해 주세요]'], ['작업실', '[주소를 입력해 주세요]']].map(function (x, i) {
+var on = self.state.on === i;
+return { name: x[0], addr: x[1], on: on, border: on ? '2px solid #141414' : '1px solid #E6E4EA', pick: function () { self.setState({ on: i }); } };
+}) };
+}
+}
+</script>
+</body>
+</html>

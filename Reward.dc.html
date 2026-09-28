@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>완성 보상 받기</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;font-family:'IBM Plex Sans KR',sans-serif;background:#ffffff;color:#141414}
+a{color:#141414;text-decoration:none}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #ffffff; display: flex; flex-direction: column; font-family: 'IBM Plex Sans KR', sans-serif; color: #141414">
+<dc-import name="Header" title="완성 보상 받기" back="MyGacha.dc.html" hint-size="390px,56px"></dc-import>
+<sc-if value="{{choosing}}" hint-placeholder-val="{{true}}">
+<div style="padding: 4px 16px; display: flex; flex-direction: column; gap: 14px">
+<div style="font-size: 20px; font-weight: 700">숲속 우체국 시리즈를<br>완성했어요!</div>
+<div style="font-size: 14px; color: #45454C">받고 싶은 보상 하나를 골라주세요</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+<sc-for list="{{opts}}" as="o" hint-placeholder-count="2">
+<button onClick="{{o.pick}}" style="border-radius: 16px; border: {{o.border}}; background: #ffffff; padding: 12px; display: flex; flex-direction: column; gap: 10px; font-family: inherit; color: #141414; text-align: left; cursor: pointer">
+<div style="height: 120px; border-radius: 10px; background: {{o.bg}}; display: flex; align-items: center; justify-content: center">
+<div style="width: {{o.w}}px; height: {{o.h}}px; border-radius: {{o.r}}px; background: #ffffff; box-shadow: 0 4px 10px rgba(20, 20, 20, 0.15)"></div>
+</div>
+<div style="font-size: 15px; font-weight: 600">{{o.t}}</div>
+<div style="font-size: 12px; color: #6B6B73">{{o.d}}</div>
+</button>
+</sc-for>
+</div>
+<a href="Address.dc.html" style="display: flex; justify-content: space-between; align-items: center; padding: 14px; border-radius: 14px; background: #F6F5F8">
+<div><div style="font-size: 12px; color: #6B6B73">받는 곳</div><div style="font-size: 14px; font-weight: 600">집 · [주소]</div></div>
+<span style="font-size: 13px; color: #45454C">변경</span>
+</a>
+</div>
+<div style="flex-grow: 1"></div>
+<div style="padding: 0 16px 24px">
+<button onClick="{{submit}}" style="width: 100%; height: 54px; border-radius: 14px; border: 0; background: #141414; color: #ffffff; font-family: inherit; font-size: 16px; font-weight: 600; cursor: pointer">신청하기</button>
+</div>
+</sc-if>
+<sc-if value="{{sent}}" hint-placeholder-val="{{false}}">
+<div style="flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 0 24px; text-align: center">
+<div style="width: 72px; height: 72px; border-radius: 50%; background: #141414; display: flex; align-items: center; justify-content: center">
+<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"></path></svg>
+</div>
+<div style="font-size: 20px; font-weight: 700">신청했어요</div>
+<div style="font-size: 14px; color: #45454C">{{chosen}}을 작가님이 준비해서 보내드려요</div>
+</div>
+<div style="padding: 0 16px 24px">
+<a href="Orders.dc.html" style="height: 54px; border-radius: 14px; background: #141414; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600">배송 조회로 가기</a>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+constructor(p) { super(p); this.state = { pick: 0, sent: false }; }
+renderVals() {
+var self = this;
+var list = [['아트 프린트', 'A5 · 두꺼운 종이', '#DCE8C8', 78, 104, 2], ['아크릴 키링', '6cm · 양면 인쇄', '#E8EDF4', 64, 64, 32]];
+return {
+choosing: !this.state.sent, sent: this.state.sent, chosen: list[this.state.pick][0],
+opts: list.map(function (x, i) { return { t: x[0], d: x[1], bg: x[2], w: x[3], h: x[4], r: x[5], border: self.state.pick === i ? '2px solid #141414' : '1px solid #E6E4EA', pick: function () { self.setState({ pick: i }); } }; }),
+submit: function () { self.setState({ sent: true }); }
+};
+}
+}
+</script>
+</body>
+</html>

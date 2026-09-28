@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>내 가챠</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;font-family:'IBM Plex Sans KR',sans-serif;background:#ffffff;color:#141414}
+a{color:#141414;text-decoration:none}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #ffffff; display: flex; flex-direction: column; font-family: 'IBM Plex Sans KR', sans-serif; color: #141414">
+<header style="height: 56px; padding: 0 16px; display: flex; align-items: center; flex-shrink: 0">
+<h1 style="margin: 0; font-size: 22px; font-weight: 700">내 가챠</h1>
+</header>
+<div style="display: flex; gap: 8px; padding: 0 16px 12px; flex-shrink: 0">
+<button onClick="{{showIng}}" style="height: 34px; padding: 0 14px; border-radius: 17px; border: 1px solid {{c1.line}}; background: {{c1.bg}}; color: {{c1.fg}}; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer">모으는 중 2</button>
+<button onClick="{{showDone}}" style="height: 34px; padding: 0 14px; border-radius: 17px; border: 1px solid {{c2.line}}; background: {{c2.bg}}; color: {{c2.fg}}; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer">완성 1</button>
+</div>
+<sc-if value="{{done}}" hint-placeholder-val="{{false}}">
+<div style="flex-grow: 1; overflow: hidden; padding: 0 16px; display: flex; flex-direction: column; gap: 14px">
+<article style="border: 1px solid #E6E4EA; border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; gap: 10px">
+<div style="width: 44px; height: 44px; border-radius: 50%; background: #C6D8A9"></div>
+<div style="flex-grow: 1">
+<div style="font-size: 15px; font-weight: 600">숲속 우체국 시리즈</div>
+<div style="font-size: 12px; color: #6B6B73">yeon.art · 9월 20일 완성</div>
+</div>
+<div style="height: 24px; padding: 0 10px; border-radius: 12px; background: #141414; color: #ffffff; font-size: 12px; font-weight: 600; display: flex; align-items: center">완성</div>
+</div>
+<div style="height: 120px; border-radius: 12px; overflow: hidden">
+<svg width="100%" height="120" viewBox="0 0 1000 130" preserveAspectRatio="xMidYMid slice" style="display: block">
+<rect x="0" y="0" width="1000" height="130" fill="#DCE8C8"></rect>
+<circle cx="170" cy="34" r="14" fill="#FFFFFF"></circle>
+<path d="M0 88 C120 70 260 104 420 84 S720 62 860 86 S980 96 1000 90 V130 H0Z" fill="#7FA36A"></path>
+<path d="M0 108 C160 96 300 118 500 104 S820 94 1000 110 V130 H0Z" fill="#4E7440"></path>
+<rect x="600" y="52" width="26" height="22" fill="#B85C3C"></rect><path d="M596 54 L613 40 L630 54Z" fill="#8C3E28"></path>
+</svg>
+</div>
+<div style="padding: 12px; border-radius: 12px; background: #F6F5F8; font-size: 13px; color: #45454C">완성 보상: 아트 프린트 또는 키링 중 1개를 실물로 받을 수 있어요</div>
+<a href="Reward.dc.html" style="height: 50px; border-radius: 14px; background: #141414; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600">실물 보상 받기</a>
+</article>
+</div>
+</sc-if>
+<sc-if value="{{ing}}" hint-placeholder-val="{{true}}">
+<div style="flex-grow: 1; overflow: hidden; display: flex; flex-direction: column; gap: 14px">
+<article style="margin: 0 16px; border: 1px solid #E6E4EA; border-radius: 20px; padding: 16px 0 14px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; gap: 10px; padding: 0 16px">
+<div style="width: 44px; height: 44px; border-radius: 50%; box-sizing: border-box; border: 2px solid #E0457B; padding: 3px"><div style="width: 100%; height: 100%; border-radius: 50%; background: #B3AEEA"></div></div>
+<div style="flex-grow: 1">
+<div style="font-size: 15px; font-weight: 600">밤의 고양이 시리즈</div>
+<div style="font-size: 12px; color: #6B6B73">moonlit_draws · {{nightLeft}}</div>
+</div>
+</div>
+<a href="GachaWide.dc.html" aria-label="붙여서 한 폭으로 보기" style="display: flex; gap: 5px; padding-left: 16px; overflow: hidden">
+<sc-for list="{{night}}" as="p" hint-placeholder-count="10">
+<div style="width: 78px; height: 104px; flex-shrink: 0; border-radius: 8px; overflow: hidden">
+<svg width="78" height="104" viewBox="{{p.vb}}" preserveAspectRatio="xMidYMid slice" style="display: block">
+<rect x="0" y="0" width="1000" height="130" fill="{{p.sky}}"></rect>
+<circle cx="170" cy="34" r="14" fill="{{p.moon}}"></circle>
+<circle cx="60" cy="20" r="2" fill="{{p.star}}"></circle><circle cx="320" cy="28" r="2" fill="{{p.star}}"></circle><circle cx="440" cy="14" r="1.6" fill="{{p.star}}"></circle><circle cx="560" cy="40" r="2" fill="{{p.star}}"></circle><circle cx="720" cy="20" r="2" fill="{{p.star}}"></circle><circle cx="860" cy="30" r="1.6" fill="{{p.star}}"></circle><circle cx="950" cy="14" r="2" fill="{{p.star}}"></circle><circle cx="250" cy="54" r="1.4" fill="{{p.star}}"></circle>
+<path d="M0 88 C120 70 260 104 420 84 S720 62 860 86 S980 96 1000 90 V130 H0Z" fill="{{p.w1}}"></path>
+<path d="M0 108 C160 96 300 118 500 104 S820 94 1000 110 V130 H0Z" fill="{{p.w2}}"></path>
+<ellipse cx="640" cy="66" rx="11" ry="9" fill="{{p.cat}}"></ellipse><circle cx="650" cy="53" r="6.5" fill="{{p.cat}}"></circle><path d="M645 49 L646 41 L650 47Z M652 47 L656 41 L656 50Z" fill="{{p.cat}}"></path>
+</svg>
+</div>
+</sc-for>
+</a>
+<div style="display: flex; align-items: center; gap: 4px; padding: 0 6px">
+<button onClick="{{like}}" aria-label="좋아요" style="width: 44px; height: 44px; border: 0; background: transparent; padding: 0; display: flex; align-items: center; justify-content: center; cursor: pointer">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="{{heartFill}}" stroke="{{heartLine}}" stroke-width="1.8" stroke-linejoin="round"><path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.6 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z"></path></svg>
+</button>
+<a href="Detail.dc.html" aria-label="이어서 뽑기" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.8" stroke-linejoin="round"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.2A8 8 0 1 1 20 12z"></path></svg>
+</a>
+<a href="Exchange.dc.html" aria-label="중복 조각 교환" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13l-3-3M20 16H7l3 3"></path></svg>
+</a>
+<div style="flex-grow: 1"></div>
+<button onClick="{{save}}" aria-label="저장" style="width: 44px; height: 44px; border: 0; background: transparent; padding: 0; display: flex; align-items: center; justify-content: center; cursor: pointer">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="{{saveFill}}" stroke="#141414" stroke-width="1.8" stroke-linejoin="round"><path d="M6 3.5h12v17l-6-4-6 4z"></path></svg>
+</button>
+</div>
+</article>
+<article style="margin: 0 16px; border: 1px solid #E6E4EA; border-radius: 20px; padding: 16px 0 14px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; gap: 10px; padding: 0 16px">
+<div style="width: 44px; height: 44px; border-radius: 50%; box-sizing: border-box; border: 2px solid #D9D7DE; padding: 3px"><div style="width: 100%; height: 100%; border-radius: 50%; background: #9CCBD3"></div></div>
+<div style="flex-grow: 1">
+<div style="font-size: 15px; font-weight: 600">새벽 바다 시리즈</div>
+<div style="font-size: 12px; color: #6B6B73">sea_mint · {{seaLeft}}</div>
+</div>
+</div>
+<a href="GachaWide.dc.html" aria-label="새벽 바다 한 폭으로 보기" style="display: flex; gap: 5px; padding-left: 16px; overflow: hidden">
+<sc-for list="{{sea}}" as="p" hint-placeholder-count="10">
+<div style="width: 78px; height: 104px; flex-shrink: 0; border-radius: 8px; overflow: hidden">
+<svg width="78" height="104" viewBox="{{p.vb}}" preserveAspectRatio="xMidYMid slice" style="display: block">
+<rect x="0" y="0" width="1000" height="130" fill="{{p.sky}}"></rect>
+<circle cx="170" cy="34" r="14" fill="{{p.moon}}"></circle>
+<path d="M0 88 C120 70 260 104 420 84 S720 62 860 86 S980 96 1000 90 V130 H0Z" fill="{{p.w1}}"></path>
+<path d="M0 108 C160 96 300 118 500 104 S820 94 1000 110 V130 H0Z" fill="{{p.w2}}"></path>
+</svg>
+</div>
+</sc-for>
+</a>
+</article>
+</div>
+</sc-if>
+<dc-import name="TabBar" active="gacha" hint-size="390px,64px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+constructor(p) { super(p); this.state = { tab: 'ing', liked: false, saved: false }; }
+renderVals() {
+var self = this, s = this.state;
+var on = { line: '#141414', bg: '#141414', fg: '#ffffff' }, off = { line: '#DDDBE2', bg: '#ffffff', fg: '#141414' };
+var pal = {
+night: { sky: '#26215C', moon: '#F4E9C8', star: '#F2C94C', w1: '#4B3FB0', w2: '#342A86', cat: '#120F2E' },
+sea: { sky: '#123E4C', moon: '#F5D7A8', star: '#F5D7A8', w1: '#2E8C98', w2: '#1D6672', cat: '#123E4C' }
+};
+var gray = { sky: '#E6E5EA', moon: '#F1F0F3', star: '#F1F0F3', w1: '#D6D5DC', w2: '#CAC9D1', cat: '#BDBCC5' };
+function strip(p, owned) {
+var out = [];
+for (var i = 0; i < 10; i++) {
+var c = owned.indexOf(i) >= 0 ? p : gray;
+out.push({ vb: (i * 100) + ' 0 100 130', sky: c.sky, moon: c.moon, star: c.star, w1: c.w1, w2: c.w2, cat: c.cat });
+}
+return out;
+}
+var A = window.GA && window.GA.signedIn ? window.GA : null;
+function owned(series, fallback) {
+if (!A) return fallback;
+var o = [];
+(A.prof.pulls || []).forEach(function (q) { if (q.s === series && o.indexOf(q.i) < 0) o.push(q.i); });
+return o;
+}
+var on_ = owned('night', [0, 1, 2, 4, 5, 6, 8]), os_ = owned('sea', [0, 1, 3, 7]);
+function left(n) { return n >= 10 ? '완성!' : (10 - n) + '장 남음'; }
+return { night: strip(pal.night, on_), sea: strip(pal.sea, os_), nightLeft: left(on_.length), seaLeft: left(os_.length),
+ing: s.tab === 'ing', done: s.tab === 'done', c1: s.tab === 'ing' ? on : off, c2: s.tab === 'done' ? on : off,
+showIng: function () { self.setState({ tab: 'ing' }); }, showDone: function () { self.setState({ tab: 'done' }); },
+heartFill: s.liked ? '#E0457B' : 'none', heartLine: s.liked ? '#E0457B' : '#141414', saveFill: s.saved ? '#141414' : 'none',
+like: function () { self.setState({ liked: !self.state.liked }); }, save: function () { self.setState({ saved: !self.state.saved }); } };
+}
+}
+</script>
+</body>
+</html>

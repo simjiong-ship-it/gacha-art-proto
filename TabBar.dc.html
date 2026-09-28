@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>하단 탭바</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;font-family:'IBM Plex Sans KR',sans-serif;background:#ffffff}
+a{color:#141414}
+</style>
+</helmet>
+<nav aria-label="하단 메뉴" style="width: 390px; height: 64px; box-sizing: border-box; background: #ffffff; border-top: 1px solid #ECEAF0; display: flex; justify-content: space-around; align-items: center; padding: 0 12px">
+<a href="Main.dc.html" aria-label="홈" style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="{{c.home}}" stroke-width="{{w.home}}" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 10.5 12 3.5l8.5 7V20a1 1 0 0 1-1 1H15v-6H9v6H4.5a1 1 0 0 1-1-1z"></path></svg>
+</a>
+<a href="Explore.dc.html" aria-label="탐색" style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="{{c.explore}}" stroke-width="{{w.explore}}" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
+</a>
+<a href="Create1.dc.html" aria-label="판매 등록" style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="{{c.add}}" stroke-width="{{w.add}}" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="5"></rect><path d="M12 8.5v7M8.5 12h7"></path></svg>
+</a>
+<a href="MyGacha.dc.html" aria-label="내 가챠" style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="{{c.gacha}}" stroke-width="{{w.gacha}}" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"></circle><path d="M3.5 12h5.5M15 12h5.5"></path><circle cx="12" cy="12" r="3"></circle></svg>
+</a>
+<a href="My.dc.html" aria-label="마이" style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="{{c.my}}" stroke-width="{{w.my}}" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 20.5c1.4-3.6 4.2-5.5 7.5-5.5s6.1 1.9 7.5 5.5"></path></svg>
+</a>
+</nav>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"active":{"editor":"enum","options":["home","explore","add","gacha","my"],"default":"home"},"$preview":{"width":390,"height":64}}'>
+class Component extends DCLogic {
+renderVals() {
+const a = this.props.active ?? 'home';
+const keys = ['home','explore','add','gacha','my'];
+const c = {}, w = {};
+keys.forEach(function (k) { c[k] = k === a ? '#141414' : '#8E8E96'; w[k] = k === a ? 2.2 : 1.7; });
+return { c: c, w: w };
+}
+}
+</script>
+</body>
+</html>

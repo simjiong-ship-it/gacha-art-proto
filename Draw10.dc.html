@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>10회 뽑기 연출</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&amp;family=Caveat:wght@600&amp;display=swap">
+<style>
+body{margin:0;font-family:'IBM Plex Sans KR',sans-serif;background:#0E0C1A;color:#ffffff}
+a{color:#ffffff;text-decoration:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes rise{0%{transform:translateY(0) scale(.4);opacity:0}20%{opacity:1}100%{transform:translateY(-340px) scale(1);opacity:0}}
+@keyframes flash{0%{opacity:1}100%{opacity:0}}
+@keyframes shake{0%,100%{transform:translate(0,0)}15%{transform:translate(-10px,5px)}30%{transform:translate(9px,-6px)}45%{transform:translate(-7px,4px)}60%{transform:translate(6px,-3px)}80%{transform:translate(-3px,2px)}}
+@keyframes dealin{0%{transform:translateX(260px) rotate(14deg) scale(.8);opacity:0}100%{transform:translateX(0) rotate(0) scale(1);opacity:1}}
+@keyframes flipit{0%{transform:perspective(900px) rotateY(0) scale(1)}45%{transform:perspective(900px) rotateY(90deg) scale(1.18)}100%{transform:perspective(900px) rotateY(0) scale(1)}}
+@keyframes tremble{0%,100%{transform:rotate(0)}25%{transform:rotate(-2.5deg)}75%{transform:rotate(2.5deg)}}
+@keyframes burst{0%{transform:rotate(var(--r)) translateY(0) scale(1);opacity:1}100%{transform:rotate(var(--r)) translateY(-230px) scale(.2);opacity:0}}
+@keyframes pop{0%{transform:scale(.2);opacity:0}60%{transform:scale(1.3);opacity:1}100%{transform:scale(1)}}
+@keyframes ring{0%{transform:scale(.6);opacity:.9}100%{transform:scale(1.8);opacity:0}}
+@keyframes blink{0%,100%{opacity:.45}50%{opacity:1}}
+.rays{animation:spin 10s linear infinite}
+.spark{animation:rise 3.2s ease-in infinite}
+.dealA,.dealB{animation:dealin .38s cubic-bezier(.2,1.1,.4,1) both}
+.dealB{animation-name:dealin}
+.flipA{animation:flipit .6s ease-out both}
+.flipB{animation:flipit .6s ease-out both}
+.tremble{animation:tremble .18s linear infinite}
+.shakeA,.shakeB{animation:shake .5s ease-in-out 2}
+.flash{animation:flash .8s ease-out forwards;pointer-events:none}
+.bit{animation:burst 1.1s ease-out forwards}
+.pop{animation:pop .55s cubic-bezier(.2,1.4,.4,1) .25s both}
+.ring{animation:ring .9s ease-out forwards}
+.hint{animation:blink 1.4s ease-in-out infinite}
+.back{background:#1C1834 repeating-linear-gradient(45deg,rgba(165,107,240,.09) 0 7px,transparent 7px 14px)}
+</style>
+</helmet>
+<div class="{{shakeCls}}" style="width: 390px; height: 844px; box-sizing: border-box; background: {{bg}}; display: flex; flex-direction: column; align-items: center; font-family: 'IBM Plex Sans KR', sans-serif; color: #ffffff; position: relative; overflow: hidden">
+<div class="rays" style="position: absolute; left: -165px; top: 90px; width: 720px; height: 720px; border-radius: 50%; background: repeating-conic-gradient({{rayC}} 0deg 6deg, transparent 6deg 20deg)"></div>
+<sc-for list="{{sparks}}" as="s" hint-placeholder-count="14">
+<div class="spark" style="position: absolute; left: {{s.x}}px; bottom: 90px; width: {{s.size}}px; height: {{s.size}}px; border-radius: 50%; background: {{s.c}}; box-shadow: 0 0 10px {{s.c}}; animation-delay: {{s.d}}s"></div>
+</sc-for>
+<header style="width: 100%; padding: 14px 16px 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 12px; position: relative; z-index: 3">
+<div style="display: flex; align-items: center; justify-content: space-between">
+<div style="font-size: 13px; color: #A9A6BE">밤의 고양이 · 10회 뽑기</div>
+<a href="Result10.dc.html" style="height: 34px; padding: 0 14px; border-radius: 17px; border: 1px solid #3A3654; display: flex; align-items: center; font-size: 13px; color: #D8D6E6">전부 넘기기</a>
+</div>
+<div style="display: flex; gap: 6px; justify-content: center">
+<sc-for list="{{dots}}" as="d" hint-placeholder-count="10">
+<div style="width: 22px; height: 30px; border-radius: 4px; box-sizing: border-box; border: 2px solid {{d.line}}; background: {{d.fill}}"></div>
+</sc-for>
+</div>
+</header>
+<div style="flex-grow: 1; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 26px; position: relative; z-index: 2">
+<div style="width: 240px; height: 336px; position: relative; display: flex; align-items: center; justify-content: center">
+<sc-if value="{{big}}" hint-placeholder-val="{{false}}">
+<div class="ring" style="position: absolute; width: 300px; height: 300px; border-radius: 50%; border: 3px solid {{gc}}"></div>
+<sc-for list="{{bits}}" as="b" hint-placeholder-count="18">
+<div class="bit" style="position: absolute; left: 116px; top: 164px; width: 9px; height: 9px; border-radius: 2px; background: {{b.c}}; --r: {{b.r}}deg"></div>
+</sc-for>
+</sc-if>
+<button onClick="{{tap}}" aria-label="{{tapLabel}}" style="border: 0; background: transparent; padding: 0; cursor: pointer">
+<div class="{{cardCls}}">
+<sc-if value="{{closed}}" hint-placeholder-val="{{true}}">
+<div class="{{trembleCls}}">
+<div class="back" style="width: 230px; height: 322px; border-radius: 18px; box-sizing: border-box; border: 4px solid {{teleC}}; box-shadow: 0 0 {{teleG}}px {{teleC}}; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px">
+<svg width="72" height="72" viewBox="0 0 24 24" fill="#E2D2FF"><path d="M12 2.5c.6 4.6 2.9 6.9 7.5 7.5-4.6.6-6.9 2.9-7.5 7.5-.6-4.6-2.9-6.9-7.5-7.5 4.6-.6 6.9-2.9 7.5-7.5z"></path><path d="M19 15.5c.25 1.9 1.1 2.75 3 3-1.9.25-2.75 1.1-3 3-.25-1.9-1.1-2.75-3-3 1.9-.25 2.75-1.1 3-3z" opacity=".7"></path></svg>
+<div style="font-size: 11px; font-weight: 700; letter-spacing: 4px; color: #A99BD8">GACHA ART</div>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{flipped}}" hint-placeholder-val="{{false}}">
+<div style="width: 230px; height: 322px; border-radius: 18px; box-sizing: border-box; border: {{bw}}px solid {{gc}}; background: #ffffff; padding: 8px; display: flex; flex-direction: column; gap: 7px; box-shadow: 0 0 {{glow}}px {{gc}}; position: relative; overflow: hidden">
+<div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #45454C"><span>{{num}}</span><span>No.{{serial}}</span></div>
+<div style="flex-grow: 1; border-radius: 9px; overflow: hidden">
+<svg width="100%" height="100%" viewBox="{{vb}}" preserveAspectRatio="xMidYMid slice" style="display: block">
+<rect x="0" y="0" width="1000" height="130" fill="#26215C"></rect>
+<circle cx="170" cy="34" r="14" fill="#F4E9C8"></circle>
+<circle cx="60" cy="20" r="1.6" fill="#F2C94C"></circle><circle cx="320" cy="28" r="1.6" fill="#F2C94C"></circle><circle cx="440" cy="14" r="1.3" fill="#F2C94C"></circle><circle cx="560" cy="40" r="1.6" fill="#F2C94C"></circle><circle cx="720" cy="20" r="1.6" fill="#F2C94C"></circle><circle cx="860" cy="30" r="1.3" fill="#F2C94C"></circle>
+<path d="M0 88 C120 70 260 104 420 84 S720 62 860 86 S980 96 1000 90 V130 H0Z" fill="#4B3FB0"></path>
+<path d="M0 108 C160 96 300 118 500 104 S820 94 1000 110 V130 H0Z" fill="#342A86"></path>
+<ellipse cx="640" cy="66" rx="11" ry="9" fill="#120F2E"></ellipse><circle cx="650" cy="53" r="6.5" fill="#120F2E"></circle><path d="M645 49 L646 41 L650 47Z M652 47 L656 41 L656 50Z" fill="#120F2E"></path>
+</svg>
+</div>
+<div style="display: flex; justify-content: space-between; align-items: flex-end">
+<div style="font-size: 12px; font-weight: 600; color: #141414">{{title}}</div>
+<div style="font-family: 'Caveat', cursive; font-size: 18px; color: #45454C; line-height: 1">moonlit</div>
+</div>
+<sc-if value="{{isNew}}" hint-placeholder-val="{{false}}"><div style="position: absolute; top: 30px; left: 16px; height: 20px; padding: 0 7px; border-radius: 10px; background: #E0457B; color: #ffffff; font-size: 10px; font-weight: 700; display: flex; align-items: center">NEW</div></sc-if>
+</div>
+</sc-if>
+</div>
+</button>
+</div>
+<div style="height: 96px; display: flex; flex-direction: column; align-items: center; gap: 10px">
+<sc-if value="{{flipped}}" hint-placeholder-val="{{false}}">
+<div class="pop" style="font-size: {{labelSize}}px; font-weight: 700; letter-spacing: 3px; color: {{labelC}}; text-shadow: 0 0 {{labelG}}px {{gc}}">{{label}}</div>
+</sc-if>
+<sc-if value="{{closed}}" hint-placeholder-val="{{true}}">
+<div style="font-size: 20px; font-weight: 700">{{teaser}}</div>
+</sc-if>
+<sc-if value="{{notLast}}" hint-placeholder-val="{{true}}">
+<div class="hint" style="font-size: 14px; color: #CFC6F2">{{hint}}</div>
+</sc-if>
+<sc-if value="{{done}}" hint-placeholder-val="{{false}}">
+<a href="Result10.dc.html" style="height: 50px; padding: 0 30px; border-radius: 25px; background: #ffffff; color: #141414; display: flex; align-items: center; font-size: 15px; font-weight: 700">10장 한눈에 보기</a>
+</sc-if>
+</div>
+</div>
+<div style="padding-bottom: 22px; font-size: 12px; color: #8F8AAE; position: relative; z-index: 2">남은 카드 {{left}}장</div>
+<sc-if value="{{big}}" hint-placeholder-val="{{false}}">
+<div class="flash" style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; background: {{flashC}}; z-index: 5"></div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+constructor(p) { super(p); this.state = { i: 0, flipped: false }; }
+renderVals() {
+var self = this;
+var G = {
+C: { c: '#B8B8C0', bw: 5, glow: 0, name: 'Common', size: 22, lc: '#D8D6E6', lg: 0, ray: 'rgba(165,107,240,0.10)', bg: '#0E0C1A' },
+U: { c: '#5FA36A', bw: 6, glow: 24, name: 'Uncommon', size: 26, lc: '#9FE0A9', lg: 14, ray: 'rgba(95,163,106,0.18)', bg: '#0E0C1A' },
+R: { c: '#3E7BD6', bw: 7, glow: 50, name: 'RARE!', size: 38, lc: '#9CC2FF', lg: 22, ray: 'rgba(62,123,214,0.30)', bg: '#0B1024' },
+E: { c: '#A56BF0', bw: 8, glow: 80, name: 'EPIC!!', size: 50, lc: '#D3B2FF', lg: 30, ray: 'rgba(165,107,240,0.40)', bg: '#170D2A' }
+};
+var pulls = [['C', 0, false, '밤하늘 1'], ['U', 3, true, '달빛 산책'], ['C', 1, false, '밤하늘 2'], ['R', 6, true, '언덕 위 그림자'], ['C', 0, false, '밤하늘 1'], ['C', 2, false, '밤하늘 3'], ['U', 5, false, '보라 물결'], ['C', 4, false, '별 하나'], ['R', 7, true, '꼬리 끝'], ['E', 3, true, '잠 못 드는 고양이']];
+var i = this.state.i, f = this.state.flipped, p = pulls[i], g = G[p[0]], par = i % 2 === 0 ? 'A' : 'B';
+var big = f && (p[0] === 'R' || p[0] === 'E');
+var dots = pulls.map(function (q, k) {
+var seen = k < i || (k === i && f);
+return { line: k === i ? '#ffffff' : (seen ? G[q[0]].c : '#3A3654'), fill: seen ? G[q[0]].c : 'transparent' };
+});
+var cols = [g.c, '#F2C94C', '#ffffff', '#C69BFF'];
+var bits = [];
+var n = p[0] === 'E' ? 22 : 12;
+for (var j = 0; j < n; j++) bits.push({ r: Math.round(j * 360 / n), c: cols[j % 4] });
+var sparks = [];
+for (var k2 = 0; k2 < 14; k2++) sparks.push({ x: 18 + (k2 * 61) % 350, size: 3 + (k2 % 3) * 2, d: ((k2 * 0.41) % 3.2).toFixed(2), c: cols[k2 % 4] });
+var tele = !f && (p[0] === 'R' || p[0] === 'E');
+return {
+dots: dots, bits: bits, sparks: sparks, big: big,
+closed: !f, flipped: f, cardCls: f ? 'flip' + par : 'deal' + par,
+trembleCls: !f && p[0] === 'E' ? 'tremble' : '',
+teleC: tele ? g.c : '#4A4278', teleG: tele ? 40 : 6,
+teaser: p[0] === 'E' ? '카드가 떨려요…!' : p[0] === 'R' ? '푸른 빛이…?' : (i + 1) + '번째 카드',
+gc: g.c, bw: g.bw, glow: g.glow, label: g.name, labelSize: g.size, labelC: g.lc, labelG: g.lg,
+rayC: f ? g.ray : (tele ? g.ray : 'rgba(165,107,240,0.10)'), bg: f ? g.bg : '#0E0C1A',
+flashC: p[0] === 'E' ? '#ffffff' : 'rgba(156,194,255,0.8)',
+shakeCls: big ? 'shake' + par : '',
+vb: (p[1] * 100) + ' 0 100 130', num: '00' + (p[1] + 1) + '/010', serial: 12 + i * 7, title: p[3], isNew: p[2],
+hint: f ? '탭해서 다음 카드' : '탭해서 뒤집기', tapLabel: f ? '다음 카드' : '카드 뒤집기',
+done: f && i === 9, notLast: !(f && i === 9), left: 9 - i + (f ? 0 : 1) - (f ? 0 : 0),
+tap: function () {
+if (!self.state.flipped) { self.setState({ flipped: true }); if (window.GA && window.GA.signedIn) window.GA.addPulls([{ s: 'night', i: p[1], g: p[0] }]); }
+else if (self.state.i < 9) self.setState({ i: self.state.i + 1, flipped: false });
+}
+};
+}
+}
+</script>
+</body>
+</html>

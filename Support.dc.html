@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>고객센터</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;font-family:'IBM Plex Sans KR',sans-serif;background:#ffffff;color:#141414}
+a{color:#141414;text-decoration:none}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #ffffff; display: flex; flex-direction: column; font-family: 'IBM Plex Sans KR', sans-serif; color: #141414">
+<dc-import name="Header" title="고객센터" back="MyMenu.dc.html" hint-size="390px,56px"></dc-import>
+<div style="padding: 4px 16px 8px; font-size: 13px; color: #6B6B73">자주 묻는 질문</div>
+<sc-for list="{{faq}}" as="f" hint-placeholder-count="5">
+<div style="border-bottom: 1px solid #F0EEF3">
+<button onClick="{{f.toggle}}" style="width: 100%; min-height: 52px; padding: 0 16px; border: 0; background: transparent; display: flex; align-items: center; justify-content: space-between; font-family: inherit; font-size: 15px; color: #141414; text-align: left; cursor: pointer">{{f.q}}<span style="color: #8E8E96; font-size: 18px">{{f.sign}}</span></button>
+<sc-if value="{{f.open}}" hint-placeholder-val="{{false}}"><div style="padding: 0 16px 16px; font-size: 14px; line-height: 1.6; color: #45454C">{{f.a}}</div></sc-if>
+</div>
+</sc-for>
+<div style="flex-grow: 1"></div>
+<div style="padding: 0 16px 24px">
+<button style="width: 100%; height: 54px; border-radius: 14px; border: 0; background: #141414; color: #ffffff; font-family: inherit; font-size: 16px; font-weight: 600">1:1 문의하기</button>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+constructor(p) { super(p); this.state = { open: 0 }; }
+renderVals() {
+var self = this;
+var list = [
+['뽑기 확률은 어디서 보나요?', '시리즈 상세 화면 아래 "등급별 확률"에 모두 공개돼 있어요.'],
+['중복 조각은 어떻게 하나요?', '중복 조각 교환소에서 다른 사람의 조각과 바꿀 수 있어요.'],
+['완성하면 뭘 받나요?', '시리즈마다 작가가 정한 실물 보상(아트 프린트, 키링 등) 중 하나를 신청할 수 있어요.'],
+['배송은 얼마나 걸리나요?', '[제작·배송 기간을 입력해 주세요]'],
+['환불이 되나요?', '[환불 정책을 입력해 주세요]']
+];
+return { faq: list.map(function (x, i) {
+var on = self.state.open === i;
+return { q: x[0], a: x[1], open: on, sign: on ? '−' : '+', toggle: function () { self.setState({ open: on ? -1 : i }); } };
+}) };
+}
+}
+</script>
+</body>
+</html>

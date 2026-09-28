@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>내 가챠 한 폭 보기</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;font-family:'IBM Plex Sans KR',sans-serif;background:#ffffff;color:#141414}
+a{color:#141414;text-decoration:none}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #ffffff; display: flex; flex-direction: column; font-family: 'IBM Plex Sans KR', sans-serif; color: #141414">
+<header style="height: 56px; padding: 0 8px; display: flex; align-items: center; gap: 4px; flex-shrink: 0">
+<a href="MyGacha.dc.html" aria-label="뒤로" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+</a>
+<div style="flex-grow: 1; font-size: 17px; font-weight: 600">밤의 고양이 시리즈</div>
+<div style="font-size: 13px; color: #6B6B73; padding-right: 12px">3장 남음</div>
+</header>
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 20px; padding-top: 12px">
+<div style="display: flex; overflow: hidden; padding-left: 16px">
+<sc-for list="{{big}}" as="p" hint-placeholder-count="10">
+<div style="width: 300px; height: 390px; flex-shrink: 0">
+<svg width="300" height="390" viewBox="{{p.vb}}" preserveAspectRatio="none" style="display: block">
+<rect x="0" y="0" width="1000" height="130" fill="{{p.sky}}"></rect>
+<circle cx="170" cy="34" r="14" fill="{{p.moon}}"></circle>
+<circle cx="60" cy="20" r="1.4" fill="{{p.star}}"></circle><circle cx="320" cy="28" r="1.4" fill="{{p.star}}"></circle><circle cx="440" cy="14" r="1.2" fill="{{p.star}}"></circle><circle cx="560" cy="40" r="1.4" fill="{{p.star}}"></circle><circle cx="720" cy="20" r="1.4" fill="{{p.star}}"></circle><circle cx="250" cy="54" r="1.1" fill="{{p.star}}"></circle>
+<path d="M0 88 C120 70 260 104 420 84 S720 62 860 86 S980 96 1000 90 V130 H0Z" fill="{{p.w1}}"></path>
+<path d="M0 108 C160 96 300 118 500 104 S820 94 1000 110 V130 H0Z" fill="{{p.w2}}"></path>
+<ellipse cx="640" cy="66" rx="11" ry="9" fill="{{p.cat}}"></ellipse><circle cx="650" cy="53" r="6.5" fill="{{p.cat}}"></circle><path d="M645 49 L646 41 L650 47Z M652 47 L656 41 L656 50Z" fill="{{p.cat}}"></path>
+</svg>
+</div>
+</sc-for>
+</div>
+<div style="padding: 0 16px; display: flex; flex-direction: column; gap: 10px">
+<div style="font-size: 13px; color: #6B6B73">전체 한 폭</div>
+<div style="display: flex; border-radius: 10px; overflow: hidden; height: 46px">
+<sc-for list="{{big}}" as="p" hint-placeholder-count="10">
+<div style="flex-grow: 1; height: 46px; box-sizing: border-box; border: {{p.frame}}">
+<svg width="100%" height="100%" viewBox="{{p.vb}}" preserveAspectRatio="none" style="display: block">
+<rect x="0" y="0" width="1000" height="130" fill="{{p.sky}}"></rect>
+<circle cx="170" cy="34" r="14" fill="{{p.moon}}"></circle>
+<path d="M0 88 C120 70 260 104 420 84 S720 62 860 86 S980 96 1000 90 V130 H0Z" fill="{{p.w1}}"></path>
+<path d="M0 108 C160 96 300 118 500 104 S820 94 1000 110 V130 H0Z" fill="{{p.w2}}"></path>
+</svg>
+</div>
+</sc-for>
+</div>
+<div style="font-size: 13px; color: #6B6B73; display: flex; align-items: center; gap: 6px">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B6B73" stroke-width="1.8" stroke-linecap="round"><path d="M8 12H3m0 0 3-3m-3 3 3 3M16 12h5m0 0-3-3m3 3-3 3"></path></svg>
+두 손가락으로 벌리면 한 장씩 볼 수 있어요
+</div>
+</div>
+<div style="flex-grow: 1"></div>
+<div style="padding: 0 16px 20px; display: flex; gap: 10px">
+<a href="Detail.dc.html" style="flex-grow: 1; height: 52px; border-radius: 14px; background: #141414; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600">빈 조각 이어서 뽑기</a>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+var own = { sky: '#26215C', moon: '#F4E9C8', star: '#F2C94C', w1: '#4B3FB0', w2: '#342A86', cat: '#120F2E' };
+var gray = { sky: '#E6E5EA', moon: '#F1F0F3', star: '#F1F0F3', w1: '#D6D5DC', w2: '#CAC9D1', cat: '#BDBCC5' };
+var owned = [0, 1, 2, 4, 5, 6, 8];
+var big = [];
+for (var i = 0; i < 10; i++) {
+var c = owned.indexOf(i) >= 0 ? own : gray;
+big.push({ vb: (i * 100) + ' 0 100 130', sky: c.sky, moon: c.moon, star: c.star, w1: c.w1, w2: c.w2, cat: c.cat, frame: i < 2 ? '2px solid #141414' : '0' });
+}
+return { big: big };
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>탐색</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;font-family:'IBM Plex Sans KR',sans-serif;background:#ffffff;color:#141414}
+a{color:#141414;text-decoration:none}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #ffffff; display: flex; flex-direction: column; font-family: 'IBM Plex Sans KR', sans-serif; color: #141414">
+<div style="padding: 10px 16px 10px; flex-shrink: 0">
+<label style="height: 44px; border-radius: 12px; background: #F3F1F6; display: flex; align-items: center; gap: 8px; padding: 0 14px">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B6B73" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
+<input placeholder="작가, 시리즈 검색" aria-label="검색" style="border: 0; background: transparent; font-family: inherit; font-size: 15px; flex-grow: 1; outline: none">
+</label>
+</div>
+<div style="display: flex; gap: 8px; padding: 0 16px 14px; overflow: hidden; flex-shrink: 0">
+<sc-for list="{{chips}}" as="c" hint-placeholder-count="6">
+<button onClick="{{c.pick}}" style="height: 34px; padding: 0 14px; border-radius: 17px; border: 1px solid {{c.line}}; background: {{c.bg}}; color: {{c.fg}}; display: flex; align-items: center; font-family: inherit; font-size: 13px; white-space: nowrap; flex-shrink: 0; cursor: pointer">{{c.t}}</button>
+</sc-for>
+</div>
+<div style="flex-grow: 1; overflow: hidden; padding: 0 16px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 10px; align-content: start">
+<sc-for list="{{tiles}}" as="s" hint-placeholder-count="6">
+<a href="Detail.dc.html" style="display: flex; flex-direction: column; gap: 6px">
+<div style="height: 180px; border-radius: 14px; overflow: hidden; position: relative">
+<svg width="100%" height="180" viewBox="360 0 110 130" preserveAspectRatio="xMidYMid slice" style="display: block">
+<rect x="0" y="0" width="1000" height="130" fill="{{s.sky}}"></rect>
+<circle cx="440" cy="30" r="10" fill="{{s.sun}}"></circle>
+<path d="M0 88 C120 70 260 104 420 84 S720 62 860 86 S980 96 1000 90 V130 H0Z" fill="{{s.w1}}"></path>
+<path d="M0 108 C160 96 300 118 500 104 S820 94 1000 110 V130 H0Z" fill="{{s.w2}}"></path>
+</svg>
+<sc-if value="{{s.tag}}" hint-placeholder-val="{{s.tag}}"><div style="position: absolute; left: 8px; top: 8px; height: 22px; padding: 0 8px; border-radius: 11px; background: #ffffff; font-size: 11px; font-weight: 600; display: flex; align-items: center">{{s.tag}}</div></sc-if>
+</div>
+<div style="font-size: 14px; font-weight: 600">{{s.title}}</div>
+<div style="font-size: 12px; color: #6B6B73; margin-top: -4px">{{s.artist}} · 1회 {{s.price}}</div>
+</a>
+</sc-for>
+</div>
+<dc-import name="TabBar" active="explore" hint-size="390px,64px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+constructor(p) { super(p); this.state = { cat: '전체' }; }
+renderVals() {
+var self = this, cur = this.state.cat;
+var chips = ['전체', '일러스트', '캐릭터', '풍경', '동물', '픽셀'].map(function (t) {
+var on = t === cur;
+return { t: t, bg: on ? '#141414' : '#ffffff', fg: on ? '#ffffff' : '#141414', line: on ? '#141414' : '#DDDBE2', pick: function () { self.setState({ cat: t }); } };
+});
+var tiles = [
+{ cat: '동물', title: '밤의 고양이', artist: 'moonlit_draws', price: '3,000원', tag: '인기', sky: '#26215C', sun: '#F4E9C8', w1: '#4B3FB0', w2: '#342A86' },
+{ cat: '풍경', title: '새벽 바다', artist: 'sea_mint', price: '2,500원', tag: 'D-3', sky: '#123E4C', sun: '#F5D7A8', w1: '#2E8C98', w2: '#1D6672' },
+{ cat: '픽셀', title: '노을 골목', artist: 'pixel_hana', price: '3,000원', tag: '', sky: '#F2B38A', sun: '#FFF1D6', w1: '#D9745B', w2: '#A64B3C' },
+{ cat: '일러스트', title: '숲속 우체국', artist: 'yeon.art', price: '2,000원', tag: '신규', sky: '#DCE8C8', sun: '#FFFFFF', w1: '#7FA36A', w2: '#4E7440' },
+{ cat: '캐릭터', title: '겨울 곰', artist: 'ddong_gom', price: '3,500원', tag: '', sky: '#E8EDF4', sun: '#FFFFFF', w1: '#AEBBD0', w2: '#7C8BA6' },
+{ cat: '풍경', title: '분홍 섬', artist: 'coral.p', price: '2,500원', tag: '', sky: '#F7D5DE', sun: '#FFF4F6', w1: '#E08CA3', w2: '#B85C78' }
+].filter(function (x) { return cur === '전체' || x.cat === cur; });
+return { chips: chips, tiles: tiles };
+}
+}
+</script>
+</body>
+</html>

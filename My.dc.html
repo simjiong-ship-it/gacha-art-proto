@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>마이</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;font-family:'IBM Plex Sans KR',sans-serif;background:#ffffff;color:#141414}
+a{color:#141414;text-decoration:none}
+.scroll{overflow-y:auto;scrollbar-width:none}
+.scroll::-webkit-scrollbar{display:none}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #ffffff; display: flex; flex-direction: column; font-family: 'IBM Plex Sans KR', sans-serif; color: #141414">
+<header style="height: 56px; padding: 0 8px 0 16px; display: flex; align-items: center; gap: 4px; flex-shrink: 0">
+<div style="flex-grow: 1; font-size: 20px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{handle}}</div>
+<a href="MyMenu.dc.html" aria-label="메뉴 열기" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 12px">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+</a>
+</header>
+<div class="scroll" style="flex-grow: 1; min-height: 0; display: flex; flex-direction: column">
+<div style="display: flex; align-items: center; gap: 20px; padding: 8px 16px 12px; flex-shrink: 0">
+<sc-if value="{{avatar}}" hint-placeholder-val="{{false}}"><img src="{{avatar}}" alt="" style="width: 84px; height: 84px; border-radius: 50%; object-fit: cover; flex-shrink: 0"></sc-if>
+<sc-if value="{{noAvatar}}" hint-placeholder-val="{{true}}"><div style="width: 84px; height: 84px; border-radius: 50%; background: #D7D3F2; flex-shrink: 0"></div></sc-if>
+<div style="flex-grow: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; text-align: center">
+<div><div style="font-size: 18px; font-weight: 700">{{stPieces}}</div><div style="font-size: 12px; color: #6B6B73">모은 그림</div></div>
+<div><div style="font-size: 18px; font-weight: 700">{{stDone}}</div><div style="font-size: 12px; color: #6B6B73">완성</div></div>
+<div><div style="font-size: 18px; font-weight: 700">{{stPulls}}</div><div style="font-size: 12px; color: #6B6B73">뽑기</div></div>
+</div>
+</div>
+<div style="padding: 0 16px 14px; display: flex; flex-direction: column; gap: 2px; flex-shrink: 0">
+<div style="font-size: 14px; font-weight: 600">{{name}}</div>
+<div style="font-size: 13px; color: #45454C">{{bio}}</div>
+<sc-if value="{{live}}" hint-placeholder-val="{{false}}"><div style="font-size: 12px; color: #6A3FC0; margin-top: 4px">내 계정에 저장되는 중</div></sc-if>
+</div>
+<div style="padding: 0 16px 16px; display: flex; gap: 8px; flex-shrink: 0">
+<a href="ProfileEdit.dc.html" style="flex-grow: 1; height: 38px; border-radius: 10px; background: #F0EEF3; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center">프로필 편집</a>
+<a href="Orders.dc.html" style="flex-grow: 1; height: 38px; border-radius: 10px; background: #F0EEF3; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center">배송 조회</a>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-bottom: 1px solid #ECEAF0; flex-shrink: 0">
+<sc-for list="{{tabs}}" as="t" hint-placeholder-count="3">
+<button onClick="{{t.pick}}" style="height: 44px; border: 0; border-bottom: 2px solid {{t.line}}; background: transparent; font-family: inherit; font-size: 14px; font-weight: {{t.weight}}; color: {{t.fg}}; cursor: pointer">{{t.label}}</button>
+</sc-for>
+</div>
+<sc-if value="{{tabDone}}" hint-placeholder-val="{{false}}">
+<a href="MyGacha.dc.html" style="margin: 12px 16px 0; display: flex; flex-direction: column; gap: 8px">
+<div style="height: 110px; border-radius: 12px; overflow: hidden">
+<svg width="100%" height="110" viewBox="0 0 1000 130" preserveAspectRatio="xMidYMid slice" style="display: block">
+<rect x="0" y="0" width="1000" height="130" fill="#DCE8C8"></rect>
+<path d="M0 88 C120 70 260 104 420 84 S720 62 860 86 S980 96 1000 90 V130 H0Z" fill="#7FA36A"></path>
+<path d="M0 108 C160 96 300 118 500 104 S820 94 1000 110 V130 H0Z" fill="#4E7440"></path>
+<rect x="600" y="52" width="26" height="22" fill="#B85C3C"></rect><path d="M596 54 L613 40 L630 54Z" fill="#8C3E28"></path>
+</svg>
+</div>
+<div style="font-size: 14px; font-weight: 600">숲속 우체국 시리즈 · 10/10 완성</div>
+</a>
+</sc-if>
+<sc-if value="{{tabLike}}" hint-placeholder-val="{{false}}">
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; padding: 12px 16px 0">
+<a href="Detail.dc.html" style="display: flex; flex-direction: column; gap: 6px"><div style="height: 150px; border-radius: 12px; background: #123E4C"></div><div style="font-size: 13px; font-weight: 600">새벽 바다</div></a>
+<a href="Detail.dc.html" style="display: flex; flex-direction: column; gap: 6px"><div style="height: 150px; border-radius: 12px; background: #F2B38A"></div><div style="font-size: 13px; font-weight: 600">노을 골목</div></a>
+</div>
+</sc-if>
+<sc-if value="{{tabCol}}" hint-placeholder-val="{{true}}">
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px; padding-top: 2px; flex-shrink: 0">
+<sc-for list="{{cards}}" as="c" hint-placeholder-count="12">
+<a href="CardView.dc.html" aria-label="카드 크게 보기" style="display: block; height: 168px; background: {{c.sky}}; position: relative">
+<div style="width: 100%; height: 100%; overflow: hidden">
+<svg width="100%" height="100%" viewBox="{{c.vb}}" preserveAspectRatio="xMidYMid slice" style="display: block">
+<rect x="0" y="0" width="1000" height="130" fill="{{c.sky}}"></rect>
+<circle cx="170" cy="34" r="14" fill="{{c.moon}}"></circle>
+<circle cx="60" cy="20" r="1.6" fill="{{c.star}}"></circle><circle cx="320" cy="28" r="1.6" fill="{{c.star}}"></circle><circle cx="440" cy="14" r="1.3" fill="{{c.star}}"></circle><circle cx="560" cy="40" r="1.6" fill="{{c.star}}"></circle><circle cx="720" cy="20" r="1.6" fill="{{c.star}}"></circle><circle cx="860" cy="30" r="1.3" fill="{{c.star}}"></circle><circle cx="950" cy="14" r="1.6" fill="{{c.star}}"></circle>
+<path d="M0 88 C120 70 260 104 420 84 S720 62 860 86 S980 96 1000 90 V130 H0Z" fill="{{c.w1}}"></path>
+<path d="M0 108 C160 96 300 118 500 104 S820 94 1000 110 V130 H0Z" fill="{{c.w2}}"></path>
+<ellipse cx="640" cy="66" rx="11" ry="9" fill="{{c.cat}}"></ellipse><circle cx="650" cy="53" r="6.5" fill="{{c.cat}}"></circle><path d="M645 49 L646 41 L650 47Z M652 47 L656 41 L656 50Z" fill="{{c.cat}}"></path>
+</svg>
+</div>
+<div style="position: absolute; left: 7px; top: 7px; height: 18px; padding: 0 6px; border-radius: 9px; background: {{c.line}}; color: #ffffff; font-size: 9px; font-weight: 700; letter-spacing: .5px; display: flex; align-items: center">{{c.grade}}</div>
+<div style="position: absolute; left: 8px; bottom: 7px; font-size: 10px; font-weight: 700; color: #ffffff; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6)">{{c.no}}</div>
+<sc-if value="{{c.multi}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; right: 7px; top: 7px; height: 18px; padding: 0 6px; border-radius: 9px; background: rgba(20, 20, 20, 0.6); color: #ffffff; font-size: 9px; font-weight: 700; display: flex; align-items: center">×{{c.multi}}</div>
+</sc-if>
+</a>
+</sc-for>
+</div>
+<sc-if value="{{empty}}" hint-placeholder-val="{{false}}">
+<div style="padding: 40px 24px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center">
+<div style="font-size: 16px; font-weight: 600">아직 모은 그림이 없어요</div>
+<div style="font-size: 13px; color: #6B6B73">뽑은 조각은 내 계정에 저장돼서 여기 모여요</div>
+<a href="Detail.dc.html" style="height: 46px; padding: 0 22px; border-radius: 12px; background: #141414; color: #ffffff; display: flex; align-items: center; font-size: 14px; font-weight: 600">첫 뽑기 하러 가기</a>
+</div>
+</sc-if>
+</sc-if>
+<div style="height: 24px; flex-shrink: 0"></div>
+</div>
+<dc-import name="TabBar" active="my" hint-size="390px,64px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+constructor(p) { super(p); this.state = { tab: 'col' }; }
+renderVals() {
+var self = this, cur = this.state.tab;
+var tabs = [['col', '컬렉션'], ['done', '완성'], ['like', '찜']].map(function (t) {
+var on = t[0] === cur;
+return { label: t[1], line: on ? '#141414' : 'transparent', weight: on ? 600 : 400, fg: on ? '#141414' : '#6B6B73', pick: function () { self.setState({ tab: t[0] }); } };
+});
+var P = {
+night: { sky: '#26215C', moon: '#F4E9C8', star: '#F2C94C', w1: '#4B3FB0', w2: '#342A86', cat: '#120F2E' },
+sea: { sky: '#123E4C', moon: '#F5D7A8', star: '#F5D7A8', w1: '#2E8C98', w2: '#1D6672', cat: '#123E4C' },
+dusk: { sky: '#F2B38A', moon: '#FFF1D6', star: '#FFF1D6', w1: '#D9745B', w2: '#A64B3C', cat: '#F2B38A' },
+forest: { sky: '#DCE8C8', moon: '#FFFFFF', star: '#FFFFFF', w1: '#7FA36A', w2: '#4E7440', cat: '#DCE8C8' },
+snow: { sky: '#E8EDF4', moon: '#FFFFFF', star: '#C7D2E3', w1: '#AEBBD0', w2: '#7C8BA6', cat: '#E8EDF4' },
+pink: { sky: '#F7D5DE', moon: '#FFF4F6', star: '#FFFFFF', w1: '#E08CA3', w2: '#B85C78', cat: '#F7D5DE' }
+};
+var G = { C: ['#A9A8B2', 2, 'C'], U: ['#5FA36A', 3, 'U'], R: ['#3E7BD6', 3, 'R'], E: ['#8A4FD1', 4, 'EPIC'], L: ['#D98A1E', 5, 'LEGEND'] };
+var A = window.GA && window.GA.signedIn ? window.GA : null;
+var list = [
+['night', 3, 'E', 0], ['sea', 1, 'R', 0], ['night', 9, 'L', 0],
+['dusk', 4, 'U', 2], ['night', 6, 'R', 0], ['forest', 2, 'C', 3],
+['pink', 5, 'U', 0], ['sea', 7, 'C', 0], ['night', 0, 'C', 4],
+['snow', 3, 'R', 0], ['dusk', 8, 'C', 0], ['forest', 6, 'E', 0]
+];
+var pulls = A ? (A.prof.pulls || []) : [];
+if (A) {
+var seen = {}, order = [];
+for (var k = pulls.length - 1; k >= 0; k--) {
+var q = pulls[k], key = q.s + ':' + q.i;
+if (!seen[key]) { seen[key] = [q.s, q.i, q.g, 0]; order.push(key); }
+seen[key][3]++;
+}
+list = order.map(function (key) { var v = seen[key]; return [v[0], v[1], v[2], v[3] > 1 ? v[3] : 0]; });
+}
+var bySeries = {};
+list.forEach(function (x) { bySeries[x[0]] = (bySeries[x[0]] || 0) + 1; });
+var doneCount = Object.keys(bySeries).filter(function (s) { return bySeries[s] >= 10; }).length;
+var cards = list.map(function (x) {
+var p = P[x[0]] || P.night, g = G[x[2]] || G.C;
+return { vb: (x[1] * 100) + ' 0 100 130', sky: p.sky, moon: p.moon, star: p.star, w1: p.w1, w2: p.w2, cat: p.cat,
+line: g[0], bw: g[1], grade: g[2], no: '0' + (x[1] < 9 ? '0' + (x[1] + 1) : '10') + '/010', multi: x[3] || '' };
+});
+var nm = A ? (A.displayName() || '나') : '로이';
+var av = A && A.me && A.me.avatarUrl ? A.me.avatarUrl : '';
+return { cards: cards, tabs: tabs, tabCol: cur === 'col', tabDone: cur === 'done', tabLike: cur === 'like',
+live: !!A, empty: !!A && !list.length, name: nm, handle: A ? nm : 'roi_collects',
+bio: A ? (A.prof.bio || '프로필 편집에서 소개를 적어보세요') : '[한 줄 소개]',
+avatar: av, noAvatar: !av,
+stPieces: A ? list.length : 42, stDone: A ? doneCount : 1, stPulls: A ? pulls.length : 60 };
+}
+}
+</script>
+</body>
+</html>

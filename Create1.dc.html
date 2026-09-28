@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>판매 등록 1단계</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;font-family:'IBM Plex Sans KR',sans-serif;background:#ffffff;color:#141414}
+a{color:#141414;text-decoration:none}
+.scroll{overflow-y:auto;scrollbar-width:none}
+.scroll::-webkit-scrollbar{display:none}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #ffffff; display: flex; flex-direction: column; font-family: 'IBM Plex Sans KR', sans-serif; color: #141414">
+<header style="height: 56px; padding: 0 8px; display: flex; align-items: center; flex-shrink: 0">
+<a href="Main.dc.html" aria-label="닫기" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+</a>
+<div style="flex-grow: 1; text-align: center; font-size: 17px; font-weight: 600">그림 고르기</div>
+<div style="width: 44px; text-align: center; font-size: 13px; color: #6B6B73">1 / 4</div>
+</header>
+<div style="height: 3px; background: #F0EEF3; margin: 0 16px; flex-shrink: 0"><div style="width: 25%; height: 3px; background: #141414"></div></div>
+<div style="padding: 16px 16px 12px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; flex-shrink: 0">
+<button onClick="{{setSingle}}" style="height: 44px; border-radius: 12px; border: {{m1}}; background: #ffffff; font-family: inherit; font-size: 14px; font-weight: 600; color: #141414; cursor: pointer">개별 그림 10장</button>
+<button onClick="{{setWide}}" style="height: 44px; border-radius: 12px; border: {{m2}}; background: #ffffff; font-family: inherit; font-size: 14px; font-weight: 600; color: #141414; cursor: pointer">연결형 긴 그림</button>
+</div>
+<div class="scroll" style="flex-grow: 1; min-height: 0">
+<sc-if value="{{single}}" hint-placeholder-val="{{true}}">
+<div style="padding: 0 16px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px">
+<label style="height: 86px; border-radius: 6px; border: 1.5px dashed #B0AFB7; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 12px; color: #45454C; cursor: pointer; position: relative; overflow: hidden">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#45454C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="15" rx="3"></rect><circle cx="9" cy="10" r="1.8"></circle><path d="m4 17 5-4.5 4 3.5 3-2.5 4 3.5"></path></svg>
+앨범에서 추가
+<input type="file" accept="image/*" multiple onChange="{{addPhotos}}" aria-label="앨범에서 사진 고르기" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; font-size: 0">
+</label>
+<sc-for list="{{tiles}}" as="t" hint-placeholder-count="15">
+<button onClick="{{t.pick}}" aria-label="{{t.label}}" style="height: 86px; border: 0; padding: 0; border-radius: 6px; background: {{t.bg}}; position: relative; cursor: pointer; overflow: hidden">
+<div style="position: absolute; right: 5px; top: 5px; width: 22px; height: 22px; border-radius: 50%; box-sizing: border-box; border: 1.5px solid #ffffff; background: {{t.dot}}; color: #ffffff; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Sans KR', sans-serif">{{t.num}}</div>
+</button>
+</sc-for>
+</div>
+<div style="padding: 10px 16px 16px; font-size: 13px; color: #6B6B73">{{guide}}</div>
+</sc-if>
+<sc-if value="{{wide}}" hint-placeholder-val="{{false}}">
+<div style="padding: 0 16px 16px; display: flex; flex-direction: column; gap: 12px">
+<label style="height: 180px; border-radius: 14px; border: {{wideBorder}}; background: {{wideBg}}; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: #45454C; font-size: 14px; cursor: pointer; position: relative; overflow: hidden">
+<sc-if value="{{noWide}}" hint-placeholder-val="{{true}}">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#45454C" stroke-width="1.8" stroke-linecap="round"><path d="M12 16V4M7 9l5-5 5 5M4 20h16"></path></svg>
+<span>앨범에서 가로로 긴 그림 1장 고르기</span>
+</sc-if>
+<input type="file" accept="image/*" onChange="{{setWidePhoto}}" aria-label="긴 그림 고르기" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; font-size: 0">
+</label>
+<div style="display: flex; height: 72px; border-radius: 8px; overflow: hidden; gap: 2px">
+<sc-for list="{{slices}}" as="s" hint-placeholder-count="10"><div style="flex-grow: 1; flex-basis: 0; background: {{s}}"></div></sc-for>
+</div>
+<div style="font-size: 13px; color: #6B6B73">{{wideGuide}}</div>
+</div>
+</sc-if>
+</div>
+<div style="padding: 12px 16px 20px; border-top: 1px solid #F0EEF3; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0">
+<div style="font-size: 14px"><b>{{count}}</b> / 10 선택</div>
+<a href="Create2.dc.html" style="height: 44px; padding: 0 24px; border-radius: 12px; background: #141414; color: #ffffff; display: flex; align-items: center; font-size: 15px; font-weight: 600">다음</a>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+constructor(p) { super(p); this.state = { photos: [], sel: [5, 1, 10], mode: 'single', wideUrl: '' }; }
+renderVals() {
+var self = this, s = this.state;
+var single = s.mode === 'single';
+var cols = ['#5F9BB5', '#7FA3C4', '#9EAED0', '#B8BEDD', '#6B63B5', '#8C7EC2', '#AE99CF', '#CDB6DE', '#A565B2', '#C07FC0', '#D39CC6', '#E1B5CC', '#B8678C', '#C98896', '#D6A0A0'];
+var items = s.photos.map(function (u) { return 'center / cover no-repeat url("' + u + '")'; });
+if (!s.photos.length) items = cols;
+var tiles = items.map(function (bg, i) {
+var k = s.sel.indexOf(i);
+return {
+bg: bg, num: k >= 0 ? String(k + 1) : '', dot: k >= 0 ? '#141414' : 'rgba(255,255,255,0.25)', label: '그림 ' + (i + 1),
+pick: function () {
+var a = self.state.sel.slice(); var j = a.indexOf(i);
+if (j >= 0) a.splice(j, 1); else if (a.length < 10) a.push(i);
+self.setState({ sel: a });
+}
+};
+});
+var slices = [];
+for (var i = 0; i < 10; i++) {
+slices.push(s.wideUrl ? 'url("' + s.wideUrl + '") ' + (i * 100 / 9).toFixed(3) + '% center / 1000% 100% no-repeat' : ['#26215C', '#2C2566', '#322A70', '#3A2F8F', '#4B3FB0', '#5A4BC4', '#4B3FB0', '#3A2F8F', '#322A70', '#26215C'][i]);
+}
+return {
+single: single, wide: !single, tiles: tiles, slices: slices,
+count: single ? s.sel.length : (s.wideUrl ? 10 : 0),
+guide: s.photos.length ? '고른 순서대로 번호가 붙어요. 번호가 카드 번호(001~010)가 돼요.' : '위 색 칸은 예시예요. 앨범에서 추가를 눌러 내 그림을 골라보세요.',
+m1: single ? '2px solid #141414' : '1px solid #DDDBE2', m2: single ? '1px solid #DDDBE2' : '2px solid #141414',
+noWide: !s.wideUrl,
+wideBg: s.wideUrl ? 'center / cover no-repeat url("' + s.wideUrl + '")' : '#ffffff',
+wideBorder: s.wideUrl ? '0' : '1.5px dashed #C9C7D0',
+wideGuide: s.wideUrl ? '10조각으로 나눴어요. 다시 누르면 다른 그림으로 바꿀 수 있어요.' : '올리면 자동으로 10조각으로 나눠요. 다 모으면 한 폭의 그림이 돼요.',
+setSingle: function () { self.setState({ mode: 'single' }); },
+setWide: function () { self.setState({ mode: 'wide' }); },
+addPhotos: function (e) {
+var files = Array.prototype.slice.call((e && e.target && e.target.files) || []);
+if (!files.length) return;
+var urls = files.map(function (f) { return URL.createObjectURL(f); });
+var had = self.state.photos.length;
+var photos = self.state.photos.concat(urls);
+var sel = had ? self.state.sel.slice() : [];
+for (var n = had; n < photos.length && sel.length < 10; n++) sel.push(n);
+self.setState({ photos: photos, sel: sel });
+e.target.value = '';
+},
+setWidePhoto: function (e) {
+var f = e && e.target && e.target.files && e.target.files[0];
+if (!f) return;
+self.setState({ wideUrl: URL.createObjectURL(f) });
+e.target.value = '';
+}
+};
+}
+}
+</script>
+</body>
+</html>
