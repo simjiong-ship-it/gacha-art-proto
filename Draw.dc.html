@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>뽑기 연출</title>
 <script src="./support.js"></script>
 </head>
@@ -40,7 +40,7 @@ a{color:#ffffff;text-decoration:none}
 .up{animation:fadeup .5s ease-out .8s both}
 </style>
 </helmet>
-<div class="{{shakeCls}}" style="width: 390px; height: 844px; box-sizing: border-box; background: #0E0C1A; display: flex; flex-direction: column; align-items: center; font-family: 'IBM Plex Sans KR', sans-serif; color: #ffffff; position: relative; overflow: hidden">
+<div class="{{shakeCls}}" style="width: 100%; height: 100%; box-sizing: border-box; background: #0E0C1A; display: flex; flex-direction: column; align-items: center; font-family: 'IBM Plex Sans KR', sans-serif; color: #ffffff; position: relative; overflow: hidden">
 <header style="width: 100%; height: 56px; padding: 0 16px; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 3">
 <div style="font-size: 13px; color: #A9A6BE">밤의 고양이 · 1 / 10</div>
 <a href="Result.dc.html" style="height: 34px; padding: 0 14px; border-radius: 17px; border: 1px solid #3A3654; display: flex; align-items: center; font-size: 13px; color: #D8D6E6">건너뛰기</a>
@@ -80,7 +80,7 @@ a{color:#ffffff;text-decoration:none}
 </div>
 <div style="padding-bottom: 28px; font-size: 12px; color: #8F8AAE">빛 색깔이 바뀌다 멈추는 색 = 등급</div>
 <sc-if value="{{opened}}" hint-placeholder-val="{{false}}">
-<div class="flash" style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; background: #ffffff; z-index: 5"></div>
+<div class="flash" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: #ffffff; z-index: 5"></div>
 </sc-if>
 </div>
 </x-dc>

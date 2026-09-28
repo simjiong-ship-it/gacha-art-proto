@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>프로필 편집</title>
 <script src="./support.js"></script>
 </head>
@@ -16,7 +16,7 @@ a{color:#141414;text-decoration:none}
 input,textarea{font-family:inherit}
 </style>
 </helmet>
-<div style="width: 390px; height: 844px; box-sizing: border-box; background: #ffffff; display: flex; flex-direction: column; font-family: 'IBM Plex Sans KR', sans-serif; color: #141414; position: relative">
+<div style="width: 100%; height: 100%; box-sizing: border-box; background: #ffffff; display: flex; flex-direction: column; font-family: 'IBM Plex Sans KR', sans-serif; color: #141414; position: relative">
 <dc-import name="Header" title="프로필 편집" back="My.dc.html" hint-size="390px,56px"></dc-import>
 <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 12px 0 20px">
 <sc-if value="{{avatar}}" hint-placeholder-val="{{false}}"><img src="{{avatar}}" alt="" style="width: 96px; height: 96px; border-radius: 50%; object-fit: cover"></sc-if>

@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>마이</title>
 <script src="./support.js"></script>
 </head>
@@ -17,7 +17,7 @@ a{color:#141414;text-decoration:none}
 .scroll::-webkit-scrollbar{display:none}
 </style>
 </helmet>
-<div style="width: 390px; height: 844px; box-sizing: border-box; background: #ffffff; display: flex; flex-direction: column; font-family: 'IBM Plex Sans KR', sans-serif; color: #141414">
+<div style="width: 100%; height: 100%; box-sizing: border-box; background: #ffffff; display: flex; flex-direction: column; font-family: 'IBM Plex Sans KR', sans-serif; color: #141414">
 <header style="height: 56px; padding: 0 8px 0 16px; display: flex; align-items: center; gap: 4px; flex-shrink: 0">
 <div style="flex-grow: 1; font-size: 20px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{handle}}</div>
 <a href="MyMenu.dc.html" aria-label="메뉴 열기" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 12px">
@@ -68,9 +68,9 @@ a{color:#141414;text-decoration:none}
 </div>
 </sc-if>
 <sc-if value="{{tabCol}}" hint-placeholder-val="{{true}}">
-<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px; padding-top: 2px; flex-shrink: 0">
+<div class="collection-grid" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px; padding-top: 2px; flex-shrink: 0">
 <sc-for list="{{cards}}" as="c" hint-placeholder-count="12">
-<a href="CardView.dc.html" aria-label="카드 크게 보기" style="display: block; height: 168px; background: {{c.sky}}; position: relative">
+<a href="CardView.dc.html" aria-label="카드 크게 보기" class="card" style="display: block; background: {{c.sky}}; position: relative">
 <div style="width: 100%; height: 100%; overflow: hidden">
 <svg width="100%" height="100%" viewBox="{{c.vb}}" preserveAspectRatio="xMidYMid slice" style="display: block">
 <rect x="0" y="0" width="1000" height="130" fill="{{c.sky}}"></rect>

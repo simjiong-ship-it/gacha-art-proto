@@ -89,22 +89,29 @@
     renderChildren(n, el, scope);
   }
 
-  function fit(stage, root) {
-    var w = root.offsetWidth || 390, h = root.offsetHeight || 844;
-    var s = Math.min(window.innerWidth / w, window.innerHeight / h);
-    if (window.innerWidth > 600) s = Math.min(s, 1);
-    stage.style.transform = 'scale(' + s + ')';
-    stage.style.width = w + 'px'; stage.style.height = h + 'px';
-    stage.parentNode.style.height = (h * s) + 'px';
-    stage.parentNode.style.width = (w * s) + 'px';
-  }
+  // 화면 크기에 맞춰 늘어나는 방식: 폰은 꽉 차게, 폴드·태블릿은 최대 900px
+  function fit() {}
 
   function boot() {
     var main = parseDef(document);
     document.querySelector('x-dc').remove();
     if (main.helmet) Array.prototype.slice.call(main.helmet.children).forEach(function (c) { document.head.appendChild(c); });
     var st = document.createElement('style');
-    st.textContent = 'html,body{height:100%}body{margin:0!important;background:#E9E7EE!important;display:flex;align-items:center;justify-content:center;min-height:100%;overflow:hidden}#wrap{overflow:hidden;border-radius:0;box-shadow:0 10px 40px rgba(20,20,20,.15)}#stage{transform-origin:0 0}@media(max-width:600px){#wrap{box-shadow:none}}';
+    st.textContent = [
+      'html,body{margin:0!important;padding:0;width:100%;height:100%;overflow:hidden}',
+      'body{background:#E9E7EE!important;display:flex;justify-content:center}',
+      '#wrap{width:100%;max-width:900px;height:100vh;height:100dvh;background:#ffffff;overflow:hidden;box-shadow:0 0 40px rgba(20,20,20,.08)}',
+      '#stage{width:100%;height:100%}',
+      '#stage>*{max-width:100%}',
+      '.scroll{-webkit-overflow-scrolling:touch}',
+      /* 컬렉션: 폰 3칸, 폴드 펼치면 5~6칸 */
+      '.collection-grid{grid-template-columns:repeat(auto-fill,minmax(110px,1fr))!important}',
+      '.collection-grid .card{width:100%;height:auto;aspect-ratio:3/4;overflow:hidden}',
+      '.explore-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))!important}',
+      '.pick-grid{grid-template-columns:repeat(auto-fill,minmax(80px,1fr))!important}',
+      '@media(min-width:600px){.collection-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))!important;gap:4px!important}.explore-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))!important}}',
+      '@media(max-width:600px){#wrap{box-shadow:none}}'
+    ].join('');
     document.head.appendChild(st);
     var wrap = document.createElement('div'); wrap.id = 'wrap';
     var stage = document.createElement('div'); stage.id = 'stage';

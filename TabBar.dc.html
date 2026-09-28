@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>하단 탭바</title>
 <script src="./support.js"></script>
 </head>
@@ -14,7 +14,7 @@ body{margin:0;font-family:'IBM Plex Sans KR',sans-serif;background:#ffffff}
 a{color:#141414}
 </style>
 </helmet>
-<nav aria-label="하단 메뉴" style="width: 390px; height: 64px; box-sizing: border-box; background: #ffffff; border-top: 1px solid #ECEAF0; display: flex; justify-content: space-around; align-items: center; padding: 0 12px">
+<nav aria-label="하단 메뉴" class="bottom-nav" style="width: 100%; height: calc(64px + env(safe-area-inset-bottom, 0px)); padding-bottom: env(safe-area-inset-bottom, 0px); box-sizing: border-box; background: #ffffff; border-top: 1px solid #ECEAF0; display: flex; justify-content: space-around; align-items: center; padding-left: 12px; padding-right: 12px">
 <a href="Main.dc.html" aria-label="홈" style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center">
 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="{{c.home}}" stroke-width="{{w.home}}" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 10.5 12 3.5l8.5 7V20a1 1 0 0 1-1 1H15v-6H9v6H4.5a1 1 0 0 1-1-1z"></path></svg>
 </a>
