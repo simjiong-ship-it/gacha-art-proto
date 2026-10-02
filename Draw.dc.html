@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>뽑기 연출</title>
 <script src="./support.js"></script>
+<script src="./catalog.js"></script>
 </head>
 <body>
 <x-dc>
@@ -42,8 +43,8 @@ a{color:#ffffff;text-decoration:none}
 </helmet>
 <div class="{{shakeCls}}" style="width: 100%; min-height: 100vh; min-height: 100dvh; box-sizing: border-box; background: #0E0C1A; display: flex; flex-direction: column; align-items: center; font-family: 'IBM Plex Sans KR', sans-serif; color: #ffffff; position: relative; overflow: hidden">
 <header style="width: 100%; height: 56px; padding: 0 16px; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 3">
-<div style="font-size: 13px; color: #A9A6BE">밤의 고양이 · 1 / 10</div>
-<a href="Result.dc.html" style="height: 34px; padding: 0 14px; border-radius: 17px; border: 1px solid #3A3654; display: flex; align-items: center; font-size: 13px; color: #D8D6E6">건너뛰기</a>
+<div style="font-size: 13px; color: #A9A6BE">{{ser.title}} · 1 / 10</div>
+<a href="Result.dc.html{{sq}}" style="height: 34px; padding: 0 14px; border-radius: 17px; border: 1px solid #3A3654; display: flex; align-items: center; font-size: 13px; color: #D8D6E6">건너뛰기</a>
 </header>
 <div style="flex-grow: 1; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 40px; position: relative">
 <div style="width: 340px; height: 340px; position: relative; display: flex; align-items: center; justify-content: center">
@@ -74,7 +75,7 @@ a{color:#ffffff;text-decoration:none}
 <sc-if value="{{opened}}" hint-placeholder-val="{{false}}">
 <div style="display: flex; flex-direction: column; align-items: center; gap: 14px">
 <div class="pop" style="font-size: 44px; font-weight: 700; letter-spacing: 4px; color: #C69BFF; text-shadow: 0 0 24px rgba(165, 107, 240, 0.9)">EPIC!</div>
-<a href="Result.dc.html" class="up" style="height: 50px; padding: 0 28px; border-radius: 25px; background: #ffffff; color: #141414; display: flex; align-items: center; font-size: 15px; font-weight: 700">카드 확인하기</a>
+<a href="Result.dc.html{{sq}}" class="up" style="height: 50px; padding: 0 28px; border-radius: 25px; background: #ffffff; color: #141414; display: flex; align-items: center; font-size: 15px; font-weight: 700">카드 확인하기</a>
 </div>
 </sc-if>
 </div>
@@ -95,10 +96,11 @@ var sparks = [];
 for (var i = 0; i < 16; i++) sparks.push({ x: 20 + (i * 53) % 300, size: 3 + (i % 3) * 2, d: ((i * 0.37) % 3).toFixed(2), c: cols[i % 4] });
 var bits = [];
 for (var j = 0; j < 18; j++) bits.push({ r: j * 20, c: cols[j % 4] });
-return {
+var SER = window.GACHA ? window.GACHA.current() : { id: 'night', title: '밤의 고양이', artist: 'moonlit_draws' };
+return { ser: SER, sq: '?s=' + SER.id, 
 opened: o, closed: !o, sparks: sparks, bits: bits,
 cardCls: o ? 'flip' : 'card', shakeCls: o ? 'shake' : '', rayOp: o ? 1 : 0.6,
-open: function () { if (!self.state.opened) { self.setState({ opened: true }); if (window.GA && window.GA.signedIn) window.GA.addPulls([{ s: 'night', i: 3, g: 'E' }]); } }
+open: function () { if (!self.state.opened) { self.setState({ opened: true }); if (window.GA && window.GA.signedIn) window.GA.addPulls([{ s: SER.id, i: 3, g: 'E' }]); } }
 };
 }
 }

@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>판매자 페이지</title>
 <script src="./support.js"></script>
+<script src="./catalog.js"></script>
 </head>
 <body>
 <x-dc>
@@ -17,23 +18,23 @@ a{color:#141414;text-decoration:none}
 </helmet>
 <div style="width: 100%; min-height: 100vh; min-height: 100dvh; box-sizing: border-box; background: #ffffff; display: flex; flex-direction: column; font-family: 'IBM Plex Sans KR', sans-serif; color: #141414; position: relative">
 <header style="height: 56px; padding: 0 8px; display: flex; align-items: center; gap: 4px; flex-shrink: 0">
-<a href="MyMenu.dc.html" aria-label="뒤로" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center">
+<a href="Explore.dc.html" aria-label="뒤로" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center">
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
 </a>
-<div style="flex-grow: 1; font-size: 17px; font-weight: 600">moonlit_draws</div>
+<div style="flex-grow: 1; font-size: 17px; font-weight: 600">{{a.id}}</div>
 </header>
 <div style="flex-grow: 1; display: flex; flex-direction: column">
 <div style="display: flex; align-items: center; gap: 20px; padding: 8px 16px 12px">
-<div style="width: 84px; height: 84px; border-radius: 50%; background: #B3AEEA; flex-shrink: 0"></div>
+<div style="width: 84px; height: 84px; border-radius: 50%; background: {{a.av}}; flex-shrink: 0"></div>
 <div style="flex-grow: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); text-align: center">
-<div><div style="font-size: 18px; font-weight: 700">3</div><div style="font-size: 12px; color: #6B6B73">시리즈</div></div>
-<div><div style="font-size: 18px; font-weight: 700">2,410</div><div style="font-size: 12px; color: #6B6B73">팔로워</div></div>
-<div><div style="font-size: 18px; font-weight: 700">86</div><div style="font-size: 12px; color: #6B6B73">완성한 팬</div></div>
+<div><div style="font-size: 18px; font-weight: 700">{{count}}</div><div style="font-size: 12px; color: #6B6B73">시리즈</div></div>
+<div><div style="font-size: 18px; font-weight: 700">{{a.followers}}</div><div style="font-size: 12px; color: #6B6B73">팔로워</div></div>
+<div><div style="font-size: 18px; font-weight: 700">{{a.fans}}</div><div style="font-size: 12px; color: #6B6B73">완성한 팬</div></div>
 </div>
 </div>
 <div style="padding: 0 16px 14px; display: flex; flex-direction: column; gap: 2px">
-<div style="font-size: 14px; font-weight: 600">달빛 그리는 사람</div>
-<div style="font-size: 13px; color: #45454C">[작가 소개 한 줄]</div>
+<div style="font-size: 14px; font-weight: 600">{{a.name}}</div>
+<div style="font-size: 13px; color: #45454C">{{a.bio}}</div>
 </div>
 <div style="padding: 0 16px 16px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
 <button onClick="{{follow}}" style="height: 40px; border-radius: 10px; border: 1px solid {{fLine}}; background: {{fBg}}; color: {{fFg}}; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer">{{fLabel}}</button>
@@ -45,30 +46,25 @@ a{color:#141414;text-decoration:none}
 </div>
 <sc-if value="{{past}}" hint-placeholder-val="{{false}}">
 <div style="padding: 16px; display: flex; flex-direction: column; gap: 8px">
-<div style="height: 150px; border-radius: 14px; background: #E6E5EA; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #6B6B73">봄밤 고양이 · 판매 종료</div>
-<div style="display: flex; justify-content: space-between; font-size: 13px; color: #6B6B73"><span>2026년 4월 · 뽑기 3,420회</span><span>완성한 팬 41명</span></div>
+<div style="height: 150px; border-radius: 14px; overflow: hidden; position: relative; filter: grayscale(0.85); opacity: .75"><dc-import name="Art" sid="{{firstId}}" vb="300 0 300 130" hint-size="100%,150px"></dc-import></div>
+<div style="display: flex; justify-content: space-between; font-size: 13px; color: #6B6B73"><span>지난 시즌 · 판매 종료</span><span>완성한 팬 {{a.fans}}명</span></div>
 </div>
 </sc-if>
 <sc-if value="{{now}}" hint-placeholder-val="{{true}}">
 <div style="padding: 16px; display: flex; flex-direction: column; gap: 16px">
-<a href="Detail.dc.html" style="display: flex; flex-direction: column; gap: 8px">
-<div style="height: 150px; border-radius: 14px; overflow: hidden">
-<svg width="100%" height="150" viewBox="500 0 310 130" preserveAspectRatio="xMidYMid slice" style="display: block">
-<rect x="0" y="0" width="1000" height="130" fill="#26215C"></rect>
-<circle cx="560" cy="40" r="1.4" fill="#F2C94C"></circle><circle cx="720" cy="20" r="1.6" fill="#F2C94C"></circle>
-<path d="M0 88 C120 70 260 104 420 84 S720 62 860 86 S980 96 1000 90 V130 H0Z" fill="#4B3FB0"></path>
-<path d="M0 108 C160 96 300 118 500 104 S820 94 1000 110 V130 H0Z" fill="#342A86"></path>
-<ellipse cx="640" cy="66" rx="11" ry="9" fill="#120F2E"></ellipse><circle cx="650" cy="53" r="6.5" fill="#120F2E"></circle><path d="M645 49 L646 41 L650 47Z M652 47 L656 41 L656 50Z" fill="#120F2E"></path>
-</svg>
+<sc-for list="{{list}}" as="o" hint-placeholder-count="2">
+<a href="{{o.href}}" style="display: flex; flex-direction: column; gap: 8px">
+<div style="height: 150px; border-radius: 14px; overflow: hidden; position: relative">
+<dc-import name="Art" sid="{{o.id}}" vb="500 0 310 130" hint-size="100%,150px"></dc-import>
+<sc-if value="{{o.tag}}" hint-placeholder-val="{{false}}"><div style="position: absolute; left: 8px; top: 8px; height: 22px; padding: 0 8px; border-radius: 11px; background: #ffffff; font-size: 11px; font-weight: 600; display: flex; align-items: center">{{o.tag}}</div></sc-if>
 </div>
 <div style="display: flex; justify-content: space-between; align-items: baseline">
-<div style="font-size: 15px; font-weight: 600">밤의 고양이 시리즈</div>
-<div style="font-size: 13px; color: #6B6B73">1회 3,000원</div>
+<div style="font-size: 15px; font-weight: 600">{{o.title}} 시리즈</div>
+<div style="font-size: 13px; color: #6B6B73">1회 {{o.priceText}} · 마감 {{o.due}}</div>
 </div>
 </a>
-<div style="display: flex; flex-direction: column; gap: 8px">
-<div style="height: 110px; border-radius: 14px; background: #F0EEF3; border: 1px dashed #C9C7D0; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #6B6B73">겨울 고양이 · 곧 공개</div>
-</div>
+</sc-for>
+<div style="height: 90px; border-radius: 14px; background: #F0EEF3; border: 1px dashed #C9C7D0; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #6B6B73">다음 시리즈 · 곧 공개</div>
 </div>
 </sc-if>
 </div>
@@ -80,7 +76,11 @@ class Component extends DCLogic {
 constructor(p) { super(p); this.state = { f: false, tab: 'now', toast: '' }; }
 renderVals() {
 var self = this, s = this.state;
+var G = window.GACHA;
+var a = G ? G.currentArtist() : { id: 'moonlit_draws', name: '달빛 그리는 사람', av: '#B3AEEA', followers: '2,410', fans: 86, bio: '' };
+var list = G ? G.byArtist(a.id).map(function (o) { return Object.assign({ href: 'Detail.dc.html?s=' + o.id }, o); }) : [];
 return {
+a: a, list: list, count: list.length + 1, firstId: list.length ? list[0].id : 'night',
 fLabel: s.f ? '팔로잉' : '팔로우', fBg: s.f ? '#ffffff' : '#141414', fFg: s.f ? '#141414' : '#ffffff', fLine: s.f ? '#DDDBE2' : '#141414',
 follow: function () { self.setState({ f: !self.state.f }); },
 msg: function () { self.setState({ toast: '메시지는 곧 열려요' }); clearTimeout(self._t); self._t = setTimeout(function () { self.setState({ toast: '' }); }, 1600); },

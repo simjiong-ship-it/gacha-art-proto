@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>탐색</title>
 <script src="./support.js"></script>
+<script src="./catalog.js"></script>
 </head>
 <body>
 <x-dc>
@@ -29,18 +30,13 @@ a{color:#141414;text-decoration:none}
 </div>
 <div style="flex-grow: 1; padding: 0 16px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 10px; align-content: start" class="explore-grid">
 <sc-for list="{{tiles}}" as="s" hint-placeholder-count="6">
-<a href="Detail.dc.html" style="display: flex; flex-direction: column; gap: 6px">
+<a href="{{s.href}}" style="display: flex; flex-direction: column; gap: 6px">
 <div style="height: 180px; border-radius: 14px; overflow: hidden; position: relative">
-<svg width="100%" height="180" viewBox="360 0 110 130" preserveAspectRatio="xMidYMid slice" style="display: block">
-<rect x="0" y="0" width="1000" height="130" fill="{{s.sky}}"></rect>
-<circle cx="440" cy="30" r="10" fill="{{s.sun}}"></circle>
-<path d="M0 88 C120 70 260 104 420 84 S720 62 860 86 S980 96 1000 90 V130 H0Z" fill="{{s.w1}}"></path>
-<path d="M0 108 C160 96 300 118 500 104 S820 94 1000 110 V130 H0Z" fill="{{s.w2}}"></path>
-</svg>
+<dc-import name="Art" sid="{{s.id}}" vb="575 0 125 130" hint-size="100%,180px"></dc-import>
 <sc-if value="{{s.tag}}" hint-placeholder-val="{{s.tag}}"><div style="position: absolute; left: 8px; top: 8px; height: 22px; padding: 0 8px; border-radius: 11px; background: #ffffff; font-size: 11px; font-weight: 600; display: flex; align-items: center">{{s.tag}}</div></sc-if>
 </div>
 <div style="font-size: 14px; font-weight: 600">{{s.title}}</div>
-<div style="font-size: 12px; color: #6B6B73; margin-top: -4px">{{s.artist}} · 1회 {{s.price}}</div>
+<div style="font-size: 12px; color: #6B6B73; margin-top: -4px">{{s.artist}} · 1회 {{s.priceText}}</div>
 </a>
 </sc-for>
 </div>
@@ -56,22 +52,8 @@ var chips = ['전체', '일러스트', '캐릭터', '풍경', '동물', '픽셀'
 var on = t === cur;
 return { t: t, bg: on ? '#141414' : '#ffffff', fg: on ? '#ffffff' : '#141414', line: on ? '#141414' : '#DDDBE2', pick: function () { self.setState({ cat: t }); } };
 });
-var tiles = [
-{ cat: '동물', title: '밤의 고양이', artist: 'moonlit_draws', price: '3,000원', tag: '인기', sky: '#26215C', sun: '#F4E9C8', w1: '#4B3FB0', w2: '#342A86' },
-{ cat: '풍경', title: '새벽 바다', artist: 'sea_mint', price: '2,500원', tag: 'D-3', sky: '#123E4C', sun: '#F5D7A8', w1: '#2E8C98', w2: '#1D6672' },
-{ cat: '픽셀', title: '노을 골목', artist: 'pixel_hana', price: '3,000원', tag: '', sky: '#F2B38A', sun: '#FFF1D6', w1: '#D9745B', w2: '#A64B3C' },
-{ cat: '일러스트', title: '숲속 우체국', artist: 'yeon.art', price: '2,000원', tag: '신규', sky: '#DCE8C8', sun: '#FFFFFF', w1: '#7FA36A', w2: '#4E7440' },
-{ cat: '캐릭터', title: '겨울 곰', artist: 'ddong_gom', price: '3,500원', tag: '', sky: '#E8EDF4', sun: '#FFFFFF', w1: '#AEBBD0', w2: '#7C8BA6' },
-{ cat: '풍경', title: '분홍 섬', artist: 'coral.p', price: '2,500원', tag: '', sky: '#F7D5DE', sun: '#FFF4F6', w1: '#E08CA3', w2: '#B85C78' },
-{ cat: '일러스트', title: '레몬 오후', artist: 'sunny.d', price: '2,000원', tag: '신규', sky: '#FFF3C4', sun: '#FFFFFF', w1: '#F2C94C', w2: '#C9A227' },
-{ cat: '동물', title: '여우 산책', artist: 'fox.and', price: '3,000원', tag: '', sky: '#F6D8C2', sun: '#FFF6EE', w1: '#E2895A', w2: '#B35E36' },
-{ cat: '캐릭터', title: '구름 토끼', artist: 'moa.moa', price: '2,500원', tag: '인기', sky: '#DCEBFA', sun: '#FFFFFF', w1: '#9DC3EA', w2: '#6C9BCB' },
-{ cat: '픽셀', title: '밤 편의점', artist: 'pixel_hana', price: '3,000원', tag: '', sky: '#1F2A44', sun: '#9FE3D6', w1: '#3C5A7A', w2: '#2A4060' },
-{ cat: '풍경', title: '보라 들판', artist: 'lav.field', price: '2,500원', tag: 'D-2', sky: '#E7DDF6', sun: '#FFFFFF', w1: '#B39DDB', w2: '#7E66B5' },
-{ cat: '동물', title: '고래 꿈', artist: 'sea_mint', price: '3,500원', tag: '', sky: '#0F2E4A', sun: '#CFE8F3', w1: '#2B6C93', w2: '#174D70' },
-{ cat: '일러스트', title: '찻잔 정원', artist: 'yeon.art', price: '2,000원', tag: '', sky: '#EAF2E3', sun: '#FFFFFF', w1: '#9CC08A', w2: '#5E8A4E' },
-{ cat: '캐릭터', title: '꼬마 유령', artist: 'boo.boo', price: '2,500원', tag: '신규', sky: '#2B2440', sun: '#F4F0FF', w1: '#5C4F86', w2: '#3E345E' }
-].filter(function (x) { return cur === '전체' || x.cat === cur; });
+var G = window.GACHA;
+var tiles = (G ? G.list() : []).filter(function (x) { return cur === '전체' || x.cat === cur; }).map(function (x) { return Object.assign({ href: 'Detail.dc.html?s=' + x.id }, x); });
 return { chips: chips, tiles: tiles };
 }
 }

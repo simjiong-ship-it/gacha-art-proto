@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>10회 뽑기 연출</title>
 <script src="./support.js"></script>
+<script src="./catalog.js"></script>
 </head>
 <body>
 <x-dc>
@@ -47,8 +48,8 @@ a{color:#ffffff;text-decoration:none}
 </sc-for>
 <header style="width: 100%; padding: 14px 16px 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 12px; position: relative; z-index: 3">
 <div style="display: flex; align-items: center; justify-content: space-between">
-<div style="font-size: 13px; color: #A9A6BE">밤의 고양이 · 10회 뽑기</div>
-<a href="Result10.dc.html" style="height: 34px; padding: 0 14px; border-radius: 17px; border: 1px solid #3A3654; display: flex; align-items: center; font-size: 13px; color: #D8D6E6">전부 넘기기</a>
+<div style="font-size: 13px; color: #A9A6BE">{{ser.title}} · 10회 뽑기</div>
+<a href="Result10.dc.html{{sq}}" style="height: 34px; padding: 0 14px; border-radius: 17px; border: 1px solid #3A3654; display: flex; align-items: center; font-size: 13px; color: #D8D6E6">전부 넘기기</a>
 </div>
 <div style="display: flex; gap: 6px; justify-content: center">
 <sc-for list="{{dots}}" as="d" hint-placeholder-count="10">
@@ -78,18 +79,11 @@ a{color:#ffffff;text-decoration:none}
 <div style="width: 230px; height: 322px; border-radius: 18px; box-sizing: border-box; border: {{bw}}px solid {{gc}}; background: #ffffff; padding: 8px; display: flex; flex-direction: column; gap: 7px; box-shadow: 0 0 {{glow}}px {{gc}}; position: relative; overflow: hidden">
 <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #45454C"><span>{{num}}</span><span>No.{{serial}}</span></div>
 <div style="flex-grow: 1; border-radius: 9px; overflow: hidden">
-<svg width="100%" height="100%" viewBox="{{vb}}" preserveAspectRatio="xMidYMid slice" style="display: block">
-<rect x="0" y="0" width="1000" height="130" fill="#26215C"></rect>
-<circle cx="170" cy="34" r="14" fill="#F4E9C8"></circle>
-<circle cx="60" cy="20" r="1.6" fill="#F2C94C"></circle><circle cx="320" cy="28" r="1.6" fill="#F2C94C"></circle><circle cx="440" cy="14" r="1.3" fill="#F2C94C"></circle><circle cx="560" cy="40" r="1.6" fill="#F2C94C"></circle><circle cx="720" cy="20" r="1.6" fill="#F2C94C"></circle><circle cx="860" cy="30" r="1.3" fill="#F2C94C"></circle>
-<path d="M0 88 C120 70 260 104 420 84 S720 62 860 86 S980 96 1000 90 V130 H0Z" fill="#4B3FB0"></path>
-<path d="M0 108 C160 96 300 118 500 104 S820 94 1000 110 V130 H0Z" fill="#342A86"></path>
-<ellipse cx="640" cy="66" rx="11" ry="9" fill="#120F2E"></ellipse><circle cx="650" cy="53" r="6.5" fill="#120F2E"></circle><path d="M645 49 L646 41 L650 47Z M652 47 L656 41 L656 50Z" fill="#120F2E"></path>
-</svg>
+<dc-import name="Art" sid="{{ser.id}}" vb="{{vb}}" hint-size="100%,100%"></dc-import>
 </div>
 <div style="display: flex; justify-content: space-between; align-items: flex-end">
 <div style="font-size: 12px; font-weight: 600; color: #141414">{{title}}</div>
-<div style="font-family: 'Caveat', cursive; font-size: 18px; color: #45454C; line-height: 1">moonlit</div>
+<div style="font-family: 'Caveat', cursive; font-size: 18px; color: #45454C; line-height: 1">{{ser.artist}}</div>
 </div>
 <sc-if value="{{isNew}}" hint-placeholder-val="{{false}}"><div style="position: absolute; top: 30px; left: 16px; height: 20px; padding: 0 7px; border-radius: 10px; background: #E0457B; color: #ffffff; font-size: 10px; font-weight: 700; display: flex; align-items: center">NEW</div></sc-if>
 </div>
@@ -108,7 +102,7 @@ a{color:#ffffff;text-decoration:none}
 <div class="hint" style="font-size: 14px; color: #CFC6F2">{{hint}}</div>
 </sc-if>
 <sc-if value="{{done}}" hint-placeholder-val="{{false}}">
-<a href="Result10.dc.html" style="height: 50px; padding: 0 30px; border-radius: 25px; background: #ffffff; color: #141414; display: flex; align-items: center; font-size: 15px; font-weight: 700">10장 한눈에 보기</a>
+<a href="Result10.dc.html{{sq}}" style="height: 50px; padding: 0 30px; border-radius: 25px; background: #ffffff; color: #141414; display: flex; align-items: center; font-size: 15px; font-weight: 700">10장 한눈에 보기</a>
 </sc-if>
 </div>
 </div>
@@ -122,6 +116,7 @@ a{color:#ffffff;text-decoration:none}
 class Component extends DCLogic {
 constructor(p) { super(p); this.state = { i: 0, flipped: false }; }
 renderVals() {
+var SER = window.GACHA ? window.GACHA.current() : { id: 'night', title: '밤의 고양이', artist: 'moonlit_draws' };
 var self = this;
 var G = {
 C: { c: '#B8B8C0', bw: 5, glow: 0, name: 'Common', size: 22, lc: '#D8D6E6', lg: 0, ray: 'rgba(165,107,240,0.10)', bg: '#0E0C1A' },
@@ -143,7 +138,7 @@ for (var j = 0; j < n; j++) bits.push({ r: Math.round(j * 360 / n), c: cols[j % 
 var sparks = [];
 for (var k2 = 0; k2 < 14; k2++) sparks.push({ x: 18 + (k2 * 61) % 350, size: 3 + (k2 % 3) * 2, d: ((k2 * 0.41) % 3.2).toFixed(2), c: cols[k2 % 4] });
 var tele = !f && (p[0] === 'R' || p[0] === 'E');
-return {
+return { ser: SER, sq: '?s=' + SER.id,
 dots: dots, bits: bits, sparks: sparks, big: big,
 closed: !f, flipped: f, cardCls: f ? 'flip' + par : 'deal' + par,
 trembleCls: !f && p[0] === 'E' ? 'tremble' : '',
@@ -153,11 +148,11 @@ gc: g.c, bw: g.bw, glow: g.glow, label: g.name, labelSize: g.size, labelC: g.lc,
 rayC: f ? g.ray : (tele ? g.ray : 'rgba(165,107,240,0.10)'), bg: f ? g.bg : '#0E0C1A',
 flashC: p[0] === 'E' ? '#ffffff' : 'rgba(156,194,255,0.8)',
 shakeCls: big ? 'shake' + par : '',
-vb: (p[1] * 100) + ' 0 100 130', num: '00' + (p[1] + 1) + '/010', serial: 12 + i * 7, title: p[3], isNew: p[2],
+vb: (p[1] * 100) + ' 0 100 130', num: '00' + (p[1] + 1) + '/010', serial: 12 + i * 7, title: SER.title + ' ' + ('00' + (p[1] + 1)).slice(-3), isNew: p[2],
 hint: f ? '탭해서 다음 카드' : '탭해서 뒤집기', tapLabel: f ? '다음 카드' : '카드 뒤집기',
 done: f && i === 9, notLast: !(f && i === 9), left: 9 - i + (f ? 0 : 1) - (f ? 0 : 0),
 tap: function () {
-if (!self.state.flipped) { self.setState({ flipped: true }); if (window.GA && window.GA.signedIn) window.GA.addPulls([{ s: 'night', i: p[1], g: p[0] }]); }
+if (!self.state.flipped) { self.setState({ flipped: true }); if (window.GA && window.GA.signedIn) window.GA.addPulls([{ s: SER.id, i: p[1], g: p[0] }]); }
 else if (self.state.i < 9) self.setState({ i: self.state.i + 1, flipped: false });
 }
 };

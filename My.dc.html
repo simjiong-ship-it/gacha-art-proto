@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>마이</title>
 <script src="./support.js"></script>
+<script src="./catalog.js"></script>
 </head>
 <body>
 <x-dc>
@@ -145,7 +146,8 @@ var bySeries = {};
 list.forEach(function (x) { bySeries[x[0]] = (bySeries[x[0]] || 0) + 1; });
 var doneCount = Object.keys(bySeries).filter(function (s) { return bySeries[s] >= 10; }).length;
 var cards = list.map(function (x) {
-var p = P[x[0]] || P.night, g = G[x[2]] || G.C;
+var cs = !P[x[0]] && window.GACHA && window.GACHA.series[x[0]] ? window.GACHA.series[x[0]] : null;
+var p = P[x[0]] || (cs ? { sky: cs.sky, moon: cs.sun, star: cs.star, w1: cs.w1, w2: cs.w2, cat: cs.sky } : P.night), g = G[x[2]] || G.C;
 return { vb: (x[1] * 100) + ' 0 100 130', sky: p.sky, moon: p.moon, star: p.star, w1: p.w1, w2: p.w2, cat: p.cat,
 line: g[0], bw: g[1], grade: g[2], no: '0' + (x[1] < 9 ? '0' + (x[1] + 1) : '10') + '/010', multi: x[3] || '' };
 });

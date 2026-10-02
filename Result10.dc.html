@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>10회 뽑기 결과</title>
 <script src="./support.js"></script>
+<script src="./catalog.js"></script>
 </head>
 <body>
 <x-dc>
@@ -19,7 +20,7 @@ a{color:#141414;text-decoration:none}
 </helmet>
 <div style="width: 100%; min-height: 100vh; min-height: 100dvh; box-sizing: border-box; background: #ffffff; display: flex; flex-direction: column; font-family: 'IBM Plex Sans KR', sans-serif; color: #141414">
 <header style="height: 56px; padding: 0 8px; display: flex; align-items: center; gap: 4px; flex-shrink: 0">
-<a href="Detail.dc.html" aria-label="닫기" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center">
+<a href="Detail.dc.html{{sq}}" aria-label="닫기" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center">
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg>
 </a>
 <div style="flex-grow: 1; font-size: 17px; font-weight: 600">10회 뽑기 결과</div>
@@ -29,19 +30,14 @@ a{color:#141414;text-decoration:none}
 <div class="flipin" style="width: 104px; height: 146px; flex-shrink: 0; border-radius: 12px; box-sizing: border-box; border: 5px solid #8A4FD1; background: #ffffff; padding: 5px; display: flex; flex-direction: column; gap: 4px; box-shadow: 0 10px 24px rgba(138, 79, 209, 0.25)">
 <div style="display: flex; justify-content: space-between; font-size: 8px; font-weight: 700; color: #45454C"><span>004/010</span><span>No.37</span></div>
 <div style="flex-grow: 1; border-radius: 5px; overflow: hidden">
-<svg width="100%" height="100%" viewBox="600 0 100 130" preserveAspectRatio="xMidYMid slice" style="display: block">
-<rect x="0" y="0" width="1000" height="130" fill="#26215C"></rect>
-<path d="M0 88 C120 70 260 104 420 84 S720 62 860 86 S980 96 1000 90 V130 H0Z" fill="#4B3FB0"></path>
-<path d="M0 108 C160 96 300 118 500 104 S820 94 1000 110 V130 H0Z" fill="#342A86"></path>
-<ellipse cx="640" cy="66" rx="11" ry="9" fill="#120F2E"></ellipse><circle cx="650" cy="53" r="6.5" fill="#120F2E"></circle><path d="M645 49 L646 41 L650 47Z M652 47 L656 41 L656 50Z" fill="#120F2E"></path>
-</svg>
+<dc-import name="Art" sid="{{ser.id}}" vb="600 0 100 130" hint-size="100%,100%"></dc-import>
 </div>
-<div style="font-family: 'Caveat', cursive; font-size: 13px; color: #45454C; text-align: right; line-height: 1">moonlit</div>
+<div style="font-family: 'Caveat', cursive; font-size: 13px; color: #45454C; text-align: right; line-height: 1">{{ser.artist}}</div>
 </div>
 <div style="display: flex; flex-direction: column; gap: 6px">
 <div style="height: 22px; align-self: flex-start; padding: 0 9px; border-radius: 11px; background: #8A4FD1; color: #ffffff; font-size: 11px; font-weight: 700; letter-spacing: 1px; display: flex; align-items: center">EPIC</div>
 <div style="font-size: 17px; font-weight: 700">이번 최고 카드</div>
-<div style="font-size: 13px; color: #45454C">잠 못 드는 고양이 · 004/010</div>
+<div style="font-size: 13px; color: #45454C">{{ser.title}} · 004/010</div>
 <div style="font-size: 13px; color: #6B6B73; margin-top: 4px">새 조각 <b style="color: #141414">4장</b> · 중복 6장</div>
 </div>
 </div>
@@ -50,13 +46,7 @@ a{color:#141414;text-decoration:none}
 <div class="flipin" style="animation-delay: {{c.delay}}s; display: flex; flex-direction: column; align-items: center; gap: 5px">
 <div style="width: 100%; height: 92px; border-radius: 8px; box-sizing: border-box; border: {{c.bw}}px solid {{c.line}}; background: #ffffff; padding: 2px; position: relative; opacity: {{c.op}}">
 <div style="width: 100%; height: 100%; border-radius: 5px; overflow: hidden">
-<svg width="100%" height="100%" viewBox="{{c.vb}}" preserveAspectRatio="xMidYMid slice" style="display: block">
-<rect x="0" y="0" width="1000" height="130" fill="#26215C"></rect>
-<circle cx="170" cy="34" r="14" fill="#F4E9C8"></circle>
-<path d="M0 88 C120 70 260 104 420 84 S720 62 860 86 S980 96 1000 90 V130 H0Z" fill="#4B3FB0"></path>
-<path d="M0 108 C160 96 300 118 500 104 S820 94 1000 110 V130 H0Z" fill="#342A86"></path>
-<ellipse cx="640" cy="66" rx="11" ry="9" fill="#120F2E"></ellipse><circle cx="650" cy="53" r="6.5" fill="#120F2E"></circle>
-</svg>
+<dc-import name="Art" sid="{{ser.id}}" vb="{{c.vb}}" hint-size="100%,100%"></dc-import>
 </div>
 <sc-if value="{{c.isNew}}" hint-placeholder-val="{{false}}"><div style="position: absolute; top: -8px; right: -6px; height: 17px; padding: 0 5px; border-radius: 9px; background: #E0457B; color: #ffffff; font-size: 9px; font-weight: 700; display: flex; align-items: center">NEW</div></sc-if>
 </div>
@@ -67,7 +57,7 @@ a{color:#141414;text-decoration:none}
 <div style="font-size: 12px; color: #6B6B73; text-align: center">중복 조각은 교환소에서 다른 조각으로 바꿀 수 있어요</div>
 <div style="flex-grow: 1"></div>
 <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; padding-bottom: 20px">
-<a href="Draw10.dc.html" style="height: 54px; border-radius: 14px; border: 1px solid #DDDBE2; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600">10회 더</a>
+<a href="Draw10.dc.html{{sq}}" style="height: 54px; border-radius: 14px; border: 1px solid #DDDBE2; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600">10회 더</a>
 <a href="MyGacha.dc.html" style="height: 54px; border-radius: 14px; background: #141414; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600">내 가챠에서 보기</a>
 </div>
 </div>
@@ -76,13 +66,14 @@ a{color:#141414;text-decoration:none}
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
 class Component extends DCLogic {
 renderVals() {
+var SER = window.GACHA ? window.GACHA.current() : { id: 'night', title: '밤의 고양이', artist: 'moonlit_draws' };
 var gl = { C: ['#C9C8CF', 1.5], U: ['#5FA36A', 2.5], R: ['#3E7BD6', 3], E: ['#8A4FD1', 4] };
 var pulls = [['C', 0, false], ['U', 3, true], ['C', 1, false], ['R', 6, true], ['C', 0, false], ['C', 2, false], ['U', 5, false], ['C', 4, false], ['R', 7, true], ['E', 3, true]];
 var name = { C: 'Common', U: 'Uncommon', R: 'Rare', E: 'Epic' };
 var cards = pulls.map(function (p, i) {
 return { vb: (p[1] * 100) + ' 0 100 130', line: gl[p[0]][0], bw: gl[p[0]][1], isNew: p[2], op: p[2] ? 1 : 0.55, label: name[p[0]], delay: (i * 0.07).toFixed(2) };
 });
-return { cards: cards };
+return { ser: SER, sq: '?s=' + SER.id, cards: cards };
 }
 }
 </script>

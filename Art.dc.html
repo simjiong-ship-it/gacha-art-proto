@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>시리즈 그림</title>
+<script src="./support.js"></script>
+<script src="./catalog.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+</style>
+</helmet>
+<svg width="100%" height="100%" viewBox="{{vb}}" preserveAspectRatio="xMidYMid slice" style="display: block; width: 100%; height: 100%">
+<rect x="0" y="0" width="1000" height="130" fill="{{c.sky}}"></rect>
+<circle cx="170" cy="34" r="14" fill="{{c.sun}}"></circle>
+<circle cx="520" cy="30" r="13" fill="{{c.sun}}"></circle>
+<circle cx="60" cy="20" r="1.6" fill="{{c.star}}"></circle><circle cx="320" cy="28" r="1.6" fill="{{c.star}}"></circle><circle cx="440" cy="14" r="1.3" fill="{{c.star}}"></circle><circle cx="580" cy="40" r="1.6" fill="{{c.star}}"></circle><circle cx="720" cy="20" r="1.6" fill="{{c.star}}"></circle><circle cx="860" cy="30" r="1.3" fill="{{c.star}}"></circle><circle cx="950" cy="14" r="1.6" fill="{{c.star}}"></circle>
+<path d="M0 88 C120 70 260 104 420 84 S720 62 860 86 S980 96 1000 90 V130 H0Z" fill="{{c.w1}}"></path>
+<path d="M0 108 C160 96 300 118 500 104 S820 94 1000 110 V130 H0Z" fill="{{c.w2}}"></path>
+<sc-if value="{{f.cat}}" hint-placeholder-val="{{false}}">
+<ellipse cx="640" cy="72" rx="11" ry="9" fill="{{c.fig}}"></ellipse><circle cx="650" cy="59" r="6.5" fill="{{c.fig}}"></circle><path d="M645 55 L646 47 L650 53Z M652 53 L656 47 L656 56Z" fill="{{c.fig}}"></path><path d="M630 76 q-10 -3 -7 -14" stroke="{{c.fig}}" stroke-width="2.4" fill="none" stroke-linecap="round"></path>
+</sc-if>
+<sc-if value="{{f.house}}" hint-placeholder-val="{{false}}">
+<rect x="628" y="58" width="28" height="22" fill="{{c.fig}}"></rect><path d="M624 60 L642 44 L660 60Z" fill="{{c.w2}}"></path><rect x="638" y="68" width="8" height="12" fill="{{c.sky}}"></rect>
+<rect x="250" y="66" width="20" height="16" fill="{{c.fig}}"></rect><path d="M247 68 L260 56 L273 68Z" fill="{{c.w2}}"></path>
+</sc-if>
+<sc-if value="{{f.whale}}" hint-placeholder-val="{{false}}">
+<ellipse cx="640" cy="70" rx="26" ry="11" fill="{{c.fig}}"></ellipse><path d="M612 70 L598 60 L600 78Z" fill="{{c.fig}}"></path><circle cx="656" cy="67" r="1.6" fill="{{c.sky}}"></circle><path d="M648 58 q-2 -8 -6 -10 M648 58 q2 -8 6 -10" stroke="{{c.fig}}" stroke-width="1.6" fill="none"></path>
+</sc-if>
+<sc-if value="{{f.ghost}}" hint-placeholder-val="{{false}}">
+<path d="M628 80 V62 a12 12 0 0 1 24 0 V80 l-4 -4 l-4 4 l-4 -4 l-4 4 l-4 -4Z" fill="{{c.fig}}"></path><circle cx="636" cy="62" r="1.8" fill="{{c.sky}}"></circle><circle cx="644" cy="62" r="1.8" fill="{{c.sky}}"></circle>
+<path d="M270 84 V72 a8 8 0 0 1 16 0 V84 l-4 -3 l-4 3 l-4 -3Z" fill="{{c.fig}}" opacity=".7"></path>
+</sc-if>
+<sc-if value="{{f.bunny}}" hint-placeholder-val="{{false}}">
+<ellipse cx="640" cy="72" rx="13" ry="10" fill="{{c.fig}}"></ellipse><ellipse cx="635" cy="54" rx="3.5" ry="10" fill="{{c.fig}}"></ellipse><ellipse cx="645" cy="54" rx="3.5" ry="10" fill="{{c.fig}}"></ellipse><circle cx="636" cy="70" r="1.5" fill="#6C9BCB"></circle><circle cx="644" cy="70" r="1.5" fill="#6C9BCB"></circle>
+<ellipse cx="300" cy="50" rx="30" ry="9" fill="#FFFFFF" opacity=".85"></ellipse><ellipse cx="780" cy="36" rx="24" ry="7" fill="#FFFFFF" opacity=".85"></ellipse>
+</sc-if>
+<sc-if value="{{f.fox}}" hint-placeholder-val="{{false}}">
+<ellipse cx="640" cy="74" rx="14" ry="8" fill="{{c.fig}}"></ellipse><circle cx="656" cy="66" r="7" fill="{{c.fig}}"></circle><path d="M651 61 L652 52 L656 59Z M658 59 L662 52 L662 62Z" fill="{{c.fig}}"></path><path d="M626 74 q-14 -2 -16 -12 q8 4 14 4Z" fill="{{c.fig}}"></path><path d="M610 62 l3 3" stroke="#FFFFFF" stroke-width="2"></path>
+</sc-if>
+<sc-if value="{{f.bear}}" hint-placeholder-val="{{false}}">
+<ellipse cx="640" cy="72" rx="16" ry="12" fill="{{c.fig}}"></ellipse><circle cx="640" cy="56" r="9" fill="{{c.fig}}"></circle><circle cx="633" cy="49" r="3.2" fill="{{c.fig}}"></circle><circle cx="647" cy="49" r="3.2" fill="{{c.fig}}"></circle><circle cx="640" cy="59" r="2.5" fill="#E8DCCB"></circle>
+</sc-if>
+</svg>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"sid":{"editor":"text","default":"night"},"vb":{"editor":"text","default":"0 0 1000 130"},"gray":{"editor":"boolean","default":false},"$preview":{"width":390,"height":130}}'>
+class Component extends DCLogic {
+renderVals() {
+var G = window.GACHA;
+var s = G ? G.get(this.props.sid || 'night') : { sky: '#26215C', sun: '#F4E9C8', star: '#F2C94C', w1: '#4B3FB0', w2: '#342A86', fig: '#120F2E', kind: 'cat' };
+var c = this.props.gray
+  ? { sky: '#E6E5EA', sun: '#F1F0F3', star: '#F1F0F3', w1: '#D6D5DC', w2: '#CAC9D1', fig: '#BDBCC5' }
+  : { sky: s.sky, sun: s.sun, star: s.star, w1: s.w1, w2: s.w2, fig: s.fig };
+var f = { cat: s.kind === 'cat', house: s.kind === 'house', whale: s.kind === 'whale', ghost: s.kind === 'ghost', bunny: s.kind === 'bunny', fox: s.kind === 'fox', bear: s.kind === 'bear' };
+return { c: c, f: f, vb: this.props.vb || '0 0 1000 130' };
+}
+}
+</script>
+</body>
+</html>
