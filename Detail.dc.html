@@ -80,7 +80,7 @@ a{color:#141414;text-decoration:none}
 class Component extends DCLogic {
 renderVals() {
 var G = window.GACHA;
-var s = G ? G.current() : { id: 'night', title: '밤의 고양이', artist: 'moonlit_draws', priceText: '3,000원', price: 3000, due: 'D-7', pullsText: '1,208', tag: '' };
+var s = G ? G.current() : { id: 'night', title: '밤의 고양이', artist: 'moonlit_draws', priceText: '3,000 골드', price: 3000, due: 'D-7', pullsText: '1,208', tag: '' };
 var a = G ? G.artist(s.artist) : { name: '달빛 그리는 사람', av: '#B3AEEA', followers: '2,410' };
 var C = window.GCARD;
 var cards = [];
@@ -96,7 +96,7 @@ var grades = [
 var others = G ? G.byArtist(s.artist).filter(function (o) { return o.id !== s.id; }).map(function (o) { return { id: o.id, title: o.title, href: 'Detail.dc.html?s=' + o.id }; }) : [];
 return {
 s: s, a: a, cards: cards, grades: grades, others: others, hasOthers: others.length > 0,
-tenText: (s.price * 10).toLocaleString() + '원',
+tenText: (s.price * 10).toLocaleString() + ' 골드',
 artistHref: 'SellerPage.dc.html?a=' + encodeURIComponent(s.artist),
 draw1: 'Draw.dc.html?s=' + s.id, draw10: 'Draw10.dc.html?s=' + s.id
 };

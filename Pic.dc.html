@@ -13,15 +13,19 @@
 <helmet>
 <style>
 body{margin:0}
-@keyframes gif-bob{0%,100%{transform:translateY(0) scale(1,1)}40%{transform:translateY(-2.6px) scale(1.012,.988)}60%{transform:translateY(-2.6px) scale(.992,1.01)}}
-@keyframes gif-float{0%,100%{transform:translateY(0) rotate(0deg)}25%{transform:translateY(-3.5px) rotate(-1.6deg)}75%{transform:translateY(-3.5px) rotate(1.6deg)}}
-@keyframes gif-drift{0%{transform:scale(1.06) translate(0,0)}100%{transform:scale(1.06) translate(-2.2px,1.2px)}}
-@keyframes gif-twinkle{0%,100%{opacity:0;transform:scale(.4)}50%{opacity:1;transform:scale(1)}}
-.gif-bob{animation:gif-bob 1.8s ease-in-out infinite;transform-origin:50px 112px}
-.gif-float{animation:gif-float 2.6s ease-in-out infinite;transform-origin:50px 112px}
-.gif-drift{animation:gif-drift 5s ease-in-out infinite alternate;transform-origin:50px 65px}
-.twk{position:absolute;width:7px;height:7px;margin:-3.5px 0 0 -3.5px;pointer-events:none;background:radial-gradient(circle,#fff 0 30%,rgba(255,255,255,0) 70%);animation:gif-twinkle 2.2s ease-in-out infinite}
-@media (prefers-reduced-motion:reduce){.gif-bob,.gif-float,.gif-drift,.twk{animation:none}}
+@keyframes gif-bob{0%,100%{transform:translateY(0) scale(1,1)}30%{transform:translateY(-6px) scale(1.03,.97)}50%{transform:translateY(-7px) scale(.98,1.03)}80%{transform:translateY(0) scale(1.04,.96)}}
+@keyframes gif-float{0%,100%{transform:translateY(0) rotate(0deg)}25%{transform:translateY(-7px) rotate(-4deg)}50%{transform:translateY(-9px) rotate(0deg)}75%{transform:translateY(-7px) rotate(4deg)}}
+@keyframes gif-breathe{0%,100%{transform:scale(1,1)}50%{transform:scale(1.025,.975)}}
+@keyframes gif-drift{0%{transform:scale(1.08) translate(1.5px,0)}100%{transform:scale(1.08) translate(-3px,1.5px)}}
+@keyframes gif-sway{0%,100%{transform:scale(1.06) translateX(0)}50%{transform:scale(1.06) translateX(-2.5px)}}
+@keyframes gif-spark{0%,100%{transform:translate(0,0)}50%{transform:translate(2px,-6px)}}
+.gif-bob{animation:gif-bob 1.4s ease-in-out infinite;transform-origin:50px 112px}
+.gif-float{animation:gif-float 2.4s ease-in-out infinite;transform-origin:50px 112px}
+.gif-breathe{animation:gif-breathe 2.8s ease-in-out infinite;transform-origin:50px 112px}
+.gif-drift{animation:gif-drift 4s ease-in-out infinite alternate;transform-origin:50px 65px}
+.gif-sway{animation:gif-sway 3.2s ease-in-out infinite;transform-origin:50px 130px}
+.twk{position:absolute;width:6px;height:6px;margin:-3px 0 0 -3px;pointer-events:none;opacity:.85;background:radial-gradient(circle,#fff 0 30%,rgba(255,255,255,0) 70%);animation:gif-spark 2.6s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.gif-bob,.gif-float,.gif-breathe,.gif-drift,.gif-sway,.twk{animation:none}}
 </style>
 </helmet>
 <div style="position: relative; width: 100%; height: 100%; overflow: hidden">
@@ -42,10 +46,11 @@ body{margin:0}
 <sc-if value="{{p.img}}" hint-placeholder-val="{{false}}"><image href="{{p.img}}" x="{{p.x}}" y="{{p.y}}" width="{{p.w}}" height="{{p.h}}" preserveAspectRatio="none"></image></sc-if>
 <sc-if value="{{p.d}}" hint-placeholder-val="{{true}}"><path d="{{p.d}}" fill="{{p.f}}" opacity="{{p.o}}" stroke="{{p.s}}" stroke-width="{{p.w}}" stroke-linecap="round" stroke-linejoin="round" transform="{{p.t}}"></path></sc-if>
 </sc-for></g>
-<sc-for list="{{fgPaths}}" as="p" hint-placeholder-count="20">
+<g class="{{fgCls}}"><sc-for list="{{fgPaths}}" as="p" hint-placeholder-count="20">
 <sc-if value="{{p.img}}" hint-placeholder-val="{{false}}"><image href="{{p.img}}" x="{{p.x}}" y="{{p.y}}" width="{{p.w}}" height="{{p.h}}" preserveAspectRatio="none"></image></sc-if>
 <sc-if value="{{p.d}}" hint-placeholder-val="{{true}}"><path d="{{p.d}}" fill="{{p.f}}" opacity="{{p.o}}" stroke="{{p.s}}" stroke-width="{{p.w}}" stroke-linecap="round" stroke-linejoin="round" transform="{{p.t}}"></path></sc-if>
 </sc-for>
+</g>
 <sc-if value="{{grain}}" hint-placeholder-val="{{false}}"><rect width="100" height="130" filter="url(#ga-grain)" opacity=".3" style="mix-blend-mode: multiply"></rect></sc-if>
 </svg>
 <sc-if value="{{shine}}" hint-placeholder-val="{{false}}">
@@ -60,7 +65,7 @@ class Component extends DCLogic {
 renderVals() {
 var C = window.GCARD, G = window.GACHA;
 var n = parseInt(this.props.n, 10) || 0;
-if (!C || !G) return { bgPaths: [], figPaths: [], fgPaths: [], bgCls: '', figCls: '', shine: false, twinkles: [] };
+if (!C || !G) return { bgPaths: [], figPaths: [], fgPaths: [], bgCls: '', figCls: '', fgCls: '', shine: false, twinkles: [] };
 var s = G.get(this.props.sid || 'night'), g = C.grade(n), gray = !!this.props.gray;
 var shine = !gray && !this.props.flat && (g === 'R' || g === 'E' || g === 'L');
 var tw = [];
@@ -69,7 +74,7 @@ var art = s.images && s.images.ready && !gray ? s.images.base + ('0' + (n + 1)).
 var all = art ? [] : C.draw(s, n, gray);
 var moving = shine;
 return { bgPaths: all.filter(function (x) { return x.l === 0; }), figPaths: all.filter(function (x) { return x.l === 1; }), fgPaths: all.filter(function (x) { return x.l === 2; }),
-bgCls: moving ? 'gif-drift' : '', figCls: moving ? (g === 'R' ? 'gif-bob' : 'gif-float') : '', art: art, grain: !art && s.style === 'meadow' && !gray, shine: shine, holoCls: g === 'L' ? 'holo holo-l' : g === 'E' ? 'holo holo-e' : 'holo', twinkles: tw };
+bgCls: moving ? 'gif-drift' : '', figCls: gray || this.props.flat ? '' : moving ? (g === 'R' ? 'gif-bob' : 'gif-float') : 'gif-breathe', fgCls: gray || this.props.flat ? '' : 'gif-sway', art: art, grain: !art && s.style === 'meadow' && !gray, shine: shine, holoCls: g === 'L' ? 'holo holo-l' : g === 'E' ? 'holo holo-e' : 'holo', twinkles: tw };
 }
 }
 </script>

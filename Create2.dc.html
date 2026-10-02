@@ -73,8 +73,8 @@ cycle: function () { var a = self.state.g.slice(); a[i] = order[(order.indexOf(a
 var counts = {}; s.g.forEach(function (g) { counts[g] = (counts[g] || 0) + 1; });
 var summary = order.filter(function (g) { return counts[g]; }).map(function (g) { return g + ' ' + counts[g] + '장'; }).join(' · ');
 return {
-prices: prices.map(function (p, i) { return { t: p.toLocaleString() + '원', border: s.price === i ? '2px solid #141414' : '1px solid #DDDBE2', pick: function () { self.setState({ price: i }); } }; }),
-ten: (prices[s.price] * 10).toLocaleString() + '원', cards: cards, summary: summary,
+prices: prices.map(function (p, i) { return { t: p.toLocaleString() + ' 골드', border: s.price === i ? '2px solid #141414' : '1px solid #DDDBE2', pick: function () { self.setState({ price: i }); } }; }),
+ten: (prices[s.price] * 10).toLocaleString() + ' 골드', cards: cards, summary: summary,
 swBg: s.free ? '#141414' : '#D6D5DC', swX: s.free ? 21 : 3, toggleFree: function () { self.setState({ free: !self.state.free }); }
 };
 }

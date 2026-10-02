@@ -23,7 +23,7 @@
     ['pink', '분홍 섬', 'coral.p', 2500, '', '풍경', 'D-9', 377, '#F7D5DE', '#FFF4F6', '#FFFFFF', '#E08CA3', '#B85C78', '#8E3F5A', ''],
     ['lemon', '레몬 오후', 'sunny.d', 2000, '신규', '일러스트', 'D-12', 120, '#FFF3C4', '#FFFFFF', '#FFFFFF', '#F2C94C', '#C9A227', '#8C7012', ''],
     ['fox', '여우 산책', 'fox.and', 3000, '', '동물', 'D-6', 534, '#F6D8C2', '#FFF6EE', '#FFFFFF', '#E2895A', '#B35E36', '#C9672F', 'fox'],
-    ['bunny', '구름 토끼', 'moa.moa', 2500, '인기', '캐릭터', 'D-4', 3340, '#DCEBFA', '#FFFFFF', '#FFFFFF', '#9DC3EA', '#6C9BCB', '#FFFFFF', 'bunny'],
+    ['bunny', '구름 토끼', 'moa.moa', 2500, '인기', '캐릭터', 'D-4', 3340, '#9FC2EA', '#FFF8E6', '#FFFFFF', '#7AA7D9', '#557FB8', '#FFFFFF', 'bunny'],
     ['store', '밤 편의점', 'pixel_hana', 3000, '', '픽셀', 'D-8', 711, '#1F2A44', '#9FE3D6', '#9FE3D6', '#3C5A7A', '#2A4060', '#F5E6A8', 'house'],
     ['lav', '보라 들판', 'lav.field', 2500, 'D-2', '풍경', 'D-2', 298, '#E7DDF6', '#FFFFFF', '#FFFFFF', '#B39DDB', '#7E66B5', '#5B4690', ''],
     ['whale', '고래 꿈', 'sea_mint', 3500, '', '동물', 'D-11', 455, '#0F2E4A', '#CFE8F3', '#CFE8F3', '#2B6C93', '#174D70', '#5FA8CF', 'whale'],
@@ -32,14 +32,13 @@
   ];
   var series = {}, order = [];
   S.forEach(function (x) {
-    series[x[0]] = { id: x[0], title: x[1], artist: x[2], price: x[3], priceText: x[3].toLocaleString() + '원', tag: x[4], cat: x[5],
+    series[x[0]] = { id: x[0], title: x[1], artist: x[2], price: x[3], priceText: x[3].toLocaleString() + ' 골드', tag: x[4], cat: x[5],
       due: x[6], pulls: x[7], pullsText: x[7].toLocaleString(), sky: x[8], sun: x[9], star: x[10], w1: x[11], w2: x[12], fig: x[13], kind: x[14] };
     order.push(x[0]);
   });
   // 구름 토끼: 실제 사진을 가로 10 × 세로 5 = 50조각으로 나눔. 다 모으면 사진 한 장이 완성
   series.bunny.photo = { src: 'img/cloud-bunny.jpg', cols: 10, rows: 5, w: 1200, h: 1167 };
   // 구름 토끼는 꽃밭 그림체 유지 (나머지 시리즈는 단순한 풍경 그림체)
-  series.bunny.style = 'meadow';
   // 일러스트 파일 자리: img/bunny/01.jpg ~ 50.jpg 를 넣고 ready 를 true 로 바꾸면 카드 그림이 그 파일로 바뀜
   series.bunny.images = { base: 'img/bunny/', ext: '.jpg', ready: false };
   function param(k) {

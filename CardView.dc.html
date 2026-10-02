@@ -27,18 +27,18 @@ a{color:#141414;text-decoration:none}
 <div style="flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 12px 0">
 <button onClick="{{tilt}}" aria-label="카드 기울이기" style="border: 0; background: transparent; padding: 0; cursor: pointer">
 <div class="{{frameCls}}" style="width: 272px; height: 380px; border-radius: 18px; box-sizing: border-box; padding: {{framePad}}px; background-color: {{gc}}; transform: {{tf}}; transition: transform .4s; box-shadow: 0 20px 44px {{shadow}}">
-<div style="width: 100%; height: 100%; border-radius: 12px; background: #ffffff; padding: 8px; box-sizing: border-box; display: flex; flex-direction: column; gap: 7px">
+<div style="width: 100%; height: 100%; border-radius: 12px; background: #ffffff; padding: {{innerPad}}px; box-sizing: border-box; display: flex; flex-direction: column; gap: 7px">
 <div style="flex-grow: 1; border-radius: 8px; overflow: hidden; position: relative; border: 1px solid #E6E4EA">
 <dc-import name="Pic" sid="{{sid}}" n="{{n}}" hint-size="100%,100%"></dc-import>
 </div>
-<div style="display: flex; justify-content: space-between; align-items: flex-end">
+<sc-if value="{{showInfo}}" hint-placeholder-val="{{true}}"><div style="display: flex; justify-content: space-between; align-items: flex-end">
 <div style="font-size: 11px; font-weight: 700; color: #45454C">{{no}} · {{seriesTitle}}</div>
 <div style="font-family: 'Caveat', cursive; font-size: 16px; color: #45454C; line-height: 1; white-space: nowrap">{{artist}}</div>
-</div>
+</div></sc-if>
 </div>
 </div>
 </button>
-<div style="font-size: 12px; color: {{hintColor}}">카드를 누르면 기울어져요</div>
+<button onClick="{{toggleInfo}}" style="height: 34px; padding: 0 14px; border-radius: 17px; border: 1px solid {{hintColor}}; background: transparent; color: {{hintColor}}; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer">{{infoLabel}}</button>
 </div>
 <div style="width: 100%; box-sizing: border-box; padding: 0 16px 24px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
 <a href="Exchange.dc.html" style="height: 52px; border-radius: 14px; border: 1px solid #DDDBE2; background: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600">교환소에 올리기</a>
@@ -48,7 +48,7 @@ a{color:#141414;text-decoration:none}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
 class Component extends DCLogic {
-constructor(p) { super(p); this.state = { t: 0 }; }
+constructor(p) { super(p); this.state = { t: 0, hide: false }; }
 renderVals() {
 var self = this, G = window.GACHA, C = window.GCARD;
 var s = G ? G.current() : { id: 'night', title: '밤의 고양이', artist: 'moonlit_draws' };
@@ -64,7 +64,7 @@ back: 'Detail.dc.html?s=' + s.id, bookHref: 'GachaWide.dc.html?s=' + s.id,
 frameCls: gi.key === 'L' ? 'frame-l' : gi.key === 'E' ? 'frame-e' : gi.key === 'R' ? 'frame-r' : '',
 framePad: sp ? 9 : 6, shadow: sp ? 'rgba(138, 79, 209, 0.35)' : 'rgba(20, 20, 20, 0.18)',
 pageBg: sp ? '#15112A' : '#F6F5F8', hintColor: sp ? '#B9B4D6' : '#6B6B73',
-tf: tfs[t], tilt: function () { self.setState({ t: self.state.t + 1 }); }
+tf: tfs[t], showInfo: !this.state.hide, innerPad: this.state.hide ? 0 : 8, infoLabel: this.state.hide ? '정보 보기' : '그림만 보기', toggleInfo: function () { self.setState({ hide: !self.state.hide }); }, tilt: function () { self.setState({ t: self.state.t + 1 }); }
 };
 }
 }
