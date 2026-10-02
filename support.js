@@ -98,10 +98,13 @@
     if (main.helmet) Array.prototype.slice.call(main.helmet.children).forEach(function (c) { document.head.appendChild(c); });
     var st = document.createElement('style');
     st.textContent = [
-      'html,body{margin:0!important;padding:0;width:100%;height:100%;overflow:hidden}',
+      'html{overflow-x:hidden}',
+      'html,body{margin:0!important;padding:0;width:100%}',
       'body{background:#E9E7EE!important;display:flex;justify-content:center}',
-      '#wrap{width:100%;max-width:900px;height:100vh;height:100dvh;background:#ffffff;overflow:hidden;box-shadow:0 0 40px rgba(20,20,20,.08)}',
-      '#stage{width:100%;height:100%}',
+      '#wrap{width:100%;max-width:900px;min-height:100vh;min-height:100dvh;background:#ffffff;box-shadow:0 0 40px rgba(20,20,20,.08)}',
+      '#stage{width:100%}',
+      /* 탭바 바로 위 내용 가리지 않게 */
+      '#stage>*{display:flex;flex-direction:column}',
       '#stage>*{max-width:100%}',
       '.scroll{-webkit-overflow-scrolling:touch}',
       /* 컬렉션: 폰 3칸, 폴드 펼치면 5~6칸 */

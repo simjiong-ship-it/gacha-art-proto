@@ -17,7 +17,7 @@ a{color:#141414;text-decoration:none}
 .scroll::-webkit-scrollbar{display:none}
 </style>
 </helmet>
-<div style="width: 100%; height: 100%; box-sizing: border-box; background: #ffffff; display: flex; flex-direction: column; font-family: 'IBM Plex Sans KR', sans-serif; color: #141414">
+<div style="width: 100%; min-height: 100vh; min-height: 100dvh; box-sizing: border-box; background: #ffffff; display: flex; flex-direction: column; font-family: 'IBM Plex Sans KR', sans-serif; color: #141414">
 <header style="height: 56px; padding: 0 8px 0 16px; display: flex; align-items: center; gap: 4px; flex-shrink: 0">
 <div style="flex-grow: 1; font-size: 20px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{handle}}</div>
 <a href="MyMenu.dc.html" aria-label="메뉴 열기" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 12px">
@@ -125,7 +125,11 @@ var list = [
 ['night', 3, 'E', 0], ['sea', 1, 'R', 0], ['night', 9, 'L', 0],
 ['dusk', 4, 'U', 2], ['night', 6, 'R', 0], ['forest', 2, 'C', 3],
 ['pink', 5, 'U', 0], ['sea', 7, 'C', 0], ['night', 0, 'C', 4],
-['snow', 3, 'R', 0], ['dusk', 8, 'C', 0], ['forest', 6, 'E', 0]
+['snow', 3, 'R', 0], ['dusk', 8, 'C', 0], ['forest', 6, 'E', 0],
+['night', 1, 'U', 0], ['pink', 2, 'C', 2], ['sea', 4, 'U', 0],
+['snow', 7, 'C', 0], ['forest', 0, 'R', 0], ['dusk', 1, 'C', 3],
+['night', 5, 'U', 0], ['sea', 9, 'E', 0], ['pink', 8, 'C', 0],
+['forest', 4, 'U', 0], ['snow', 0, 'C', 2], ['dusk', 6, 'R', 0]
 ];
 var pulls = A ? (A.prof.pulls || []) : [];
 if (A) {

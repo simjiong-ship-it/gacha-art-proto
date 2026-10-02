@@ -15,7 +15,7 @@ body{margin:0;font-family:'IBM Plex Sans KR',sans-serif;background:#ffffff;color
 a{color:#141414;text-decoration:none}
 </style>
 </helmet>
-<div style="width: 100%; height: 100%; box-sizing: border-box; background: #ffffff; display: flex; flex-direction: column; font-family: 'IBM Plex Sans KR', sans-serif; color: #141414">
+<div style="width: 100%; min-height: 100vh; min-height: 100dvh; box-sizing: border-box; background: #ffffff; display: flex; flex-direction: column; font-family: 'IBM Plex Sans KR', sans-serif; color: #141414">
 <dc-import name="Header" title="주문·배송 조회" back="MyMenu.dc.html" hint-size="390px,56px"></dc-import>
 <div style="padding: 4px 16px 16px; display: flex; flex-direction: column; gap: 12px">
 <sc-for list="{{orders}}" as="o" hint-placeholder-count="3">
