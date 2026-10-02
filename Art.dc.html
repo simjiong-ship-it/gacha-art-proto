@@ -17,12 +17,31 @@ body{margin:0}
 <svg width="100%" height="100%" viewBox="{{vb}}" preserveAspectRatio="xMidYMid slice" style="display: block; width: 100%; height: 100%">
 <rect x="0" y="0" width="1000" height="130" fill="{{c.sky}}"></rect>
 <circle cx="170" cy="34" r="14" fill="{{c.sun}}"></circle>
-<circle cx="520" cy="30" r="13" fill="{{c.sun}}"></circle>
+<sc-if value="{{f.small}}" hint-placeholder-val="{{true}}"><circle cx="520" cy="30" r="13" fill="{{c.sun}}"></circle></sc-if>
 <circle cx="60" cy="20" r="1.6" fill="{{c.star}}"></circle><circle cx="320" cy="28" r="1.6" fill="{{c.star}}"></circle><circle cx="440" cy="14" r="1.3" fill="{{c.star}}"></circle><circle cx="580" cy="40" r="1.6" fill="{{c.star}}"></circle><circle cx="720" cy="20" r="1.6" fill="{{c.star}}"></circle><circle cx="860" cy="30" r="1.3" fill="{{c.star}}"></circle><circle cx="950" cy="14" r="1.6" fill="{{c.star}}"></circle>
+<sc-if value="{{f.cat}}" hint-placeholder-val="{{false}}">
+<circle cx="652" cy="40" r="34" fill="{{c.sun}}" opacity=".12"></circle>
+<circle cx="652" cy="40" r="27" fill="{{c.sun}}" opacity=".18"></circle>
+<circle cx="652" cy="40" r="21" fill="{{c.sun}}"></circle>
+<circle cx="644" cy="34" r="3.2" fill="{{c.w1}}" opacity=".12"></circle><circle cx="660" cy="47" r="2.2" fill="{{c.w1}}" opacity=".12"></circle><circle cx="657" cy="31" r="1.5" fill="{{c.w1}}" opacity=".12"></circle>
+</sc-if>
 <path d="M0 88 C120 70 260 104 420 84 S720 62 860 86 S980 96 1000 90 V130 H0Z" fill="{{c.w1}}"></path>
 <path d="M0 108 C160 96 300 118 500 104 S820 94 1000 110 V130 H0Z" fill="{{c.w2}}"></path>
 <sc-if value="{{f.cat}}" hint-placeholder-val="{{false}}">
-<ellipse cx="640" cy="72" rx="11" ry="9" fill="{{c.fig}}"></ellipse><circle cx="650" cy="59" r="6.5" fill="{{c.fig}}"></circle><path d="M645 55 L646 47 L650 53Z M652 53 L656 47 L656 56Z" fill="{{c.fig}}"></path><path d="M630 76 q-10 -3 -7 -14" stroke="{{c.fig}}" stroke-width="2.4" fill="none" stroke-linecap="round"></path>
+<path d="M659 70 q13 1 14 -8 q1 -7 -5 -8 q-3 0 -3 3" stroke="{{c.fig}}" stroke-width="3.4" fill="none" stroke-linecap="round"></path>
+<path d="M640 72 C638 62 642 54 652 54 C662 54 666 62 664 72 Q652 76 640 72Z" fill="{{c.fig}}"></path>
+<circle cx="652" cy="48" r="8.6" fill="{{c.fig}}"></circle>
+<path d="M644.5 45 L645 34.5 L651 41.5Z" fill="{{c.fig}}"></path><path d="M653 41.5 L659 34.5 L659.5 45Z" fill="{{c.fig}}"></path>
+<path d="M646 39 L646.3 36.8 L648.2 39.2Z" fill="{{f.ear}}"></path><path d="M655.8 39.2 L657.7 36.8 L658 39Z" fill="{{f.ear}}"></path>
+<path d="M643.6 54.5 Q652 59 660.4 54.5 L660.6 57.4 Q652 62 643.4 57.4Z" fill="#E0457B"></path>
+<path d="M656.5 57 L660 65.5 L657.2 66.3 L654.4 58.4Z" fill="#E0457B"></path><path d="M657.4 63.6 L660.4 64.8 M658.2 65.6 L661 66.6" stroke="#B8305E" stroke-width=".8"></path>
+<path d="M659.6 46 a8.6 8.6 0 0 0 -4 -6.8" stroke="{{c.sun}}" stroke-width=".9" fill="none" opacity=".75" stroke-linecap="round"></path>
+<path d="M663.4 62 q1.4 5 .6 9" stroke="{{c.sun}}" stroke-width=".9" fill="none" opacity=".6" stroke-linecap="round"></path>
+<circle cx="612" cy="60" r="1.1" fill="#F2C94C"></circle><circle cx="612" cy="60" r="2.6" fill="#F2C94C" opacity=".25"></circle>
+<circle cx="690" cy="54" r="1" fill="#F2C94C"></circle><circle cx="690" cy="54" r="2.4" fill="#F2C94C" opacity=".25"></circle>
+<circle cx="628" cy="40" r=".9" fill="#F2C94C"></circle>
+<path d="M300 74 l1.2 -3 l1.2 3 l3 1.2 l-3 1.2 l-1.2 3 l-1.2 -3 l-3 -1.2Z" fill="#F2C94C" opacity=".7"></path>
+<path d="M880 52 l1 -2.4 l1 2.4 l2.4 1 l-2.4 1 l-1 2.4 l-1 -2.4 l-2.4 -1Z" fill="#F2C94C" opacity=".7"></path>
 </sc-if>
 <sc-if value="{{f.house}}" hint-placeholder-val="{{false}}">
 <rect x="628" y="58" width="28" height="22" fill="{{c.fig}}"></rect><path d="M624 60 L642 44 L660 60Z" fill="{{c.w2}}"></path><rect x="638" y="68" width="8" height="12" fill="{{c.sky}}"></rect>
@@ -55,7 +74,7 @@ var s = G ? G.get(this.props.sid || 'night') : { sky: '#26215C', sun: '#F4E9C8',
 var c = this.props.gray
   ? { sky: '#E6E5EA', sun: '#F1F0F3', star: '#F1F0F3', w1: '#D6D5DC', w2: '#CAC9D1', fig: '#BDBCC5' }
   : { sky: s.sky, sun: s.sun, star: s.star, w1: s.w1, w2: s.w2, fig: s.fig };
-var f = { cat: s.kind === 'cat', house: s.kind === 'house', whale: s.kind === 'whale', ghost: s.kind === 'ghost', bunny: s.kind === 'bunny', fox: s.kind === 'fox', bear: s.kind === 'bear' };
+var f = { small: s.kind !== 'cat', ear: this.props.gray ? '#CAC9D1' : '#3A2F6E', cat: s.kind === 'cat', house: s.kind === 'house', whale: s.kind === 'whale', ghost: s.kind === 'ghost', bunny: s.kind === 'bunny', fox: s.kind === 'fox', bear: s.kind === 'bear' };
 return { c: c, f: f, vb: this.props.vb || '0 0 1000 130' };
 }
 }
