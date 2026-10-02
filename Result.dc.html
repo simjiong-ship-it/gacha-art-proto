@@ -16,9 +16,9 @@
 body{margin:0;font-family:'IBM Plex Sans KR',sans-serif;background:#ffffff;color:#141414}
 a{color:#141414;text-decoration:none}
 @keyframes frame-shine{0%{background-position:0% 50%}100%{background-position:200% 50%}}
-.frame-r{background:linear-gradient(120deg,#3E7BD6,#9FE8FF,#3E7BD6,#B8D8FF,#3E7BD6);background-size:200% 100%;animation:frame-shine 3s linear infinite}
-.frame-e{background:linear-gradient(120deg,#8A4FD1,#F2C94C,#E36BD8,#8A4FD1,#FFD36B);background-size:200% 100%;animation:frame-shine 2.4s linear infinite}
-.frame-l{background:linear-gradient(120deg,#D98A1E,#FFF1B8,#E36BD8,#7AF7FF,#FFD36B,#D98A1E);background-size:200% 100%;animation:frame-shine 1.8s linear infinite}
+.frame-r{background:linear-gradient(120deg,#3E7BD6,#9FE8FF,#3E7BD6,#B8D8FF,#3E7BD6);background-size:200% 100%}
+.frame-e{background:linear-gradient(120deg,#8A4FD1,#F2C94C,#E36BD8,#8A4FD1,#FFD36B);background-size:200% 100%}
+.frame-l{background:linear-gradient(120deg,#D98A1E,#FFF1B8,#E36BD8,#7AF7FF,#FFD36B,#D98A1E);background-size:200% 100%}
 @media (prefers-reduced-motion:reduce){.frame-r,.frame-e,.frame-l{animation:none}}
 </style>
 </helmet>
@@ -31,10 +31,6 @@ a{color:#141414;text-decoration:none}
 <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; padding: 16px 0">
 <a href="{{viewHref}}" aria-label="카드 크게 보기" class="{{frameCls}}" style="display: block; width: 248px; height: 346px; border-radius: 18px; box-sizing: border-box; padding: {{framePad}}px; background-color: {{gc}}; transform: perspective(800px) rotateY(-8deg) rotateX(4deg); box-shadow: 0 18px 40px {{shadow}}">
 <div style="width: 100%; height: 100%; border-radius: 12px; background: #ffffff; padding: 8px; box-sizing: border-box; display: flex; flex-direction: column; gap: 7px">
-<div style="display: flex; justify-content: space-between; align-items: center; gap: 6px">
-<div style="font-size: 13px; font-weight: 700; color: #141414; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{cardName}}</div>
-<div style="font-size: 10px; font-weight: 700; color: #45454C; flex-shrink: 0">{{no}}</div>
-</div>
 <div style="flex-grow: 1; border-radius: 8px; overflow: hidden; position: relative; border: 1px solid #E6E4EA">
 <dc-import name="Pic" sid="{{ser.id}}" n="{{n}}" hint-size="100%,100%"></dc-import>
 </div>

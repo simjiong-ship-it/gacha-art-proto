@@ -528,6 +528,7 @@
       if (whiskers && (sp === 'cat' || sp === 'fox')) add('M' + f1(x - 4) + ' ' + f1(ny2 + 1) + ' l-8 -1.6 M' + f1(x - 4) + ' ' + f1(ny2 + 2.4) + ' l-8 1 M' + f1(x + 4) + ' ' + f1(ny2 + 1) + ' l8 -1.6 M' + f1(x + 4) + ' ' + f1(ny2 + 2.4) + ' l8 1', 'none', 0.8, fur.base === '#F3F0EA' || fur.base === '#EFE3CF' ? '#9C9384' : '#FFFFFF', 0.45);
     }
 
+    var fgStart = P.length;
     if (meadow) {
       var fr = rng(hash('front:' + s.id + ':' + n));
       if (scene === 1) for (var hq = 0; hq < 3; hq++) { var hx3 = [8, 50, 92][hq], hy3 = 122; for (var hp2 = 0; hp2 < 10; hp2++) { var px = hx3 + (fr() - 0.5) * 18, py = hy3 + (fr() - 0.5) * 10, pc = ['#4C7BE0', '#7FA6F0', '#3E6FD8'][hp2 % 3]; for (var q5 = 0; q5 < 4; q5++) { var qa2 = q5 * Math.PI / 2 + 0.6; add(circ(px + Math.cos(qa2) * 1.4, py + Math.sin(qa2) * 1.4, 1.35), pc); } add(circ(px, py, 0.5), '#F2C94C'); } }
@@ -538,9 +539,88 @@
     }
     if (ph && !gray) for (var o2 = figStart; o2 < P.length; o2++) { var q2 = P[o2]; if (!q2.nl && q2.s === 'none' && q2.f !== 'none' && q2.o > 0.6) { q2.s = '#2A4470'; q2.w = 0.55; } }
     if (gray) P = P.map(function (x, i) { if (x.img) return { d: 'M0 0H100V130H0Z', f: '#E6E5EA', o: 1, s: 'none', w: 0 }; return { d: x.d, f: x.f === 'none' ? 'none' : (i === 0 ? '#E6E5EA' : '#CFCED6'), o: i === 0 ? 1 : Math.min(1, x.o + 0.2), s: x.s === 'none' ? 'none' : '#CFCED6', w: x.w }; });
+    P.forEach(function (x, i) { x.l = i < figStart ? 0 : i < fgStart ? 1 : 2; });
     return P;
   }
 
+
+  /* ── 단순 풍경 카드 (처음 일러스트 스타일): 하늘·달·물결 언덕·작은 실루엣 ── */
+  var SKY_A = ['초승달', '보름달', '별 가득', '구름 낀', '새벽', '노을', '안개', '바람 부는', '눈 오는', '반딧불'];
+  var ACT_B = ['산책', '낮잠', '기다림', '구경', '휴식'];
+  function nameSimple(s, n) {
+    var g = grade(n), sp = speciesOf(s);
+    var noun = sp === 'blob' ? (BLOB[s.id] || '요정') : sp === 'cat' ? '고양이' : NOUN[sp];
+    if (g === 'L') return sp === 'cat' ? SPECIAL.cat.L : s.title + '의 주인';
+    if (g === 'E') { var e = SPECIAL[sp === 'cat' ? 'cat' : 'other'].E[n - 45]; return sp === 'cat' ? e : noun + ' ' + e; }
+    if (g === 'R') { var x = SPECIAL[sp === 'cat' ? 'cat' : 'other'].R[n - 38]; return sp === 'cat' ? x : x + ' ' + noun; }
+    return SKY_A[n % 10] + ' ' + ACT_B[Math.floor(n / 10) % 5];
+  }
+  function silhouette(kind, sid, c, sun) {
+    // 발끝이 (0,0), 키 약 25
+    var o = [];
+    function a(d, f, op, st, w) { o.push({ d: d, f: f || 'none', o: op == null ? 1 : op, s: st || 'none', w: w || 0 }); }
+    if (kind === 'cat') { a(ell(0, -9, 11, 9), c); a(circ(10, -22, 6.5), c); a('M5 -26 L6 -34 L10 -28Z M12 -28 L16 -34 L16 -25Z', c); a('M-10 -5 q-10 -3 -7 -14', 'none', 1, c, 2.4); }
+    else if (kind === 'bunny') { a(ell(0, -8, 10, 8), c); a(circ(8, -18, 6), c); a(ell(5.5, -30, 2, 7.5), c); a(ell(10, -29, 2, 7.5), c); a(circ(-10, -8, 3.2), c); }
+    else if (kind === 'bear') { a(ell(0, -10, 12, 10), c); a(circ(0, -24, 8), c); a(circ(-6, -31, 3), c); a(circ(6, -31, 3), c); }
+    else if (kind === 'fox') { a(ell(-13, -6, 9, 4), c); a(ell(0, -8, 10, 7.5), c); a(circ(9, -17, 6), c); a('M5 -21 L6 -30 L10 -22Z M11 -22 L15 -30 L15 -19Z', c); }
+    else if (kind === 'ghost') { a('M-9 0 V-16 a9 9 0 0 1 18 0 V0 l-3 -3 l-3 3 l-3 -3 l-3 3 l-3 -3Z', c); a(circ(-3, -16, 1.4), sun, 0.9); a(circ(3, -16, 1.4), sun, 0.9); }
+    else if (kind === 'whale') { a(ell(0, -6, 22, 8), c); a('M20 -6 L30 -14 L29 -6 L30 2Z', c); a('M-8 -14 q-2 -6 -5 -8 M-8 -14 q2 -6 5 -8', 'none', 1, sun, 1.2); }
+    else if (kind === 'house') { a('M-12 -20 H12 V0 H-12Z', c); a('M-15 -19 L0 -31 L15 -19Z', c); a('M6 -29 h4 v6 h-4Z', c); a('M-6 -14 h5 v5 h-5Z', sun, 0.95); }
+    else if (sid === 'sea') { a('M-12 -3 H12 L8 0 H-8Z', c); a('M0 -3 V-24 L10 -6Z', c); a('M-1 -22 L-9 -6 H-1Z', c, 0.8); }
+    else if (sid === 'pink') { a('M0 0 Q2 -12 0 -24', 'none', 1, c, 2); a('M0 -24 q-8 -2 -12 4 M0 -24 q8 -2 12 4 M0 -24 q-6 -6 -10 -4 M0 -24 q6 -6 10 -4', 'none', 1, c, 2); }
+    else if (sid === 'lemon') { a('M0 0 V-12', 'none', 1, c, 2); a(circ(0, -20, 9), c); a(circ(-4, -18, 2), sun); a(circ(4, -22, 2), sun); }
+    else { for (var lv = -1; lv <= 1; lv++) { a('M' + lv * 5 + ' 0 Q' + lv * 6 + ' -10 ' + lv * 7 + ' -20', 'none', 1, c, 1.2); for (var b = 0; b < 4; b++) a(ell(lv * 7 - 0.3, -20 + b * 2.4, 1.6, 1.2), c); } }
+    return o;
+  }
+  function drawSimple(s, n, gray) {
+    var g = grade(n), sp = speciesOf(s), r = rng(hash('simple:' + s.id + ':' + n));
+    var special = g === 'R' || g === 'E' || g === 'L', A = n % 10, B = Math.floor(n / 10) % 5;
+    var P = [];
+    function add(d, f, o, st, w, l) { P.push({ d: d, f: f || 'none', o: o == null ? 1 : o, s: st || 'none', w: w || 0, l: l || 0 }); }
+    var sky = g === 'L' ? '#2A1D5E' : s.sky;
+    add('M0 0H100V130H0Z', sky);
+    if (!special && A === 4) add('M0 60H100V130H0Z', '#F6D9C8', 0.35);
+    if (!special && A === 5) { add('M0 40H100V130H0Z', '#F2A65A', 0.28); add('M0 0H100V60H0Z', '#7A3B6E', 0.18); }
+    if (g === 'L') { add('M0 30 C30 18 60 44 100 26 L100 46 C60 62 30 40 0 52Z', '#7AF7C8', 0.22); add('M0 40 C34 30 62 54 100 38 L100 50 C62 66 34 46 0 58Z', '#E36BD8', 0.18); }
+    // 달
+    var mx = special ? 50 + (r() - 0.5) * 30 : 16 + r() * 68, my = 16 + r() * 18, mr = special ? 11 : (A === 1 ? 11 : 7 + r() * 3);
+    var moonC = g === 'L' || g === 'E' ? '#FFD36B' : s.sun;
+    if (special || A === 1) add(circ(mx, my, mr + 6), moonC, 0.16);
+    add(circ(mx, my, mr), moonC);
+    if (A === 0 && !special) add(circ(mx + mr * 0.45, my - mr * 0.15, mr * 0.9), sky);
+    // 별
+    var stars = A === 2 || special ? 26 : A === 3 || A === 6 ? 4 : 10;
+    for (var k = 0; k < stars; k++) add(circ(r() * 100, r() * 70, 0.5 + r() * (A === 2 ? 1.1 : 0.8)), s.star, 0.6 + r() * 0.4);
+    if (g === 'R' || g === 'L' || (A === 2 && B === 3)) { var sx = 20 + r() * 50, sy = 10 + r() * 20; add('M' + f1(sx) + ' ' + f1(sy) + ' l18 8', 'none', 0.9, '#FFFFFF', 1); add(circ(sx + 18, sy + 8, 1.4), '#FFFFFF'); }
+    if (A === 3 && !special) for (var cl = 0; cl < 3; cl++) { var cx = r() * 100, cy = 18 + r() * 34; add(ell(cx, cy, 12 + r() * 8, 4 + r() * 2), '#FFFFFF', 0.35); }
+    // 언덕 (뒤)
+    var amp = 3 + r() * 5, ph = r() * 6, fq = 0.05 + r() * 0.04, base = 92 + (r() - 0.5) * 8;
+    function hillY(x) { return base + Math.sin(x * fq + ph) * amp; }
+    var d1 = 'M0 ' + f1(hillY(0)); for (var x = 2.5; x <= 100; x += 2.5) d1 += 'L' + x + ' ' + f1(hillY(x)); d1 += 'V130H0Z';
+    add(d1, s.w1);
+    // 캐릭터
+    var fx = special ? 50 : 22 + r() * 56, fy = hillY(fx) + 1, sc = special ? 1.35 : 0.85 + r() * 0.4, flip = mx < fx ? -1 : 1;
+    if (B === 3 && !special) flip = mx < fx ? -1 : 1; else if (!special) flip = r() < 0.5 ? -1 : 1;
+    var syc = B === 1 && !special ? sc * 0.72 : sc;
+    if (B === 4 && !special) sc *= 0.75;
+    var figC = gray ? '#BDBCC5' : s.fig;
+    if (special) add(circ(fx, fy - 14 * sc, 18 * sc), g === 'R' ? '#9FE8FF' : '#FFE08A', 0.22, null, 0, 1);
+    var sil = silhouette(sp, s.id, figC, moonC);
+    sil.forEach(function (q) { P.push({ d: q.d, f: q.f, o: q.o, s: q.s, w: q.w, l: 1, t: 'translate(' + f1(fx) + ' ' + f1(fy) + ') scale(' + f1(flip * sc) + ' ' + f1(B === 1 && !special ? syc : sc) + ')' }); });
+    if (B === 1 && !special) add('M' + f1(fx + 6) + ' ' + f1(fy - 26) + ' h3 l-3 3 h3 M' + f1(fx + 11) + ' ' + f1(fy - 33) + ' h4 l-4 4 h4', 'none', 0.8, '#FFFFFF', 0.7, 1);
+    if (B === 2 && !special && sp !== 'house' && sp !== 'blob') { var bx = fx - flip * 9 * sc; P.push({ d: ell(0, -5, 6, 5), f: figC, o: 1, s: 'none', w: 0, l: 1, t: 'translate(' + f1(bx) + ' ' + f1(hillY(bx) + 1) + ') scale(' + f1(-flip * 0.6) + ' 0.6)' }); }
+    if (g === 'E') add('M' + f1(fx - 6) + ' ' + f1(fy - 36 * sc / 1.35) + ' l2 -5 l2 3 l2 -4 l2 4 l2 -3 l2 5Z', '#F2C94C', 1, null, 0, 1);
+    if (g === 'L') add(ell(fx, fy - 40, 9, 2.4), 'none', 1, '#FFE9A8', 1.4, 1);
+    // 언덕 (앞)
+    var d2 = 'M0 ' + f1(110 + Math.sin(ph) * 3); for (var x2 = 2.5; x2 <= 100; x2 += 2.5) d2 += 'L' + x2 + ' ' + f1(110 + Math.sin(x2 * 0.07 + ph * 1.7) * 3); d2 += 'V130H0Z';
+    add(d2, s.w2, 1, null, 0, 2);
+    if (A === 6 && !special) add('M0 70H100V130H0Z', '#FFFFFF', 0.18, null, 0, 2);
+    if (A === 7 && !special) { var wd = ''; for (var wv = 0; wv < 5; wv++) { var wy = 20 + wv * 12; wd += 'M' + f1(r() * 50) + ' ' + wy + ' q10 -3 20 0 q8 2 12 -2'; } add(wd, 'none', 0.5, '#FFFFFF', 0.8, 2); }
+    if (A === 8 && !special) for (var sn = 0; sn < 26; sn++) add(circ(r() * 100, r() * 128, 0.6 + r() * 0.6), '#FFFFFF', 0.85, null, 0, 2);
+    if ((A === 9 && !special) || g === 'R') for (var ff = 0; ff < 9; ff++) { var ffx = r() * 100, ffy = 70 + r() * 40; add(circ(ffx, ffy, 2.2), '#F2E27A', 0.25, null, 0, 2); add(circ(ffx, ffy, 0.8), '#FFF6B0', 1, null, 0, 2); }
+    if (gray) P = P.map(function (x, i) { return { d: x.d, f: x.f === 'none' ? 'none' : (i === 0 ? '#E6E5EA' : '#CFCED6'), o: i === 0 ? 1 : Math.min(1, x.o + 0.2), s: x.s === 'none' ? 'none' : '#CFCED6', w: x.w, l: x.l, t: x.t }; });
+    return P;
+  }
   /* 뽑기: 확률 50/25/15/8/2, 10회는 마지막 장 Rare 이상 확정 */
   function rollOne(minRare) {
     var x = Math.random() * 100, g;
@@ -553,7 +633,7 @@
   function param(k) { try { var m = new RegExp('[?&]' + k + '=([^&#]+)').exec(location.search); return m ? decodeURIComponent(m[1]) : ''; } catch (e) { return ''; } }
 
   window.GCARD = {
-    N: N, GRADES: GRADES, grade: grade, name: name, draw: draw,
+    N: N, GRADES: GRADES, grade: grade, name: function (S, n) { return S && S.style === 'meadow' ? name(S, n) : nameSimple(S, n); }, draw: function (S, n, g) { return S && S.style === 'meadow' ? draw(S, n, g) : drawSimple(S, n, g); }, drawDetailed: draw, nameDetailed: name,
     info: function (n) { return GRADES[grade(n)]; },
     no: function (n) { return ('00' + (n + 1)).slice(-3) + '/050'; },
     roll: function () { return rollOne(false); },
