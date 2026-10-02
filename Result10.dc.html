@@ -6,6 +6,7 @@
 <title>10회 뽑기 결과</title>
 <script src="./support.js"></script>
 <script src="./catalog.js"></script>
+<script src="./cards.js"></script>
 </head>
 <body>
 <x-dc>
@@ -16,6 +17,10 @@ body{margin:0;font-family:'IBM Plex Sans KR',sans-serif;background:#ffffff;color
 a{color:#141414;text-decoration:none}
 @keyframes flipin{0%{transform:perspective(600px) rotateY(90deg);opacity:0}100%{transform:perspective(600px) rotateY(0);opacity:1}}
 .flipin{animation:flipin .45s ease-out both}
+@keyframes frame-shine{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+.frame-r{background:linear-gradient(120deg,#3E7BD6,#9FE8FF,#3E7BD6,#B8D8FF,#3E7BD6);background-size:200% 100%;animation:frame-shine 3s linear infinite}
+.frame-e{background:linear-gradient(120deg,#8A4FD1,#F2C94C,#E36BD8,#8A4FD1,#FFD36B);background-size:200% 100%;animation:frame-shine 2.4s linear infinite}
+.frame-l{background:linear-gradient(120deg,#D98A1E,#FFF1B8,#E36BD8,#7AF7FF,#FFD36B,#D98A1E);background-size:200% 100%;animation:frame-shine 1.8s linear infinite}
 </style>
 </helmet>
 <div style="width: 100%; min-height: 100vh; min-height: 100dvh; box-sizing: border-box; background: #ffffff; display: flex; flex-direction: column; font-family: 'IBM Plex Sans KR', sans-serif; color: #141414">
@@ -26,39 +31,41 @@ a{color:#141414;text-decoration:none}
 <div style="flex-grow: 1; font-size: 17px; font-weight: 600">10회 뽑기 결과</div>
 </header>
 <div style="flex-grow: 1; padding: 0 16px; display: flex; flex-direction: column; gap: 16px">
-<div style="display: flex; gap: 14px; align-items: center; padding: 14px; border-radius: 16px; background: #F6F3FC">
-<div class="flipin" style="width: 104px; height: 146px; flex-shrink: 0; border-radius: 12px; box-sizing: border-box; border: 5px solid #8A4FD1; background: #ffffff; padding: 5px; display: flex; flex-direction: column; gap: 4px; box-shadow: 0 10px 24px rgba(138, 79, 209, 0.25)">
-<div style="display: flex; justify-content: space-between; font-size: 8px; font-weight: 700; color: #45454C"><span>004/010</span><span>No.37</span></div>
-<div style="flex-grow: 1; border-radius: 5px; overflow: hidden">
-<dc-import name="Art" sid="{{ser.id}}" vb="600 0 100 130" hint-size="100%,100%"></dc-import>
+<a href="{{best.href}}" style="display: flex; gap: 14px; align-items: center; padding: 14px; border-radius: 16px; background: {{best.panel}}">
+<div class="flipin {{best.frame}}" style="width: 108px; height: 150px; flex-shrink: 0; border-radius: 12px; box-sizing: border-box; padding: 5px; background-color: {{best.line}}; box-shadow: 0 10px 24px {{best.shadow}}">
+<div style="width: 100%; height: 100%; border-radius: 8px; background: #ffffff; padding: 4px; box-sizing: border-box; display: flex; flex-direction: column; gap: 3px">
+<div style="font-size: 7px; font-weight: 700; color: #45454C">{{best.no}}</div>
+<div style="flex-grow: 1; border-radius: 5px; overflow: hidden; position: relative">
+<dc-import name="Pic" sid="{{ser.id}}" n="{{best.n}}" hint-size="100%,100%"></dc-import>
 </div>
-<div style="font-family: 'Caveat', cursive; font-size: 13px; color: #45454C; text-align: right; line-height: 1">{{ser.artist}}</div>
+<div style="font-family: 'Caveat', cursive; font-size: 11px; color: #45454C; text-align: right; line-height: 1; white-space: nowrap; overflow: hidden">{{ser.artist}}</div>
 </div>
-<div style="display: flex; flex-direction: column; gap: 6px">
-<div style="height: 22px; align-self: flex-start; padding: 0 9px; border-radius: 11px; background: #8A4FD1; color: #ffffff; font-size: 11px; font-weight: 700; letter-spacing: 1px; display: flex; align-items: center">EPIC</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px; min-width: 0">
+<div style="height: 22px; align-self: flex-start; padding: 0 9px; border-radius: 11px; background: {{best.line}}; color: #ffffff; font-size: 11px; font-weight: 700; letter-spacing: 1px; display: flex; align-items: center">{{best.gname}}</div>
 <div style="font-size: 17px; font-weight: 700">이번 최고 카드</div>
-<div style="font-size: 13px; color: #45454C">{{ser.title}} · 004/010</div>
-<div style="font-size: 13px; color: #6B6B73; margin-top: 4px">새 조각 <b style="color: #141414">4장</b> · 중복 6장</div>
+<div style="font-size: 13px; color: #45454C">{{best.name}} · {{best.no}}</div>
+<div style="font-size: 13px; color: #6B6B73; margin-top: 4px">새 카드 <b style="color: #141414">{{newCount}}장</b> · 중복 {{dupCount}}장</div>
 </div>
-</div>
-<div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px 8px">
+</a>
+<div class="card-grid" style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px 8px">
 <sc-for list="{{cards}}" as="c" hint-placeholder-count="10">
-<div class="flipin" style="animation-delay: {{c.delay}}s; display: flex; flex-direction: column; align-items: center; gap: 5px">
-<div style="width: 100%; height: 92px; border-radius: 8px; box-sizing: border-box; border: {{c.bw}}px solid {{c.line}}; background: #ffffff; padding: 2px; position: relative; opacity: {{c.op}}">
-<div style="width: 100%; height: 100%; border-radius: 5px; overflow: hidden">
-<dc-import name="Art" sid="{{ser.id}}" vb="{{c.vb}}" hint-size="100%,100%"></dc-import>
+<a href="{{c.href}}" class="flipin" style="animation-delay: {{c.delay}}s; display: flex; flex-direction: column; align-items: center; gap: 5px; min-width: 0">
+<div style="width: 100%; aspect-ratio: 10 / 13; border-radius: 8px; box-sizing: border-box; border: {{c.bw}}px solid {{c.line}}; background: #ffffff; padding: 2px; position: relative; opacity: {{c.op}}">
+<div style="width: 100%; height: 100%; border-radius: 5px; overflow: hidden; position: relative">
+<dc-import name="Pic" sid="{{ser.id}}" n="{{c.n}}" hint-size="100%,100%"></dc-import>
 </div>
 <sc-if value="{{c.isNew}}" hint-placeholder-val="{{false}}"><div style="position: absolute; top: -8px; right: -6px; height: 17px; padding: 0 5px; border-radius: 9px; background: #E0457B; color: #ffffff; font-size: 9px; font-weight: 700; display: flex; align-items: center">NEW</div></sc-if>
 </div>
-<div style="font-size: 10px; color: #6B6B73">{{c.label}}</div>
-</div>
+<div style="font-size: 10px; color: #6B6B73; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%">{{c.label}}</div>
+</a>
 </sc-for>
 </div>
-<div style="font-size: 12px; color: #6B6B73; text-align: center">중복 조각은 교환소에서 다른 조각으로 바꿀 수 있어요</div>
+<div style="font-size: 12px; color: #6B6B73; text-align: center">중복 카드는 교환소에서 다른 카드로 바꿀 수 있어요</div>
 <div style="flex-grow: 1"></div>
 <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; padding-bottom: 20px">
 <a href="Draw10.dc.html{{sq}}" style="height: 54px; border-radius: 14px; border: 1px solid #DDDBE2; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600">10회 더</a>
-<a href="MyGacha.dc.html" style="height: 54px; border-radius: 14px; background: #141414; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600">내 가챠에서 보기</a>
+<a href="GachaWide.dc.html{{sq}}" style="height: 54px; border-radius: 14px; background: #141414; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600">도감에서 보기</a>
 </div>
 </div>
 </div>
@@ -67,13 +74,23 @@ a{color:#141414;text-decoration:none}
 class Component extends DCLogic {
 renderVals() {
 var SER = window.GACHA ? window.GACHA.current() : { id: 'night', title: '밤의 고양이', artist: 'moonlit_draws' };
-var gl = { C: ['#C9C8CF', 1.5], U: ['#5FA36A', 2.5], R: ['#3E7BD6', 3], E: ['#8A4FD1', 4] };
-var pulls = [['C', 0, false], ['U', 3, true], ['C', 1, false], ['R', 6, true], ['C', 0, false], ['C', 2, false], ['U', 5, false], ['C', 4, false], ['R', 7, true], ['E', 3, true]];
-var name = { C: 'Common', U: 'Uncommon', R: 'Rare', E: 'Epic' };
-var cards = pulls.map(function (p, i) {
-return { vb: (p[1] * 100) + ' 0 100 130', line: gl[p[0]][0], bw: gl[p[0]][1], isNew: p[2], op: p[2] ? 1 : 0.55, label: name[p[0]], delay: (i * 0.07).toFixed(2) };
+var C = window.GCARD;
+var ns = (C ? C.param('p') : '').split('.').map(function (x) { return parseInt(x, 10); }).filter(function (x) { return x >= 0 && x < 50; });
+if (ns.length !== 10) { if (!this._ns) this._ns = C ? C.roll10() : [1, 27, 3, 40, 5, 6, 30, 8, 41, 46]; ns = this._ns; }
+var seen = {}, newCount = 0, bestI = 0, rank = { C: 0, U: 1, R: 2, E: 3, L: 4 };
+var cards = ns.map(function (n, i) {
+var gi = C ? C.info(n) : { key: 'C', color: '#C9C8CF', name: 'Common' };
+var isNew = !seen[n]; seen[n] = 1; if (isNew) newCount++;
+if (rank[gi.key] > rank[C ? C.grade(ns[bestI]) : 'C']) bestI = i;
+return { n: n, line: gi.color, bw: gi.key === 'C' ? 1.5 : gi.key === 'U' ? 2.5 : 3.5, isNew: isNew, op: isNew ? 1 : 0.55,
+label: C ? C.name(SER, n) : gi.name, delay: (i * 0.07).toFixed(2), href: 'CardView.dc.html?s=' + SER.id + '&n=' + n };
 });
-return { ser: SER, sq: '?s=' + SER.id, cards: cards };
+var bn = ns[bestI], bg = C ? C.info(bn) : { key: 'E', color: '#8A4FD1', name: 'Epic' };
+var best = { n: bn, no: C ? C.no(bn) : '', name: C ? C.name(SER, bn) : '', line: bg.color, gname: bg.key === 'L' ? 'LEGENDARY' : bg.name.toUpperCase(),
+frame: bg.key === 'L' ? 'frame-l' : bg.key === 'E' ? 'frame-e' : bg.key === 'R' ? 'frame-r' : '',
+panel: bg.key === 'L' ? '#FFF6E2' : bg.key === 'E' ? '#F6F0FC' : bg.key === 'R' ? '#EEF4FC' : '#F6F5F8',
+shadow: bg.key === 'C' ? 'rgba(20,20,20,.15)' : 'rgba(138, 79, 209, 0.3)', href: 'CardView.dc.html?s=' + SER.id + '&n=' + bn };
+return { ser: SER, sq: '?s=' + SER.id, cards: cards, best: best, newCount: newCount, dupCount: 10 - newCount };
 }
 }
 </script>

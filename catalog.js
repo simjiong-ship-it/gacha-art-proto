@@ -36,6 +36,8 @@
       due: x[6], pulls: x[7], pullsText: x[7].toLocaleString(), sky: x[8], sun: x[9], star: x[10], w1: x[11], w2: x[12], fig: x[13], kind: x[14] };
     order.push(x[0]);
   });
+  // 구름 토끼: 실제 사진을 가로 10 × 세로 5 = 50조각으로 나눔. 다 모으면 사진 한 장이 완성
+  series.bunny.photo = { src: 'img/cloud-bunny.jpg', cols: 10, rows: 5, w: 1200, h: 1167 };
   function param(k) {
     try { var m = new RegExp('[?&]' + k + '=([^&#]+)').exec(location.search); return m ? decodeURIComponent(m[1]) : ''; } catch (e) { return ''; }
   }

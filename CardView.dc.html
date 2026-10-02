@@ -6,6 +6,7 @@
 <title>카드 보기</title>
 <script src="./support.js"></script>
 <script src="./catalog.js"></script>
+<script src="./cards.js"></script>
 </head>
 <body>
 <x-dc>
@@ -14,29 +15,38 @@
 <style>
 body{margin:0;font-family:'IBM Plex Sans KR',sans-serif;background:#ffffff;color:#141414}
 a{color:#141414;text-decoration:none}
+@keyframes frame-shine{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+.frame-r{background:linear-gradient(120deg,#3E7BD6,#9FE8FF,#3E7BD6,#B8D8FF,#3E7BD6);background-size:200% 100%;animation:frame-shine 3s linear infinite}
+.frame-e{background:linear-gradient(120deg,#8A4FD1,#F2C94C,#E36BD8,#8A4FD1,#FFD36B);background-size:200% 100%;animation:frame-shine 2.4s linear infinite}
+.frame-l{background:linear-gradient(120deg,#D98A1E,#FFF1B8,#E36BD8,#7AF7FF,#FFD36B,#D98A1E);background-size:200% 100%;animation:frame-shine 1.8s linear infinite}
+@media (prefers-reduced-motion:reduce){.frame-r,.frame-e,.frame-l{animation:none}}
 </style>
 </helmet>
-<div style="width: 100%; min-height: 100vh; min-height: 100dvh; box-sizing: border-box; background: #F6F5F8; display: flex; flex-direction: column; align-items: center; font-family: 'IBM Plex Sans KR', sans-serif; color: #141414">
-<dc-import name="Header" title="밤의 고양이 · 004/010" back="My.dc.html" hint-size="390px,56px"></dc-import>
-<div style="flex-grow: 1; display: flex; align-items: center; justify-content: center">
+<div style="width: 100%; min-height: 100vh; min-height: 100dvh; box-sizing: border-box; background: {{pageBg}}; display: flex; flex-direction: column; align-items: center; font-family: 'IBM Plex Sans KR', sans-serif; color: #141414">
+<dc-import name="Header" title="{{headerTitle}}" back="{{back}}" hint-size="390px,56px"></dc-import>
+<div style="flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 12px 0">
 <button onClick="{{tilt}}" aria-label="카드 기울이기" style="border: 0; background: transparent; padding: 0; cursor: pointer">
-<div style="width: 270px; height: 378px; border-radius: 18px; box-sizing: border-box; border: 7px solid #8A4FD1; background: #ffffff; padding: 9px; display: flex; flex-direction: column; gap: 8px; transform: {{tf}}; transition: transform .4s; box-shadow: 0 20px 44px rgba(20, 20, 20, 0.18); position: relative; overflow: hidden">
-<div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: #45454C"><span>004/010</span><span>No.37</span></div>
-<div style="flex-grow: 1; border-radius: 9px; overflow: hidden">
-<dc-import name="Art" sid="night" vb="602 0 100 130" hint-size="100%,100%"></dc-import>
+<div class="{{frameCls}}" style="width: 272px; height: 380px; border-radius: 18px; box-sizing: border-box; padding: {{framePad}}px; background-color: {{gc}}; transform: {{tf}}; transition: transform .4s; box-shadow: 0 20px 44px {{shadow}}">
+<div style="width: 100%; height: 100%; border-radius: 12px; background: #ffffff; padding: 8px; box-sizing: border-box; display: flex; flex-direction: column; gap: 7px">
+<div style="display: flex; justify-content: space-between; align-items: center">
+<div style="font-size: 14px; font-weight: 700; color: #141414; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{cardName}}</div>
+<div style="height: 18px; padding: 0 7px; border-radius: 9px; background: {{gc}}; color: #ffffff; font-size: 10px; font-weight: 700; display: flex; align-items: center; flex-shrink: 0">{{gshort}}</div>
+</div>
+<div style="flex-grow: 1; border-radius: 8px; overflow: hidden; position: relative; border: 1px solid #E6E4EA">
+<dc-import name="Pic" sid="{{sid}}" n="{{n}}" hint-size="100%,100%"></dc-import>
 </div>
 <div style="display: flex; justify-content: space-between; align-items: flex-end">
-<div style="font-size: 14px; font-weight: 600">잠 못 드는 고양이</div>
-<div style="font-family: 'Caveat', cursive; font-size: 22px; color: #45454C; line-height: 1">moonlit</div>
+<div style="font-size: 11px; font-weight: 700; color: #45454C">{{no}} · {{seriesTitle}}</div>
+<div style="font-family: 'Caveat', cursive; font-size: 16px; color: #45454C; line-height: 1; white-space: nowrap">{{artist}}</div>
 </div>
-<div style="position: absolute; top: -40px; left: {{shine}}px; width: 56px; height: 480px; background: rgba(255, 255, 255, 0.3); transform: rotate(24deg); transition: left .4s"></div>
+</div>
 </div>
 </button>
+<div style="font-size: 12px; color: {{hintColor}}">카드를 누르면 기울어져요</div>
 </div>
-<div style="font-size: 12px; color: #6B6B73; padding-bottom: 12px">카드를 누르면 빛이 움직여요</div>
 <div style="width: 100%; box-sizing: border-box; padding: 0 16px 24px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
 <a href="Exchange.dc.html" style="height: 52px; border-radius: 14px; border: 1px solid #DDDBE2; background: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600">교환소에 올리기</a>
-<a href="GachaWide.dc.html" style="height: 52px; border-radius: 14px; background: #141414; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600">시리즈에서 보기</a>
+<a href="{{bookHref}}" style="height: 52px; border-radius: 14px; background: #141414; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600">도감에서 보기</a>
 </div>
 </div>
 </x-dc>
@@ -44,9 +54,22 @@ a{color:#141414;text-decoration:none}
 class Component extends DCLogic {
 constructor(p) { super(p); this.state = { t: 0 }; }
 renderVals() {
-var self = this, t = this.state.t % 3;
+var self = this, G = window.GACHA, C = window.GCARD;
+var s = G ? G.current() : { id: 'night', title: '밤의 고양이', artist: 'moonlit_draws' };
+var n = C ? parseInt(C.param('n'), 10) : 6; if (isNaN(n) || n < 0 || n > 49) n = 6;
+var gi = C ? C.info(n) : { color: '#A9A8B2', short: 'C', key: 'C' };
+var sp = gi.key === 'R' || gi.key === 'E' || gi.key === 'L';
+var t = this.state.t % 3;
 var tfs = ['perspective(800px) rotateY(-8deg) rotateX(4deg)', 'perspective(800px) rotateY(10deg) rotateX(-3deg)', 'perspective(800px) rotateY(0deg) rotateX(0deg)'];
-return { tf: tfs[t], shine: [40, 190, -120][t], tilt: function () { self.setState({ t: self.state.t + 1 }); } };
+return {
+sid: s.id, n: n, cardName: C ? C.name(s, n) : s.title, gshort: gi.short, gc: gi.color, no: C ? C.no(n) : '007/050',
+seriesTitle: s.title, artist: s.artist, headerTitle: s.title + ' · ' + (C ? C.no(n) : ''),
+back: 'Detail.dc.html?s=' + s.id, bookHref: 'GachaWide.dc.html?s=' + s.id,
+frameCls: gi.key === 'L' ? 'frame-l' : gi.key === 'E' ? 'frame-e' : gi.key === 'R' ? 'frame-r' : '',
+framePad: sp ? 9 : 6, shadow: sp ? 'rgba(138, 79, 209, 0.35)' : 'rgba(20, 20, 20, 0.18)',
+pageBg: sp ? '#15112A' : '#F6F5F8', hintColor: sp ? '#B9B4D6' : '#6B6B73',
+tf: tfs[t], tilt: function () { self.setState({ t: self.state.t + 1 }); }
+};
 }
 }
 </script>

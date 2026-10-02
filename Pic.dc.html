@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>카드 그림</title>
+<script src="./support.js"></script>
+<script src="./catalog.js"></script>
+<script src="./cards.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+@keyframes holo-move{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+@keyframes holo-twinkle{0%,100%{opacity:.15;transform:scale(.6)}50%{opacity:1;transform:scale(1)}}
+.holo{position:absolute;inset:0;pointer-events:none;mix-blend-mode:color-dodge;background:linear-gradient(115deg,transparent 18%,rgba(255,80,190,.55) 30%,rgba(255,230,90,.5) 40%,rgba(90,255,200,.5) 50%,rgba(90,170,255,.55) 60%,rgba(200,110,255,.5) 70%,transparent 82%);background-size:200% 100%;animation:holo-move 3.2s linear infinite;opacity:.55}
+.holo-e{opacity:.7;animation-duration:2.6s}
+.holo-l{opacity:.85;animation-duration:2s;background:linear-gradient(115deg,transparent 10%,rgba(255,215,120,.7) 24%,rgba(255,90,200,.6) 36%,rgba(120,255,230,.6) 48%,rgba(120,160,255,.6) 60%,rgba(255,230,140,.7) 74%,transparent 88%);background-size:200% 100%}
+.foil{position:absolute;inset:0;pointer-events:none;opacity:.22;mix-blend-mode:overlay;background:repeating-linear-gradient(45deg,rgba(255,255,255,.9) 0 1px,transparent 1px 5px)}
+.twk{position:absolute;width:8px;height:8px;margin:-4px 0 0 -4px;pointer-events:none;background:radial-gradient(circle,#fff 0 30%,rgba(255,255,255,0) 70%);animation:holo-twinkle 1.6s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.holo,.twk{animation:none}}
+</style>
+</helmet>
+<div style="position: relative; width: 100%; height: 100%; overflow: hidden">
+<svg width="100%" height="100%" viewBox="0 0 100 130" preserveAspectRatio="xMidYMid slice" style="display: block; width: 100%; height: 100%">
+<defs>
+<linearGradient id="ga-r" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0E2A5C"></stop><stop offset=".55" stop-color="#2B3F9A"></stop><stop offset="1" stop-color="#4FB3D9"></stop></linearGradient>
+<linearGradient id="ga-e" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2A0F3E"></stop><stop offset=".6" stop-color="#6A1E5E"></stop><stop offset="1" stop-color="#D98A1E"></stop></linearGradient>
+<linearGradient id="ga-l" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1B1446"></stop><stop offset=".45" stop-color="#6A2E9A"></stop><stop offset=".8" stop-color="#E36BD8"></stop><stop offset="1" stop-color="#FFD36B"></stop></linearGradient>
+<radialGradient id="ga-gx" cx=".4" cy=".35" r=".8"><stop offset="0" stop-color="#B9A6FF"></stop><stop offset=".45" stop-color="#6A5CFF"></stop><stop offset=".8" stop-color="#3B2A7A"></stop><stop offset="1" stop-color="#1B1446"></stop></radialGradient>
+</defs>
+<sc-for list="{{paths}}" as="p" hint-placeholder-count="40">
+<sc-if value="{{p.img}}" hint-placeholder-val="{{false}}"><image href="{{p.img}}" x="{{p.x}}" y="{{p.y}}" width="{{p.w}}" height="{{p.h}}" preserveAspectRatio="none"></image></sc-if>
+<sc-if value="{{p.d}}" hint-placeholder-val="{{true}}"><path d="{{p.d}}" fill="{{p.f}}" opacity="{{p.o}}" stroke="{{p.s}}" stroke-width="{{p.w}}" stroke-linecap="round" stroke-linejoin="round"></path></sc-if>
+</sc-for>
+</svg>
+<sc-if value="{{shine}}" hint-placeholder-val="{{false}}">
+<div class="foil"></div>
+<div class="{{holoCls}}"></div>
+<sc-for list="{{twinkles}}" as="t" hint-placeholder-count="4">
+<div class="twk" style="left: {{t.x}}%; top: {{t.y}}%; animation-delay: {{t.d}}s"></div>
+</sc-for>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"sid":{"editor":"text","default":"night"},"n":{"editor":"int","default":0,"min":0,"max":49},"gray":{"editor":"boolean","default":false},"flat":{"editor":"boolean","default":false},"$preview":{"width":200,"height":260}}'>
+class Component extends DCLogic {
+renderVals() {
+var C = window.GCARD, G = window.GACHA;
+var n = parseInt(this.props.n, 10) || 0;
+if (!C || !G) return { paths: [], shine: false, holoCls: 'holo', twinkles: [] };
+var s = G.get(this.props.sid || 'night'), g = C.grade(n), gray = !!this.props.gray;
+var shine = !gray && !this.props.flat && (g === 'R' || g === 'E' || g === 'L');
+var tw = [];
+if (shine) { var k = g === 'L' ? 7 : g === 'E' ? 5 : 3; for (var i = 0; i < k; i++) tw.push({ x: (13 + i * 37) % 90 + 5, y: (11 + i * 29) % 80 + 6, d: (i * 0.37).toFixed(2) }); }
+return { paths: C.draw(s, n, gray), shine: shine, holoCls: g === 'L' ? 'holo holo-l' : g === 'E' ? 'holo holo-e' : 'holo', twinkles: tw };
+}
+}
+</script>
+</body>
+</html>

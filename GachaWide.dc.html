@@ -3,8 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>내 가챠 한 폭 보기</title>
+<title>도감</title>
 <script src="./support.js"></script>
+<script src="./catalog.js"></script>
+<script src="./cards.js"></script>
 </head>
 <body>
 <x-dc>
@@ -20,62 +22,80 @@ a{color:#141414;text-decoration:none}
 <a href="MyGacha.dc.html" aria-label="뒤로" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center">
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
 </a>
-<div style="flex-grow: 1; font-size: 17px; font-weight: 600">밤의 고양이 시리즈</div>
-<div style="font-size: 13px; color: #6B6B73; padding-right: 12px">3장 남음</div>
+<div style="flex-grow: 1; font-size: 17px; font-weight: 600">{{s.title}} 도감</div>
+<div style="font-size: 14px; font-weight: 700; padding-right: 12px">{{count}} <span style="color: #8E8E96; font-weight: 500">/ 50</span></div>
 </header>
-<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 20px; padding-top: 12px">
-<div style="display: flex; overflow: hidden; padding-left: 16px">
-<sc-for list="{{big}}" as="p" hint-placeholder-count="10">
-<div style="width: 300px; height: 390px; flex-shrink: 0">
-<svg width="300" height="390" viewBox="{{p.vb}}" preserveAspectRatio="none" style="display: block">
-<rect x="0" y="0" width="1000" height="130" fill="{{p.sky}}"></rect>
-<circle cx="170" cy="34" r="14" fill="{{p.moon}}"></circle>
-<circle cx="60" cy="20" r="1.4" fill="{{p.star}}"></circle><circle cx="320" cy="28" r="1.4" fill="{{p.star}}"></circle><circle cx="440" cy="14" r="1.2" fill="{{p.star}}"></circle><circle cx="560" cy="40" r="1.4" fill="{{p.star}}"></circle><circle cx="720" cy="20" r="1.4" fill="{{p.star}}"></circle><circle cx="250" cy="54" r="1.1" fill="{{p.star}}"></circle>
-<path d="M0 88 C120 70 260 104 420 84 S720 62 860 86 S980 96 1000 90 V130 H0Z" fill="{{p.w1}}"></path>
-<path d="M0 108 C160 96 300 118 500 104 S820 94 1000 110 V130 H0Z" fill="{{p.w2}}"></path>
-<ellipse cx="640" cy="66" rx="11" ry="9" fill="{{p.cat}}"></ellipse><circle cx="650" cy="53" r="6.5" fill="{{p.cat}}"></circle><path d="M645 49 L646 41 L650 47Z M652 47 L656 41 L656 50Z" fill="{{p.cat}}"></path>
-</svg>
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 16px; padding: 4px 16px 20px">
+<sc-if value="{{hasPhoto}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; justify-content: space-between; align-items: baseline">
+<div style="font-size: 15px; font-weight: 600">원본 사진 맞추기</div>
+<div style="font-size: 12px; color: #6B6B73">카드 한 장 = 사진 한 조각</div>
 </div>
+<div style="display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 1px; border-radius: 12px; overflow: hidden; background: #ffffff">
+<sc-for list="{{tiles}}" as="t" hint-placeholder-count="50">
+<a href="{{t.href}}" aria-label="{{t.label}}" style="display: block; aspect-ratio: {{tileRatio}}; background-image: url({{photo}}); background-size: 1000% 500%; background-position: {{t.pos}}; filter: {{t.filter}}; opacity: {{t.op}}; position: relative">
+<sc-if value="{{t.missing}}" hint-placeholder-val="{{false}}"><div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 700; color: #ffffff; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5)">{{t.no}}</div></sc-if>
+</a>
 </sc-for>
 </div>
-<div style="padding: 0 16px; display: flex; flex-direction: column; gap: 10px">
-<div style="font-size: 13px; color: #6B6B73">전체 한 폭</div>
-<div style="display: flex; border-radius: 10px; overflow: hidden; height: 46px">
-<sc-for list="{{big}}" as="p" hint-placeholder-count="10">
-<div style="flex-grow: 1; height: 46px; box-sizing: border-box; border: {{p.frame}}">
-<svg width="100%" height="100%" viewBox="{{p.vb}}" preserveAspectRatio="none" style="display: block">
-<rect x="0" y="0" width="1000" height="130" fill="{{p.sky}}"></rect>
-<circle cx="170" cy="34" r="14" fill="{{p.moon}}"></circle>
-<path d="M0 88 C120 70 260 104 420 84 S720 62 860 86 S980 96 1000 90 V130 H0Z" fill="{{p.w1}}"></path>
-<path d="M0 108 C160 96 300 118 500 104 S820 94 1000 110 V130 H0Z" fill="{{p.w2}}"></path>
-</svg>
+<div style="font-size: 12px; color: #6B6B73">{{photoHint}}</div>
 </div>
+</sc-if>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; justify-content: space-between; align-items: baseline">
+<div style="font-size: 15px; font-weight: 600">카드 50장</div>
+<div style="font-size: 12px; color: #6B6B73">{{gradeLine}}</div>
+</div>
+<div class="card-grid" style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px">
+<sc-for list="{{cards}}" as="c" hint-placeholder-count="50">
+<sc-if value="{{c.have}}" hint-placeholder-val="{{true}}">
+<a href="{{c.href}}" aria-label="{{c.label}}" style="display: block; aspect-ratio: 10 / 13; border-radius: 7px; overflow: hidden; box-sizing: border-box; border: {{c.bw}}px solid {{c.line}}; position: relative">
+<dc-import name="Pic" sid="{{s.id}}" n="{{c.n}}" flat="{{c.flat}}" hint-size="100%,100%"></dc-import>
+<div style="position: absolute; left: 3px; bottom: 2px; font-size: 8px; font-weight: 700; color: #ffffff; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7)">{{c.no}}</div>
+</a>
+</sc-if>
+<sc-if value="{{c.miss}}" hint-placeholder-val="{{false}}">
+<div style="aspect-ratio: 10 / 13; border-radius: 7px; box-sizing: border-box; border: 1px dashed {{c.line}}; background: #F3F2F6; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px">
+<div style="font-size: 14px; font-weight: 700; color: #C3C1CC">?</div>
+<div style="font-size: 8px; font-weight: 700; color: #A9A8B2">{{c.no}}</div>
+</div>
+</sc-if>
 </sc-for>
 </div>
-<div style="font-size: 13px; color: #6B6B73; display: flex; align-items: center; gap: 6px">
-<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B6B73" stroke-width="1.8" stroke-linecap="round"><path d="M8 12H3m0 0 3-3m-3 3 3 3M16 12h5m0 0-3-3m3 3-3 3"></path></svg>
-두 손가락으로 벌리면 한 장씩 볼 수 있어요
 </div>
-</div>
-<div style="flex-grow: 1"></div>
-<div style="padding: 0 16px 20px; display: flex; gap: 10px">
-<a href="Detail.dc.html" style="flex-grow: 1; height: 52px; border-radius: 14px; background: #141414; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600">빈 조각 이어서 뽑기</a>
-</div>
+<a href="{{drawHref}}" style="height: 52px; border-radius: 14px; background: #141414; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600; flex-shrink: 0">못 모은 카드 뽑으러 가기</a>
 </div>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
 class Component extends DCLogic {
 renderVals() {
-var own = { sky: '#26215C', moon: '#F4E9C8', star: '#F2C94C', w1: '#4B3FB0', w2: '#342A86', cat: '#120F2E' };
-var gray = { sky: '#E6E5EA', moon: '#F1F0F3', star: '#F1F0F3', w1: '#D6D5DC', w2: '#CAC9D1', cat: '#BDBCC5' };
-var owned = [0, 1, 2, 4, 5, 6, 8];
-var big = [];
-for (var i = 0; i < 10; i++) {
-var c = owned.indexOf(i) >= 0 ? own : gray;
-big.push({ vb: (i * 100) + ' 0 100 130', sky: c.sky, moon: c.moon, star: c.star, w1: c.w1, w2: c.w2, cat: c.cat, frame: i < 2 ? '2px solid #141414' : '0' });
+var G = window.GACHA, C = window.GCARD;
+var s = G ? G.current() : { id: 'night', title: '밤의 고양이' };
+var own = C ? C.owned(s.id) : [], has = {};
+own.forEach(function (n) { has[n] = 1; });
+var cards = [], tiles = [], ph = s.photo;
+var gc = { C: 0, U: 0, R: 0, E: 0, L: 0 };
+for (var n = 0; n < 50; n++) {
+var gi = C ? C.info(n) : { key: 'C', color: '#C9C8CF' }, h = !!has[n];
+if (h) gc[gi.key]++;
+var no = ('00' + (n + 1)).slice(-3), href = 'CardView.dc.html?s=' + s.id + '&n=' + n;
+cards.push({ n: n, have: h, miss: !h, no: no, line: gi.color, bw: gi.key === 'C' ? 1 : gi.key === 'U' ? 1.5 : 2.5, flat: gi.key !== 'L',
+label: (C ? C.name(s, n) : '') + ' 보기', href: h ? href : '#' });
+if (ph) {
+var col = n % ph.cols, row = Math.floor(n / ph.cols);
+tiles.push({ pos: (col * 100 / (ph.cols - 1)).toFixed(3) + '% ' + (row * 100 / (ph.rows - 1)).toFixed(3) + '%',
+filter: h ? 'none' : 'grayscale(1) brightness(1.15)', op: h ? 1 : 0.35, missing: !h, no: no, label: no + (h ? ' 조각 보기' : ' 조각 아직 없음'), href: h ? href : '#' });
 }
-return { big: big };
+}
+return {
+s: s, cards: cards, tiles: tiles, count: own.length, hasPhoto: !!ph, photo: ph ? ph.src : '',
+tileRatio: ph ? ((ph.w / ph.cols) + ' / ' + (ph.h / ph.rows)) : '1 / 1',
+photoHint: own.length >= 50 ? '사진을 다 맞췄어요! 완성 보상을 받을 수 있어요' : (50 - own.length) + '조각만 더 모으면 사진이 완성돼요',
+gradeLine: 'R ' + gc.R + '/7 · EPIC ' + gc.E + '/4 · LEGEND ' + gc.L + '/1',
+drawHref: 'Detail.dc.html?s=' + s.id
+};
 }
 }
 </script>

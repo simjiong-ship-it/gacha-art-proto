@@ -6,6 +6,7 @@
 <title>시리즈 상세</title>
 <script src="./support.js"></script>
 <script src="./catalog.js"></script>
+<script src="./cards.js"></script>
 </head>
 <body>
 <x-dc>
@@ -36,12 +37,13 @@ a{color:#141414;text-decoration:none}
 </div>
 <div style="font-size: 12px; color: #6B6B73">마감 {{s.due}}</div>
 </a>
-<div style="font-size: 13px; color: #6B6B73">포함된 그림 10장 · 모으면 한 폭의 그림 · 지금까지 뽑기 {{s.pullsText}}회</div>
-<div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px">
-<sc-for list="{{cards}}" as="c" hint-placeholder-count="10">
-<div style="height: 76px; border-radius: 8px; overflow: hidden; box-sizing: border-box; border: {{c.bw}}px solid {{c.line}}">
-<dc-import name="Art" sid="{{c.sid}}" vb="{{c.vb}}" hint-size="100%,100%"></dc-import>
-</div>
+<div style="display: flex; justify-content: space-between; align-items: baseline"><div style="font-size: 15px; font-weight: 600">카드 50장</div><div style="font-size: 12px; color: #6B6B73">다 모으면 도감 완성 · 뽑기 {{s.pullsText}}회</div></div>
+<div class="card-grid" style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px">
+<sc-for list="{{cards}}" as="c" hint-placeholder-count="50">
+<a href="{{c.href}}" aria-label="{{c.label}}" style="display: block; aspect-ratio: 10 / 13; border-radius: 7px; overflow: hidden; box-sizing: border-box; border: {{c.bw}}px solid {{c.line}}; position: relative">
+<dc-import name="Pic" sid="{{c.sid}}" n="{{c.n}}" flat="{{c.flat}}" hint-size="100%,100%"></dc-import>
+<div style="position: absolute; left: 3px; bottom: 2px; font-size: 8px; font-weight: 700; color: #ffffff; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7)">{{c.no}}</div>
+</a>
 </sc-for>
 </div>
 <div style="padding: 12px 14px; border-radius: 14px; background: #F6F5F8; display: flex; flex-direction: column; gap: 8px">
@@ -80,9 +82,13 @@ renderVals() {
 var G = window.GACHA;
 var s = G ? G.current() : { id: 'night', title: '밤의 고양이', artist: 'moonlit_draws', priceText: '3,000원', price: 3000, due: 'D-7', pullsText: '1,208', tag: '' };
 var a = G ? G.artist(s.artist) : { name: '달빛 그리는 사람', av: '#B3AEEA', followers: '2,410' };
-var line = { C: ['#C9C8CF', 1], U: ['#5FA36A', 2], R: ['#3E7BD6', 2], E: ['#8A4FD1', 3], L: ['#D98A1E', 3] };
-var g = ['C', 'C', 'C', 'U', 'C', 'U', 'R', 'R', 'E', 'L'];
-var cards = g.map(function (k, i) { return { sid: s.id, vb: (i * 100) + ' 0 100 130', line: line[k][0], bw: line[k][1] }; });
+var C = window.GCARD;
+var cards = [];
+for (var i = 0; i < 50; i++) {
+var gi = C ? C.info(i) : { color: '#C9C8CF', key: 'C' };
+cards.push({ sid: s.id, n: i, line: gi.color, bw: gi.key === 'C' ? 1 : gi.key === 'U' ? 1.5 : 2.5, flat: gi.key === 'R', no: ('00' + (i + 1)).slice(-3),
+label: (C ? C.name(s, i) : '') + ' 보기', href: 'CardView.dc.html?s=' + s.id + '&n=' + i });
+}
 var grades = [
 { n: 'Common', p: '50%', c: '#C9C8CF' }, { n: 'Uncommon', p: '25%', c: '#5FA36A' }, { n: 'Rare', p: '15%', c: '#3E7BD6' },
 { n: 'Epic', p: '8%', c: '#8A4FD1' }, { n: 'Legendary', p: '2%', c: '#D98A1E' }

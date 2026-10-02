@@ -6,6 +6,7 @@
 <title>10회 뽑기 연출</title>
 <script src="./support.js"></script>
 <script src="./catalog.js"></script>
+<script src="./cards.js"></script>
 </head>
 <body>
 <x-dc>
@@ -39,6 +40,7 @@ a{color:#ffffff;text-decoration:none}
 .ring{animation:ring .9s ease-out forwards}
 .hint{animation:blink 1.4s ease-in-out infinite}
 .back{background:#1C1834 repeating-linear-gradient(45deg,rgba(165,107,240,.09) 0 7px,transparent 7px 14px)}
+.rays,.ring,.ring2,.spark,.bit,.flash{pointer-events:none}
 </style>
 </helmet>
 <div class="{{shakeCls}}" style="width: 100%; min-height: 100vh; min-height: 100dvh; box-sizing: border-box; background: {{bg}}; display: flex; flex-direction: column; align-items: center; font-family: 'IBM Plex Sans KR', sans-serif; color: #ffffff; position: relative; overflow: hidden">
@@ -49,7 +51,7 @@ a{color:#ffffff;text-decoration:none}
 <header style="width: 100%; padding: 14px 16px 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 12px; position: relative; z-index: 3">
 <div style="display: flex; align-items: center; justify-content: space-between">
 <div style="font-size: 13px; color: #A9A6BE">{{ser.title}} · 10회 뽑기</div>
-<a href="Result10.dc.html{{sq}}" style="height: 34px; padding: 0 14px; border-radius: 17px; border: 1px solid #3A3654; display: flex; align-items: center; font-size: 13px; color: #D8D6E6">전부 넘기기</a>
+<a href="Result10.dc.html{{rq}}" style="height: 34px; padding: 0 14px; border-radius: 17px; border: 1px solid #3A3654; display: flex; align-items: center; font-size: 13px; color: #D8D6E6">전부 넘기기</a>
 </div>
 <div style="display: flex; gap: 6px; justify-content: center">
 <sc-for list="{{dots}}" as="d" hint-placeholder-count="10">
@@ -78,12 +80,12 @@ a{color:#ffffff;text-decoration:none}
 <sc-if value="{{flipped}}" hint-placeholder-val="{{false}}">
 <div style="width: 230px; height: 322px; border-radius: 18px; box-sizing: border-box; border: {{bw}}px solid {{gc}}; background: #ffffff; padding: 8px; display: flex; flex-direction: column; gap: 7px; box-shadow: 0 0 {{glow}}px {{gc}}; position: relative; overflow: hidden">
 <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #45454C"><span>{{num}}</span><span>No.{{serial}}</span></div>
-<div style="flex-grow: 1; border-radius: 9px; overflow: hidden">
-<dc-import name="Art" sid="{{ser.id}}" vb="{{vb}}" hint-size="100%,100%"></dc-import>
+<div style="flex-grow: 1; border-radius: 9px; overflow: hidden; position: relative">
+<dc-import name="Pic" sid="{{ser.id}}" n="{{cardN}}" hint-size="100%,100%"></dc-import>
 </div>
 <div style="display: flex; justify-content: space-between; align-items: flex-end">
-<div style="font-size: 12px; font-weight: 600; color: #141414">{{title}}</div>
-<div style="font-family: 'Caveat', cursive; font-size: 18px; color: #45454C; line-height: 1">{{ser.artist}}</div>
+<div style="font-size: 12px; font-weight: 700; color: #141414; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{title}}</div>
+<div style="font-family: 'Caveat', cursive; font-size: 14px; color: #45454C; line-height: 1; white-space: nowrap; flex-shrink: 0">{{ser.artist}}</div>
 </div>
 <sc-if value="{{isNew}}" hint-placeholder-val="{{false}}"><div style="position: absolute; top: 30px; left: 16px; height: 20px; padding: 0 7px; border-radius: 10px; background: #E0457B; color: #ffffff; font-size: 10px; font-weight: 700; display: flex; align-items: center">NEW</div></sc-if>
 </div>
@@ -102,7 +104,7 @@ a{color:#ffffff;text-decoration:none}
 <div class="hint" style="font-size: 14px; color: #CFC6F2">{{hint}}</div>
 </sc-if>
 <sc-if value="{{done}}" hint-placeholder-val="{{false}}">
-<a href="Result10.dc.html{{sq}}" style="height: 50px; padding: 0 30px; border-radius: 25px; background: #ffffff; color: #141414; display: flex; align-items: center; font-size: 15px; font-weight: 700">10장 한눈에 보기</a>
+<a href="Result10.dc.html{{rq}}" style="height: 50px; padding: 0 30px; border-radius: 25px; background: #ffffff; color: #141414; display: flex; align-items: center; font-size: 15px; font-weight: 700">10장 한눈에 보기</a>
 </sc-if>
 </div>
 </div>
@@ -114,7 +116,7 @@ a{color:#ffffff;text-decoration:none}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
 class Component extends DCLogic {
-constructor(p) { super(p); this.state = { i: 0, flipped: false }; }
+constructor(p) { super(p); var C = window.GCARD; this.state = { i: 0, flipped: false, ns: C ? C.roll10() : [1, 27, 3, 40, 5, 6, 30, 8, 41, 46] }; }
 renderVals() {
 var SER = window.GACHA ? window.GACHA.current() : { id: 'night', title: '밤의 고양이', artist: 'moonlit_draws' };
 var self = this;
@@ -122,33 +124,35 @@ var G = {
 C: { c: '#B8B8C0', bw: 5, glow: 0, name: 'Common', size: 22, lc: '#D8D6E6', lg: 0, ray: 'rgba(165,107,240,0.10)', bg: '#0E0C1A' },
 U: { c: '#5FA36A', bw: 6, glow: 24, name: 'Uncommon', size: 26, lc: '#9FE0A9', lg: 14, ray: 'rgba(95,163,106,0.18)', bg: '#0E0C1A' },
 R: { c: '#3E7BD6', bw: 7, glow: 50, name: 'RARE!', size: 38, lc: '#9CC2FF', lg: 22, ray: 'rgba(62,123,214,0.30)', bg: '#0B1024' },
-E: { c: '#A56BF0', bw: 8, glow: 80, name: 'EPIC!!', size: 50, lc: '#D3B2FF', lg: 30, ray: 'rgba(165,107,240,0.40)', bg: '#170D2A' }
+E: { c: '#A56BF0', bw: 8, glow: 80, name: 'EPIC!!', size: 50, lc: '#D3B2FF', lg: 30, ray: 'rgba(165,107,240,0.40)', bg: '#170D2A' },
+L: { c: '#F2B33D', bw: 9, glow: 110, name: 'LEGENDARY!!!', size: 34, lc: '#FFE29A', lg: 34, ray: 'rgba(255,211,107,0.45)', bg: '#2A1608' }
 };
-var pulls = [['C', 0, false, '밤하늘 1'], ['U', 3, true, '달빛 산책'], ['C', 1, false, '밤하늘 2'], ['R', 6, true, '언덕 위 그림자'], ['C', 0, false, '밤하늘 1'], ['C', 2, false, '밤하늘 3'], ['U', 5, false, '보라 물결'], ['C', 4, false, '별 하나'], ['R', 7, true, '꼬리 끝'], ['E', 3, true, '잠 못 드는 고양이']];
+var CC = window.GCARD, seenN = {};
+var pulls = this.state.ns.map(function (n) { var isNew = !seenN[n]; seenN[n] = 1; return [CC ? CC.grade(n) : 'C', n, isNew, CC ? CC.name(SER, n) : SER.title]; });
 var i = this.state.i, f = this.state.flipped, p = pulls[i], g = G[p[0]], par = i % 2 === 0 ? 'A' : 'B';
-var big = f && (p[0] === 'R' || p[0] === 'E');
+var big = f && (p[0] === 'R' || p[0] === 'E' || p[0] === 'L');
 var dots = pulls.map(function (q, k) {
 var seen = k < i || (k === i && f);
 return { line: k === i ? '#ffffff' : (seen ? G[q[0]].c : '#3A3654'), fill: seen ? G[q[0]].c : 'transparent' };
 });
 var cols = [g.c, '#F2C94C', '#ffffff', '#C69BFF'];
 var bits = [];
-var n = p[0] === 'E' ? 22 : 12;
+var n = p[0] === 'E' || p[0] === 'L' ? 22 : 12;
 for (var j = 0; j < n; j++) bits.push({ r: Math.round(j * 360 / n), c: cols[j % 4] });
 var sparks = [];
 for (var k2 = 0; k2 < 14; k2++) sparks.push({ x: 18 + (k2 * 61) % 350, size: 3 + (k2 % 3) * 2, d: ((k2 * 0.41) % 3.2).toFixed(2), c: cols[k2 % 4] });
-var tele = !f && (p[0] === 'R' || p[0] === 'E');
+var tele = !f && (p[0] === 'R' || p[0] === 'E' || p[0] === 'L');
 return { ser: SER, sq: '?s=' + SER.id,
 dots: dots, bits: bits, sparks: sparks, big: big,
 closed: !f, flipped: f, cardCls: f ? 'flip' + par : 'deal' + par,
-trembleCls: !f && p[0] === 'E' ? 'tremble' : '',
+trembleCls: !f && (p[0] === 'E' || p[0] === 'L') ? 'tremble' : '',
 teleC: tele ? g.c : '#4A4278', teleG: tele ? 40 : 6,
-teaser: p[0] === 'E' ? '카드가 떨려요…!' : p[0] === 'R' ? '푸른 빛이…?' : (i + 1) + '번째 카드',
+teaser: p[0] === 'L' ? '황금빛이 새어 나와요…!!' : p[0] === 'E' ? '카드가 떨려요…!' : p[0] === 'R' ? '푸른 빛이…?' : (i + 1) + '번째 카드',
 gc: g.c, bw: g.bw, glow: g.glow, label: g.name, labelSize: g.size, labelC: g.lc, labelG: g.lg,
 rayC: f ? g.ray : (tele ? g.ray : 'rgba(165,107,240,0.10)'), bg: f ? g.bg : '#0E0C1A',
-flashC: p[0] === 'E' ? '#ffffff' : 'rgba(156,194,255,0.8)',
+flashC: p[0] === 'L' ? '#FFF1C2' : p[0] === 'E' ? '#ffffff' : 'rgba(156,194,255,0.8)',
 shakeCls: big ? 'shake' + par : '',
-vb: (p[1] * 100) + ' 0 100 130', num: '00' + (p[1] + 1) + '/010', serial: 12 + i * 7, title: SER.title + ' ' + ('00' + (p[1] + 1)).slice(-3), isNew: p[2],
+cardN: p[1], num: CC ? CC.no(p[1]) : '', serial: 12 + i * 7, title: p[3], isNew: p[2], rq: '?s=' + SER.id + '&p=' + this.state.ns.join('.'),
 hint: f ? '탭해서 다음 카드' : '탭해서 뒤집기', tapLabel: f ? '다음 카드' : '카드 뒤집기',
 done: f && i === 9, notLast: !(f && i === 9), left: 9 - i + (f ? 0 : 1) - (f ? 0 : 0),
 tap: function () {

@@ -47,10 +47,10 @@ class Component extends DCLogic {
 constructor(p) { super(p); this.state = { sel: 0, toast: '' }; }
 renderVals() {
 var self = this;
-var mine = [['#3A2F8F', '001/010', 4], ['#F2B38A', '005/010', 2], ['#7FA36A', '003/010', 3], ['#2E8C98', '008/010', 2]].map(function (x, i) {
+var mine = [['#3A2F8F', '001/050', 4], ['#F2B38A', '017/050', 2], ['#7FA36A', '003/050', 3], ['#2E8C98', '029/050', 2]].map(function (x, i) {
 return { bg: x[0], no: x[1], n: x[2], line: i === self.state.sel ? '#141414' : 'transparent', pick: function () { self.setState({ sel: i }); } };
 });
-var offers = [['밤의 고양이 003/010', 'luna_k', '001', '#342A86'], ['밤의 고양이 010/010', 'catlover', '001', '#26215C'], ['새벽 바다 005/010', 'jiwoo', '008', '#1D6672']].map(function (x) {
+var offers = [['밤의 고양이 012/050', 'luna_k', '001', '#342A86'], ['밤의 고양이 033/050', 'catlover', '001', '#26215C'], ['새벽 바다 021/050', 'jiwoo', '008', '#1D6672']].map(function (x) {
 return { piece: x[0], who: x[1], want: x[2], bg: x[3], ask: function () { self.setState({ toast: x[1] + '님께 교환을 요청했어요' }); clearTimeout(self._t); self._t = setTimeout(function () { self.setState({ toast: '' }); }, 1800); } };
 });
 return { mine: mine, offers: offers, toast: this.state.toast };
