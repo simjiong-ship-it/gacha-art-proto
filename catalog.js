@@ -38,6 +38,8 @@
   });
   // 구름 토끼: 실제 사진을 가로 10 × 세로 5 = 50조각으로 나눔. 다 모으면 사진 한 장이 완성
   series.bunny.photo = { src: 'img/cloud-bunny.jpg', cols: 10, rows: 5, w: 1200, h: 1167 };
+  // 카드 그림체: 크레용 질감의 꽃밭·비 오는 날·맑은 하늘 장면 (사진은 도감에서 조각으로 맞춰짐)
+  series.bunny.style = 'meadow';
   function param(k) {
     try { var m = new RegExp('[?&]' + k + '=([^&#]+)').exec(location.search); return m ? decodeURIComponent(m[1]) : ''; } catch (e) { return ''; }
   }
